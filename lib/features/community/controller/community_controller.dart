@@ -1,3 +1,4 @@
+import 'package:flan/apis/comment_api.dart';
 import 'package:flan/apis/page_api.dart';
 import 'package:flan/core/core.dart';
 import 'package:flan/features/default/controller/default_controller.dart';
@@ -10,6 +11,7 @@ final communityControllerProvider =
     StateNotifierProvider<CommunityController, bool>((ref) {
   return CommunityController(
     pageAPI: ref.watch(pageAPIProvider),
+    commentAPI: ref.watch(commentAPIProvider),
   );
 });
 
@@ -20,10 +22,19 @@ final pageProvider = FutureProvider.family((ref, int seq) {
 
 class CommunityController extends StateNotifier<bool> {
   final PageAPI _pageAPI;
+  final CommentAPI _commentAPI;
   CommunityController({
     required PageAPI pageAPI,
+    required CommentAPI commentAPI,
   })  : _pageAPI = pageAPI,
+        _commentAPI = commentAPI,
         super(false);
+
+  // Future<List<CommentModel>> getComment(int seq) async {
+  //   final res = await _pageAPI.getPage(seq);
+  //   final pageList = res.map((e) => PageModel.fromJson(e)).toList();
+  //   return pageList;
+  // }
 
   Future<List<PageModel>> getPage(int seq) async {
     final res = await _pageAPI.getPage(seq);
