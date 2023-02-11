@@ -94,19 +94,19 @@ class DrawerCommunityScreen extends HookConsumerWidget {
                           );
                         },
                       ),
-                      ListView.builder(
-                        // physics: const ClampingScrollPhysics(),
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 16.w,
-                              vertical: 4.h,
-                            ),
-                            child: const DetailCommentCard(),
-                          );
-                        },
-                      ),
+                      // ListView.builder(
+                      //   // physics: const ClampingScrollPhysics(),
+                      //   itemCount: 5,
+                      //   itemBuilder: (context, index) {
+                      //     return Padding(
+                      //       padding: EdgeInsets.symmetric(
+                      //         horizontal: 16.w,
+                      //         vertical: 4.h,
+                      //       ),
+                      //       child: const DetailCommentCard(),
+                      //     );
+                      //   },
+                      // ),
                     ],
                   ),
                 ),

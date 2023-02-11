@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flan/constants/assets_constants.dart';
 import 'package:flan/core/providers.dart';
 import 'package:flan/core/util.dart';
+import 'package:flan/models/comment/comment_model.dart';
 import 'package:flan/models/feed/feed_model.dart';
 import 'package:flan/theme/app_color.dart';
 import 'package:flan/theme/app_text_theme.dart';
@@ -13,7 +14,9 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class DetailCommentCard extends HookConsumerWidget {
+  final CommentModel comment;
   const DetailCommentCard({
+    required this.comment,
     Key? key,
   }) : super(key: key);
 
@@ -43,29 +46,29 @@ class DetailCommentCard extends HookConsumerWidget {
                     ref.read(bottomNavProvier.notifier).onChange(3);
                     context.push('/');
                   },
-                  child: Container(
-                    width: 45.w,
-                    height: 45.w,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: img.value == '' || userStatus.value == 1
-                        ? SvgPicture.asset(
-                            AssetsConstants.noImg,
-                          )
-                        : ClipRRect(
-                            borderRadius: BorderRadius.circular(100),
-                            child: CachedNetworkImage(
-                              imageUrl: img.value,
-                              placeholder: (context, text) {
-                                return SvgPicture.asset(
-                                  AssetsConstants.noImg,
-                                );
-                              },
+                  child:
+                      comment.users!.photo == '' || comment.users!.photo == null
+                          ? SvgPicture.asset(
+                              AssetsConstants.noImg,
+                              width: 35.w,
+                              height: 35.w,
                               fit: BoxFit.cover,
+                            )
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    'http://topping.io:8855${comment.users!.photo}',
+                                placeholder: (context, text) {
+                                  return SvgPicture.asset(
+                                    AssetsConstants.noImg,
+                                  );
+                                },
+                                width: 35.w,
+                                height: 35.w,
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                          ),
-                  ),
                 ),
                 SizedBox(width: 10.w),
                 Column(
@@ -80,12 +83,12 @@ class DetailCommentCard extends HookConsumerWidget {
                         }
                       },
                       child: Text(
-                        userStatus.value == 1 ? '익명' : '한솔',
+                        comment.users!.nickname.toString(),
                         style: AppTextStyle.boldTextStyle,
                       ),
                     ),
                     Text(
-                      '4시간 전',
+                      comment.comment!.remaining.toString(),
                       style: AppTextStyle.hintStyle.copyWith(fontSize: 11.sp),
                     ),
                   ],
@@ -105,9 +108,12 @@ class DetailCommentCard extends HookConsumerWidget {
           ],
         ),
         Container(
-          margin: EdgeInsets.only(left: 55.w),
-          child: const Text('답변을 합니다.'),
+          margin: EdgeInsets.only(left: 45.w),
+          child: Text(
+            comment.comment!.reply.toString(),
+          ),
         ),
+        SizedBox(height: 10.h),
       ],
     );
   }

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flan/constants/constants.dart';
 import 'package:flan/core/core.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
+import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
 import 'package:flan/features/profile/controller/profile_controller.dart';
 import 'package:flan/models/feed/feed_model.dart';
 import 'package:flan/theme/theme.dart';
@@ -53,22 +54,35 @@ class MainCard extends HookConsumerWidget {
     final String answerContent =
         data.questions!.answer![0].answers!.reply as String;
 
-    // 좋아요 확인
+    // 좋아요 && 북마크 확인
     useEffect(() {
       // mount 상황이 아니라면 불러오지 않는다. 예기치 않는 오류 해결.
-      if (!isMounted()) return;
-      Future.microtask(() async {
-        final status =
-            await ref.read(profileControllerProvider.notifier).isLikeQuestion(
-                  userSeq: userInfo!.userInfo!.seq as int,
-                  questionSeq: data.questions!.seq as int,
-                );
-        if (status == 1) {
-          likeStatus.value = true;
-        } else {
-          likeStatus.value = false;
-        }
-      });
+      if (isMounted()) {
+        Future.microtask(() async {
+          final status =
+              await ref.read(profileControllerProvider.notifier).isLikeQuestion(
+                    userSeq: userInfo!.userInfo!.seq as int,
+                    questionSeq: data.questions!.seq as int,
+                  );
+          final bookmarkStatus = await ref
+              .read(bookmarkControllerProvider.notifier)
+              .isBookmarkQuestion(
+                userSeq: userInfo.userInfo!.seq as int,
+                seq: data.questions!.seq as int,
+              );
+
+          if (status == 1) {
+            likeStatus.value = true;
+          } else {
+            likeStatus.value = false;
+          }
+          if (bookmarkStatus == 1) {
+            saveStatus.value = true;
+          } else {
+            saveStatus.value = false;
+          }
+        });
+      }
       return null;
     });
     // 저장
@@ -363,7 +377,8 @@ class MainCard extends HookConsumerWidget {
                           ref
                               .read(profileControllerProvider.notifier)
                               .bookmarking(
-                                page: data.questions!.seq as int,
+                                page: 0,
+                                question: data.questions!.seq as int,
                                 user: userInfo!.userInfo!.seq as int,
                                 ref: ref,
                               );

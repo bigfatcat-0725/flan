@@ -12,7 +12,8 @@ final commentAPIProvider = Provider((ref) {
 
 class CommentAPI {
   Future<List> getComment(seq) async {
-    final url = Uri.parse('http://topping.io:8855/API/comment');
+    final url =
+        Uri.parse('http://topping.io:8855/API/comment/page/all/comment/$seq');
     final data = await http.get(url, headers: {
       "accept": "application/json",
     });
@@ -35,6 +36,7 @@ class CommentAPI {
         ..fields['reply'] = reply.toString();
 
       final response = await request.send();
+      print(response.statusCode);
       return right(response.statusCode);
     } catch (e, stackTrace) {
       return left(

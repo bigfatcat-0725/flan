@@ -161,7 +161,12 @@ class SearchScreen extends HookConsumerWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('추천친구', style: AppTextStyle.boldTextStyle),
+                              Text(
+                                '추천친구',
+                                style: AppTextStyle.boldTextStyle.copyWith(
+                                  fontSize: 13.sp,
+                                ),
+                              ),
                               GestureDetector(
                                 onTap: () {},
                                 child: Icon(

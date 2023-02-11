@@ -3,6 +3,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flan/constants/constants.dart';
 import 'package:flan/core/core.dart';
+import 'package:flan/features/auth/controller/auth_controller.dart';
+import 'package:flan/features/community/controller/community_controller.dart';
+import 'package:flan/models/page/page_model.dart';
 import 'package:flan/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +16,10 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CommunityAskScreen extends HookConsumerWidget {
+  final PageModel page;
   const CommunityAskScreen({
     Key? key,
+    required this.page,
   }) : super(key: key);
 
   @override
@@ -24,6 +29,7 @@ class CommunityAskScreen extends HookConsumerWidget {
     final questionTextController = useTextEditingController();
     final img = useState(
         'https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202105/21/linkagelab/20210521225127146gnfp.jpg');
+    final userInfo = ref.watch(userInfoProvier.notifier).state!;
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
@@ -66,7 +72,9 @@ class CommunityAskScreen extends HookConsumerWidget {
                           ),
                           SizedBox(width: 5.w),
                           Text(
-                            '익명',
+                            page.pages!.private == 1
+                                ? page.users!.nickname.toString()
+                                : '익명',
                             style: AppTextStyle.defaultTextStyle.copyWith(
                               fontSize: 11.sp,
                               color: AppColor.primaryColor,
@@ -74,7 +82,7 @@ class CommunityAskScreen extends HookConsumerWidget {
                           ),
                           SizedBox(width: 5.w),
                           Text(
-                            '방금 전',
+                            page.pages!.remaining.toString(),
                             style: AppTextStyle.hintStyle.copyWith(
                               fontSize: 11.sp,
                             ),
@@ -83,10 +91,15 @@ class CommunityAskScreen extends HookConsumerWidget {
                       ),
                       SizedBox(height: 10.h),
                       Text(
-                        '지금 당신은 코딩을 하고 있습니까?',
+                        page.pages!.title.toString(),
                         style: AppTextStyle.boldTextStyle.copyWith(
                           fontSize: 13.sp,
                         ),
+                      ),
+                      SizedBox(height: 5.h),
+                      Text(
+                        page.pages!.content.toString(),
+                        style: AppTextStyle.defaultTextStyle,
                       ),
                     ],
                   ),
@@ -94,52 +107,67 @@ class CommunityAskScreen extends HookConsumerWidget {
               ),
             ),
             SizedBox(height: 5.h),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 45.w,
-                  height: 45.w,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.red,
-                  ),
-                  child: img.value != ''
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
-                          child: CachedNetworkImage(
-                            imageUrl: img.value,
-                            placeholder: (context, text) {
-                              return SvgPicture.asset(
-                                AssetsConstants.noImg,
-                              );
-                            },
+            Expanded(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 35.w,
+                    height: 35.w,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.red,
+                    ),
+                    child: !(userInfo.userInfo!.photo == '' ||
+                            userInfo.userInfo!.photo == null)
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  'http://topping.io:8855${userInfo.userInfo!.photo}',
+                              placeholder: (context, text) {
+                                return SvgPicture.asset(
+                                  AssetsConstants.noImg,
+                                );
+                              },
+                              width: 35.w,
+                              height: 35.w,
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                        : SvgPicture.asset(
+                            AssetsConstants.noImg,
+                            width: 35.w,
+                            height: 35.w,
                             fit: BoxFit.cover,
                           ),
-                        )
-                      : SvgPicture.asset(
-                          AssetsConstants.noImg,
+                  ),
+                  SizedBox(width: 10.w),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: questionTextController,
+                            cursorColor: AppColor.primaryColor,
+                            maxLines: null,
+                            style: AppTextStyle.defaultTextStyle.copyWith(
+                              fontSize: 13.sp,
+                            ),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: '답변을 입력하세요.',
+                              hintStyle: AppTextStyle.hintStyle.copyWith(
+                                fontSize: 13.sp,
+                              ),
+                            ),
+                          ),
                         ),
-                ),
-                SizedBox(width: 10.w),
-                Expanded(
-                  child: TextField(
-                    controller: questionTextController,
-                    cursorColor: AppColor.primaryColor,
-                    maxLines: null,
-                    style: AppTextStyle.defaultTextStyle.copyWith(
-                      fontSize: 13.sp,
-                    ),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: '답변을 입력하세요.',
-                      hintStyle: AppTextStyle.hintStyle.copyWith(
-                        fontSize: 13.sp,
-                      ),
+                      ],
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             if (pictures.value.isEmpty)
               Container()
@@ -271,7 +299,16 @@ class CommunityAskScreen extends HookConsumerWidget {
                     GestureDetector(
                       onTap: () {
                         // 질문 생성
-                        context.pop();
+                        ref
+                            .read(communityControllerProvider.notifier)
+                            .postComment(
+                              user: userInfo.userInfo!.seq as int,
+                              page: page.pages!.seq as int,
+                              reply: questionTextController.text,
+                              context: context,
+                              ref: ref,
+                              pageModel: page,
+                            );
                       },
                       child: Container(
                         width: 100.w,

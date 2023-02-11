@@ -13,7 +13,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 class UIConstants {
-  static AppBar appBar(BuildContext context, String category,
+  static AppBar appBar(
+      BuildContext context, String category, String profileAddress,
       {required int index}) {
     return AppBar(
       toolbarHeight: 30.h,
@@ -32,19 +33,20 @@ class UIConstants {
             Expanded(
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  'FLAN˘',
-                  style: AppTextStyle.boldTextStyle.copyWith(
-                    color: AppColor.primaryColor,
-                    fontSize: 25.sp,
-                    height: 1.5,
-                  ),
-                ),
-                // child: SvgPicture.asset(
-                //   AssetsConstants.fontLogo,
-                //   height: 17.5.h,
-                //   color: AppColor.primaryColor,
+                // child: Text(
+                //   // 'FLAN˘',
+                //   'FLAN',
+                //   style: AppTextStyle.boldTextStyle.copyWith(
+                //     color: AppColor.primaryColor,
+                //     fontSize: 22.5.sp,
+                //     height: 1.5,
+                //   ),
                 // ),
+                child: SvgPicture.asset(
+                  AssetsConstants.fontLogo,
+                  height: 17.5.h,
+                  color: AppColor.primaryColor,
+                ),
               ),
             ),
             if (index == 1)
@@ -62,13 +64,40 @@ class UIConstants {
                         Text(
                           category.toString(),
                           style: AppTextStyle.boldTextStyle.copyWith(
-                            fontSize: 14.sp,
+                            fontSize: 15.sp,
                           ),
                         ),
                         Icon(
                           Icons.arrow_drop_down,
                           size: 20.w,
                           color: AppColor.primaryColor,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            if (index == 3)
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    Clipboard.setData(
+                      const ClipboardData(text: 'flan.com/admin'),
+                    );
+                    showDefaultDialog(context, '클립보드에 복사되었습니다.');
+                  },
+                  child: Container(
+                    color: Colors.transparent,
+                    margin: EdgeInsets.only(left: 10.w),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          profileAddress.toString(),
+                          style: AppTextStyle.defaultTextStyle.copyWith(
+                            fontSize: 15.sp,
+                            decoration: TextDecoration.underline,
+                          ),
                         ),
                       ],
                     ),

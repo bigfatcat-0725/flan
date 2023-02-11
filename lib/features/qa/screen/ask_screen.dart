@@ -137,7 +137,7 @@ class AskScreen extends HookConsumerWidget {
                         ? ClipRRect(
                             borderRadius: BorderRadius.circular(100),
                             child: CachedNetworkImage(
-                              imageUrl: profileImg.toString(),
+                              imageUrl: 'http://topping.io:8855$profileImg',
                               placeholder: (context, text) {
                                 return SvgPicture.asset(
                                   AssetsConstants.noImg,

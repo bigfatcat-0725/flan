@@ -1,6 +1,8 @@
 import 'package:flan/apis/answer_api.dart';
+import 'package:flan/apis/bookmark_api.dart';
 import 'package:flan/apis/question_api.dart';
 import 'package:flan/core/util.dart';
+import 'package:flan/features/community/controller/community_controller.dart';
 import 'package:flan/features/default/controller/default_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -11,17 +13,21 @@ final profileControllerProvider =
   return ProfileController(
     questionAPI: ref.watch(questionAPIProvider),
     answerAPI: ref.watch(answerAPIProvider),
+    bookmarkAPI: ref.watch(bookmarkAPIProvider),
   );
 });
 
 class ProfileController extends StateNotifier<bool> {
   final QuestionAPI _questionAPI;
   final AnswerAPI _answerAPI;
+  final BookmarkAPI _bookmarkAPI;
   ProfileController({
     required QuestionAPI questionAPI,
     required AnswerAPI answerAPI,
+    required BookmarkAPI bookmarkAPI,
   })  : _questionAPI = questionAPI,
         _answerAPI = answerAPI,
+        _bookmarkAPI = bookmarkAPI,
         super(false);
 
   void postQuestion({
@@ -91,15 +97,24 @@ class ProfileController extends StateNotifier<bool> {
     return res;
   }
 
-  void bookmarking({
+  Future<bool> bookmarking({
     required int user,
     required int page,
+    required int question,
     required WidgetRef ref,
   }) async {
-    await _questionAPI.bookmarking(user: user, page: page);
-    ref.refresh(feedProivder(user));
-    print(user);
-    print(page);
+    final res = await _bookmarkAPI.bookmarking(
+        user: user, page: page, question: question);
+    if (res == 200) {
+      if (page == 0) {
+        ref.refresh(pageProvider(0));
+      } else {
+        ref.refresh(pageProvider(0));
+      }
+      return true;
+    } else {
+      return false;
+    }
   }
 
   // 프로필에서 답변을 한다는 것 자체가 자기 자신의 피드로 들어온 것임.

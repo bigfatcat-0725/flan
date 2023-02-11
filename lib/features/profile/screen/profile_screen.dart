@@ -55,6 +55,7 @@ class ProfileScreen extends HookConsumerWidget {
 
               return Column(
                 children: [
+                  SizedBox(height: 10.h),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
                     child: Row(

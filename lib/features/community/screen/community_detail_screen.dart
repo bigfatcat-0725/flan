@@ -1,20 +1,35 @@
 import 'package:flan/constants/ui_constants.dart';
+import 'package:flan/features/community/controller/community_controller.dart';
 import 'package:flan/features/community/widget/detail_comment_card.dart';
+import 'package:flan/models/page/page_model.dart';
 import 'package:flan/theme/app_color.dart';
 import 'package:flan/theme/app_text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CommunityDetailScreen extends HookConsumerWidget {
+  final PageModel page;
   const CommunityDetailScreen({
+    required this.page,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final communityContoller = ref.watch(communityControllerProvider.notifier);
+
+    useEffect(() {
+      Future.microtask(
+          () => ref.refresh(commentProvider(page.pages!.seq as int)));
+    }, []);
+
+    // 전에서 가져오는게 아니라
+    // 새로 api 하나만 들고오는 걸로 바꿔야 함.
+
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
       appBar: UIConstants.qaAppBar(context, '상세보기'),
@@ -56,7 +71,9 @@ class CommunityDetailScreen extends HookConsumerWidget {
                           ),
                           SizedBox(width: 5.w),
                           Text(
-                            '익명',
+                            page.pages!.private == 1
+                                ? page.users!.nickname.toString()
+                                : '익명',
                             style: AppTextStyle.defaultTextStyle.copyWith(
                               fontSize: 11.sp,
                               color: AppColor.primaryColor,
@@ -64,7 +81,7 @@ class CommunityDetailScreen extends HookConsumerWidget {
                           ),
                           SizedBox(width: 5.w),
                           Text(
-                            '방금 전',
+                            page.pages!.remaining.toString(),
                             style: AppTextStyle.hintStyle.copyWith(
                               fontSize: 11.sp,
                             ),
@@ -73,10 +90,15 @@ class CommunityDetailScreen extends HookConsumerWidget {
                       ),
                       SizedBox(height: 10.h),
                       Text(
-                        '지금 당신은 코딩을 하고 있습니까?',
+                        page.pages!.title.toString(),
                         style: AppTextStyle.boldTextStyle.copyWith(
                           fontSize: 13.sp,
                         ),
+                      ),
+                      SizedBox(height: 5.h),
+                      Text(
+                        page.pages!.content.toString(),
+                        style: AppTextStyle.defaultTextStyle,
                       ),
                     ],
                   ),
@@ -85,25 +107,37 @@ class CommunityDetailScreen extends HookConsumerWidget {
             ),
           ),
           SizedBox(height: 5.h),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    // physics: const ClampingScrollPhysics(),
-                    itemCount: 15,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        child: const DetailCommentCard(),
-                      );
-                    },
+          ref.watch(commentProvider(page.pages!.seq as int)).when(
+                data: (data) {
+                  return Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: data.length,
+                            itemBuilder: (context, index) {
+                              final comment = data[index];
+                              return Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                child: DetailCommentCard(comment: comment),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                error: (error, stackTrace) => Center(
+                  child: Text(error.toString()),
+                ),
+                loading: () => Center(
+                  child: CircularProgressIndicator(
+                    color: AppColor.primaryColor,
                   ),
                 ),
-              ],
-            ),
-          ),
+              ),
         ],
       ),
       bottomNavigationBar: SizedBox(
@@ -112,7 +146,7 @@ class CommunityDetailScreen extends HookConsumerWidget {
           children: [
             GestureDetector(
               onTap: () {
-                context.push('/community_ask');
+                context.push('/community_ask', extra: {'page': page});
               },
               child: CupertinoTabBar(
                 backgroundColor: AppColor.scaffoldBackgroundColor,

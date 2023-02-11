@@ -1,6 +1,7 @@
 import 'package:flan/constants/constants.dart';
 import 'package:flan/core/util.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
+import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
 import 'package:flan/features/profile/controller/profile_controller.dart';
 import 'package:flan/models/page/page_model.dart';
 import 'package:flan/theme/theme.dart';
@@ -20,15 +21,50 @@ class CommunityCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isMounted = useIsMounted();
     final saveStatus = useState(false);
     final isLike = useState(false);
 
     // 본인
     final userInfo = ref.watch(userInfoProvier.notifier).state!;
+    // 좋아요 && 북마크 확인
+
+    void getLikeAndBookmark() async {
+      final bookmarkStatus =
+          await ref.read(bookmarkControllerProvider.notifier).isBookmarkPage(
+                userSeq: userInfo.userInfo!.seq as int,
+                seq: item.pages!.seq as int,
+              );
+      final status =
+          await ref.read(profileControllerProvider.notifier).isLikeQuestion(
+                userSeq: userInfo.userInfo!.seq as int,
+                questionSeq: item.pages!.seq as int,
+              );
+
+      if (status == 1) {
+        isLike.value = true;
+      } else {
+        isLike.value = false;
+      }
+      if (bookmarkStatus > 0) {
+        saveStatus.value = true;
+      } else {
+        saveStatus.value = false;
+      }
+    }
+
+    useEffect(() {
+      Future.microtask(() {
+        if (isMounted()) getLikeAndBookmark();
+      });
+      return null;
+    }, []);
 
     return GestureDetector(
       onTap: () {
-        context.push('/community_detail');
+        context.push('/community_detail', extra: {
+          'page': item,
+        });
       },
       child: Container(
         color: AppColor.scaffoldBackgroundColor,
@@ -145,7 +181,7 @@ class CommunityCard extends HookConsumerWidget {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        isLike.value = !isLike.value;
+                        // isLike.value = !isLike.value;
                       },
                       child: Container(
                         color: Colors.transparent,
@@ -210,14 +246,18 @@ class CommunityCard extends HookConsumerWidget {
                   ),
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {
-                        ref
+                      onTap: () async {
+                        final res = await ref
                             .read(profileControllerProvider.notifier)
                             .bookmarking(
                               page: item.pages!.seq as int,
                               user: userInfo.userInfo!.seq as int,
+                              question: 0,
                               ref: ref,
                             );
+                        if (res) {
+                          saveStatus.value = !saveStatus.value;
+                        }
                       },
                       child: Container(
                         color: Colors.transparent,

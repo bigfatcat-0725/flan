@@ -20,10 +20,17 @@ class DefaultScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bottomNav = ref.watch(bottomNavProvier);
     final currentCategory = ref.watch(currentCategoryProvier);
+    final email = ref.watch(userInfoProvier)!.userInfo!.email;
+    final userProfileAddress = 'flan.com/${email!.split('@')[0]}';
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
-      appBar: UIConstants.appBar(context, currentCategory, index: bottomNav),
+      appBar: UIConstants.appBar(
+        context,
+        currentCategory,
+        userProfileAddress,
+        index: bottomNav,
+      ),
       endDrawer: UIConstants.appDrawer(context),
       body: Container(
         margin: EdgeInsets.only(top: 5.h),

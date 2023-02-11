@@ -16,9 +16,10 @@ String commentModelToJson(List<CommentModel> data) =>
 
 @freezed
 class CommentModel with _$CommentModel {
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory CommentModel({
-    Users? users,
-    Comment? comment,
+    @JsonKey(name: 'Users') Users? users,
+    @JsonKey(name: 'Comment') Comment? comment,
   }) = _CommentModel;
 
   factory CommentModel.fromJson(Map<String, dynamic> json) =>
@@ -27,6 +28,7 @@ class CommentModel with _$CommentModel {
 
 @freezed
 class Comment with _$Comment {
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory Comment({
     String? reply,
     int? likes,
@@ -46,6 +48,7 @@ class Comment with _$Comment {
 
 @freezed
 class Users with _$Users {
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory Users({
     String? email,
     String? auth,

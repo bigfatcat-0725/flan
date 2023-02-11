@@ -75,13 +75,23 @@ final GoRouter router = GoRouter(
         ),
         GoRoute(
           path: 'community_ask',
-          pageBuilder: (context, state) =>
-              const NoTransitionPage(child: CommunityAskScreen()),
+          pageBuilder: (context, state) {
+            final object = state.extra as Map<String, dynamic>;
+            return NoTransitionPage(
+                child: CommunityAskScreen(
+              page: object['page'],
+            ));
+          },
         ),
         GoRoute(
           path: 'community_detail',
-          pageBuilder: (context, state) =>
-              const NoTransitionPage(child: CommunityDetailScreen()),
+          pageBuilder: (context, state) {
+            final object = state.extra as Map<String, dynamic>;
+            return NoTransitionPage(
+                child: CommunityDetailScreen(
+              page: object['page'],
+            ));
+          },
         ),
         GoRoute(
           path: 'category',

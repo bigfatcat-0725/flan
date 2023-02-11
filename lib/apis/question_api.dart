@@ -90,22 +90,4 @@ class QuestionAPI {
     );
     return int.parse(request.body);
   }
-
-  Future<void> bookmarking({
-    required int user,
-    required int page,
-  }) async {
-    final url = Uri.parse('http://topping.io:8855/API/bookmark');
-    final request = await http.post(
-      url,
-      body: jsonEncode({
-        "user_seq": user,
-        "page_seq": page,
-      }),
-      headers: {
-        "accept": "application/json",
-        "Content-Type": "application/json",
-      },
-    );
-  }
 }

@@ -20,7 +20,9 @@ CommentModel _$CommentModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CommentModel {
+  @JsonKey(name: 'Users')
   Users? get users => throw _privateConstructorUsedError;
+  @JsonKey(name: 'Comment')
   Comment? get comment => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -35,7 +37,9 @@ abstract class $CommentModelCopyWith<$Res> {
           CommentModel value, $Res Function(CommentModel) then) =
       _$CommentModelCopyWithImpl<$Res, CommentModel>;
   @useResult
-  $Res call({Users? users, Comment? comment});
+  $Res call(
+      {@JsonKey(name: 'Users') Users? users,
+      @JsonKey(name: 'Comment') Comment? comment});
 
   $UsersCopyWith<$Res>? get users;
   $CommentCopyWith<$Res>? get comment;
@@ -102,7 +106,9 @@ abstract class _$$_CommentModelCopyWith<$Res>
       __$$_CommentModelCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Users? users, Comment? comment});
+  $Res call(
+      {@JsonKey(name: 'Users') Users? users,
+      @JsonKey(name: 'Comment') Comment? comment});
 
   @override
   $UsersCopyWith<$Res>? get users;
@@ -138,16 +144,21 @@ class __$$_CommentModelCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class _$_CommentModel implements _CommentModel {
-  const _$_CommentModel({this.users, this.comment});
+  const _$_CommentModel(
+      {@JsonKey(name: 'Users') this.users,
+      @JsonKey(name: 'Comment') this.comment});
 
   factory _$_CommentModel.fromJson(Map<String, dynamic> json) =>
       _$$_CommentModelFromJson(json);
 
   @override
+  @JsonKey(name: 'Users')
   final Users? users;
   @override
+  @JsonKey(name: 'Comment')
   final Comment? comment;
 
   @override
@@ -183,15 +194,18 @@ class _$_CommentModel implements _CommentModel {
 }
 
 abstract class _CommentModel implements CommentModel {
-  const factory _CommentModel({final Users? users, final Comment? comment}) =
-      _$_CommentModel;
+  const factory _CommentModel(
+      {@JsonKey(name: 'Users') final Users? users,
+      @JsonKey(name: 'Comment') final Comment? comment}) = _$_CommentModel;
 
   factory _CommentModel.fromJson(Map<String, dynamic> json) =
       _$_CommentModel.fromJson;
 
   @override
+  @JsonKey(name: 'Users')
   Users? get users;
   @override
+  @JsonKey(name: 'Comment')
   Comment? get comment;
   @override
   @JsonKey(ignore: true)
@@ -395,7 +409,8 @@ class __$$_CommentCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class _$_Comment implements _Comment {
   const _$_Comment(
       {this.reply,
@@ -864,7 +879,8 @@ class __$$_UsersCopyWithImpl<$Res> extends _$UsersCopyWithImpl<$Res, _$_Users>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class _$_Users implements _Users {
   const _$_Users(
       {this.email,
