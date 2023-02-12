@@ -110,4 +110,29 @@ class CommunityController extends StateNotifier<bool> {
       },
     );
   }
+
+  Future<bool> likePage({
+    required int pageSeq,
+    required int userSeq,
+    required WidgetRef ref,
+  }) async {
+    final res = await _pageAPI.likePage(pageSeq: pageSeq, userSeq: userSeq);
+    if (res == 200) {
+      ref.refresh(pageProvider(0));
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<int> isLikePage({
+    required int userSeq,
+    required int pageSeq,
+  }) async {
+    final res = await _pageAPI.isLikePage(
+      userSeq: userSeq,
+      pageSeq: pageSeq,
+    );
+    return res;
+  }
 }

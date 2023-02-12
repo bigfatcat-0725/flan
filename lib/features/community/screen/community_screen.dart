@@ -26,6 +26,7 @@ class CommunityScreen extends HookConsumerWidget {
         // 커뮤니티 탭일때만 들어감.
         Future.microtask(() => ref.refresh(pageProvider(0)));
       }
+      return null;
     }, []);
 
     return Scaffold(

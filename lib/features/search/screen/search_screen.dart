@@ -43,6 +43,7 @@ class SearchScreen extends HookConsumerWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SizedBox(height: 10.h),
           Container(
             color: AppColor.scaffoldBackgroundColor,
             padding: EdgeInsets.symmetric(horizontal: 16.w),

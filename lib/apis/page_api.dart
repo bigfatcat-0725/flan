@@ -50,4 +50,34 @@ class PageAPI {
       );
     }
   }
+
+  Future<int> likePage({
+    required int pageSeq,
+    required int userSeq,
+  }) async {
+    final url = Uri.parse(
+        'http://topping.io:8855/API/pages/like/update/$pageSeq?user_seq=$userSeq');
+    final request = await http.put(
+      url,
+      headers: {
+        "accept": "application/json",
+      },
+    );
+    return request.statusCode;
+  }
+
+  Future<int> isLikePage({
+    required userSeq,
+    required pageSeq,
+  }) async {
+    final url = Uri.parse(
+        'http://topping.io:8855/API/likes/like/log?user_seq=$userSeq&seq=$pageSeq&like_type=p');
+    final request = await http.get(
+      url,
+      headers: {
+        "accept": "application/json",
+      },
+    );
+    return int.parse(request.body);
+  }
 }

@@ -109,25 +109,35 @@ class CommunityDetailScreen extends HookConsumerWidget {
           SizedBox(height: 5.h),
           ref.watch(commentProvider(page.pages!.seq as int)).when(
                 data: (data) {
-                  return Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: data.length,
-                            itemBuilder: (context, index) {
-                              final comment = data[index];
-                              return Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                                child: DetailCommentCard(comment: comment),
-                              );
-                            },
+                  return data.isEmpty
+                      ? Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          child: Text(
+                            '답변이 없어요.',
+                            style: AppTextStyle.hintStyle,
                           ),
-                        ),
-                      ],
-                    ),
-                  );
+                        )
+                      : Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount: data.length,
+                                  itemBuilder: (context, index) {
+                                    final comment = data[index];
+                                    return Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16.w),
+                                      child:
+                                          DetailCommentCard(comment: comment),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
                 },
                 error: (error, stackTrace) => Center(
                   child: Text(error.toString()),

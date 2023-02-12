@@ -346,7 +346,7 @@ class UIConstants {
             ),
             title: Text(
               '플랑 샵',
-              style: AppTextStyle.boldTextStyle,
+              style: AppTextStyle.defaultTextStyle,
             ),
           ),
           ListTile(
@@ -361,7 +361,7 @@ class UIConstants {
             ),
             title: Text(
               '프로필 설정',
-              style: AppTextStyle.boldTextStyle,
+              style: AppTextStyle.defaultTextStyle,
             ),
           ),
           ListTile(
@@ -376,7 +376,7 @@ class UIConstants {
             ),
             title: Text(
               '커뮤니티 관리',
-              style: AppTextStyle.boldTextStyle,
+              style: AppTextStyle.defaultTextStyle,
             ),
           ),
           ListTile(
@@ -390,7 +390,7 @@ class UIConstants {
             ),
             title: Text(
               '고객센터',
-              style: AppTextStyle.boldTextStyle,
+              style: AppTextStyle.defaultTextStyle,
             ),
           ),
           ListTile(
@@ -404,7 +404,7 @@ class UIConstants {
             ),
             title: Text(
               '설정',
-              style: AppTextStyle.boldTextStyle,
+              style: AppTextStyle.defaultTextStyle,
             ),
           ),
         ],
