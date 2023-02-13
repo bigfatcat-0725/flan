@@ -6,6 +6,7 @@ import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
 import 'package:flan/features/default/controller/default_controller.dart';
 import 'package:flan/features/default/screen/default_screen.dart';
+import 'package:flan/models/bookmark/bookmark_page_model.dart';
 import 'package:flan/models/comment/comment_model.dart';
 import 'package:flan/models/page/page_model.dart';
 import 'package:flutter/material.dart';
@@ -68,6 +69,35 @@ class CommunityController extends StateNotifier<bool> {
           showSnackBar(context, '작성 완료.');
           ref.refresh(pageProvider(0));
           context.pushReplacement('/community_detail', extra: {
+            'page': pageModel,
+          });
+        }
+      },
+    );
+  }
+
+  void postBookmarkComment({
+    required int user,
+    required int page,
+    required String reply,
+    required BuildContext context,
+    required WidgetRef ref,
+    required BookmarkPageModel pageModel,
+  }) async {
+    state = true;
+    final res = await _commentAPI.postComment(
+      user: user,
+      page: page,
+      reply: reply,
+    );
+    state = false;
+    res.fold(
+      (l) => showSnackBar(context, l.message),
+      (r) {
+        if (r == 200) {
+          showSnackBar(context, '작성 완료.');
+          ref.refresh(bookmarkPageProivder(user));
+          context.pushReplacement('/bookmark_community_detail', extra: {
             'page': pageModel,
           });
         }

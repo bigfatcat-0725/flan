@@ -5,7 +5,6 @@ import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
 import 'package:flan/features/profile/controller/profile_controller.dart';
 import 'package:flan/models/bookmark/bookmark_page_model.dart';
-import 'package:flan/models/page/page_model.dart';
 import 'package:flan/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -68,10 +67,9 @@ class BookmarkCommunityCard extends HookConsumerWidget {
       children: [
         GestureDetector(
           onTap: () {
-            context.push('/community_detail', extra: {
+            context.push('/bookmark_community_detail', extra: {
               'page': item,
             });
-            print(item.pages!.seq as int);
           },
           child: Container(
             color: AppColor.scaffoldBackgroundColor,
@@ -235,7 +233,7 @@ class BookmarkCommunityCard extends HookConsumerWidget {
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
-                            context.push('/community_detail', extra: {
+                            context.push('/bookmark_community_detail', extra: {
                               'page': item,
                             });
                           },
