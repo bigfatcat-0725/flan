@@ -1,7 +1,6 @@
 import 'package:flan/core/core.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
 import 'package:flan/features/community/widget/community_card.dart';
-import 'package:flan/models/page/page_model.dart';
 import 'package:flan/theme/app_color.dart';
 import 'package:flan/theme/app_text_theme.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +21,7 @@ class CommunityScreen extends HookConsumerWidget {
 
     useEffect(() {
       final currentTap = ref.watch(bottomNavProvier);
+
       if (currentTap == 1) {
         // 커뮤니티 탭일때만 들어감.
         Future.microtask(() => ref.refresh(pageProvider(0)));
@@ -126,6 +126,7 @@ class CommunityScreen extends HookConsumerWidget {
                       itemBuilder: (context, index) {
                         return CommunityCard(
                           item: pageList[index],
+                          index: index,
                         );
                       },
                     ),

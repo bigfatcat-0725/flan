@@ -36,7 +36,17 @@ class SearchScreen extends HookConsumerWidget {
 
     final searchResult = useState(<UserInfo>[]);
 
-    void searchUser() async {}
+    // void searchUser() async {
+    //   searchResult.value = await ref
+    //       .read(searchControllerProvider.notifier)
+    //       .searchUser(
+    //           user: userInfo.userInfo!.seq as int,
+    //           search: searchTextController.text);
+    // }
+    //
+    // useEffect(() {
+    //   searchUser();
+    // }, [searchResult.value]);
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
@@ -75,6 +85,7 @@ class SearchScreen extends HookConsumerWidget {
                                   search: value,
                                 );
                             searchResult.value = [...data];
+                            print(searchResult.value);
                           } else {
                             searchResult.value = [];
                           }

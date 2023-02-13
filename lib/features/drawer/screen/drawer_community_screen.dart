@@ -49,8 +49,9 @@ class DrawerCommunityScreen extends HookConsumerWidget {
                         // physics: const ClampingScrollPhysics(),
                         itemCount: 1,
                         itemBuilder: (context, index) {
-                          return const CommunityCard(
-                            item: PageModel(
+                          return CommunityCard(
+                            index: index,
+                            item: const PageModel(
                               users: Users(
                                   email: 'test@gmail.com',
                                   auth: '',
