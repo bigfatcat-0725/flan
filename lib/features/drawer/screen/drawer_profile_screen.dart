@@ -191,7 +191,7 @@ class DrawerProfileScreen extends HookConsumerWidget {
                                 Icon(
                                   Icons.arrow_forward_ios_rounded,
                                   size: 15.w,
-                                  color: AppColor.hintColor,
+                                  color: AppColor.greyColor,
                                 ),
                               ],
                             ),
@@ -257,7 +257,7 @@ class DrawerProfileScreen extends HookConsumerWidget {
                                 Icon(
                                   Icons.arrow_forward_ios_rounded,
                                   size: 15.w,
-                                  color: AppColor.hintColor,
+                                  color: AppColor.greyColor,
                                 ),
                               ],
                             ),

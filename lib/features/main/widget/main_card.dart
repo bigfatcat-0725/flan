@@ -76,7 +76,7 @@ class MainCard extends HookConsumerWidget {
           } else {
             likeStatus.value = false;
           }
-          if (bookmarkStatus == 1) {
+          if (bookmarkStatus > 0) {
             saveStatus.value = true;
           } else {
             saveStatus.value = false;
@@ -84,7 +84,7 @@ class MainCard extends HookConsumerWidget {
         });
       }
       return null;
-    });
+    }, []);
     // 저장
     // seq 본인 확인
     final int isMyData =
@@ -101,348 +101,342 @@ class MainCard extends HookConsumerWidget {
       },
       child: Container(
         color: AppColor.scaffoldBackgroundColor,
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: 10.h,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(bottom: 10.h),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      width: 17.5.w,
-                                      height: 17.5.w,
-                                      decoration: BoxDecoration(
-                                        color: AppColor.primaryColor,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          'Q',
-                                          style: AppTextStyle.defaultTextStyle
-                                              .copyWith(
-                                            color: Colors.white,
-                                            fontSize: 11.sp,
-                                          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 10.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10.h),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 17.5.w,
+                                    height: 17.5.w,
+                                    decoration: BoxDecoration(
+                                      color: AppColor.primaryColor,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        'Q',
+                                        style: AppTextStyle.defaultTextStyle
+                                            .copyWith(
+                                          color: Colors.white,
+                                          fontSize: 11.sp,
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: 5.w),
-                                    Text(
-                                      private == '1' ? questionName : '익명',
-                                      style: AppTextStyle.defaultTextStyle
-                                          .copyWith(
-                                        fontSize: 11.sp,
-                                        color: AppColor.primaryColor,
+                                  ),
+                                  SizedBox(width: 5.w),
+                                  Text(
+                                    private == '1' ? questionName : '익명',
+                                    style:
+                                        AppTextStyle.defaultTextStyle.copyWith(
+                                      fontSize: 11.sp,
+                                      color: AppColor.primaryColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 5.h),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      questionContent,
+                                      style:
+                                          AppTextStyle.boldTextStyle.copyWith(
+                                        fontSize: 13.sp,
                                       ),
                                     ),
-                                  ],
-                                ),
-                                SizedBox(height: 5.h),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        if (contentImgList.isNotEmpty)
+                          if (type == 'default')
+                            Padding(
+                              padding: EdgeInsets.only(left: 5.w),
+                              child: Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(5.w),
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                          'https://files.heftykrcdn.com/wp-content/uploads/2017/11/c4ca4238a0b923820dcc509a6f75849b10.jpg',
+                                      width: 45.w,
+                                      height: 45.w,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 45.w,
+                                    height: 45.w,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black.withOpacity(0.2),
+                                      borderRadius: BorderRadius.circular(5.w),
+                                    ),
+                                    child: Center(
                                       child: Text(
-                                        questionContent,
+                                        '+${contentImgList.length}',
                                         style:
                                             AppTextStyle.boldTextStyle.copyWith(
-                                          fontSize: 13.sp,
+                                          color: Colors.white,
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                          if (contentImgList.isNotEmpty)
-                            if (type == 'default')
-                              Padding(
-                                padding: EdgeInsets.only(left: 5.w),
-                                child: Stack(
-                                  children: [
-                                    ClipRRect(
+                      ],
+                    ),
+                  ),
+                  if (contentImgList.isNotEmpty)
+                    if (type == 'detail')
+                      Row(
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              width: 1.sw,
+                              height: 80.h,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    margin: EdgeInsets.only(
+                                      bottom: 10.h,
+                                      right: index == 6 ? 0.w : 5.w,
+                                    ),
+                                    child: ClipRRect(
                                       borderRadius: BorderRadius.circular(5.w),
                                       child: CachedNetworkImage(
                                         imageUrl:
                                             'https://files.heftykrcdn.com/wp-content/uploads/2017/11/c4ca4238a0b923820dcc509a6f75849b10.jpg',
-                                        width: 45.w,
-                                        height: 45.w,
+                                        width: 80.w,
+                                        height: 80.w,
                                         fit: BoxFit.cover,
                                       ),
                                     ),
-                                    Container(
-                                      width: 45.w,
-                                      height: 45.w,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(0.2),
-                                        borderRadius:
-                                            BorderRadius.circular(5.w),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          '+${contentImgList.length}',
-                                          style: AppTextStyle.boldTextStyle
-                                              .copyWith(
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  );
+                                },
+                                itemCount: 7,
                               ),
+                            ),
+                          ),
                         ],
                       ),
-                    ),
-                    if (contentImgList.isNotEmpty)
-                      if (type == 'detail')
-                        Row(
-                          children: [
-                            Expanded(
-                              child: SizedBox(
-                                width: 1.sw,
-                                height: 80.h,
-                                child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) {
-                                    return Container(
-                                      margin: EdgeInsets.only(
-                                        bottom: 10.h,
-                                        right: index == 6 ? 0.w : 5.w,
-                                      ),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(5.w),
-                                        child: CachedNetworkImage(
-                                          imageUrl:
-                                              'https://files.heftykrcdn.com/wp-content/uploads/2017/11/c4ca4238a0b923820dcc509a6f75849b10.jpg',
-                                          width: 80.w,
-                                          height: 80.w,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  itemCount: 7,
-                                ),
-                              ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 45.w,
+                            height: 45.w,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
                             ),
-                          ],
-                        ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              width: 45.w,
-                              height: 45.w,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                              ),
-                              child: answerProfileImg != ''
-                                  ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(100),
-                                      child: CachedNetworkImage(
-                                        imageUrl: tempProfileImg.value,
-                                        placeholder: (context, text) {
-                                          return SvgPicture.asset(
-                                            AssetsConstants.noImg,
-                                          );
-                                        },
-                                        fit: BoxFit.cover,
-                                      ),
-                                    )
-                                  : SvgPicture.asset(
-                                      AssetsConstants.noImg,
+                            child: answerProfileImg != ''
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: CachedNetworkImage(
+                                      imageUrl: tempProfileImg.value,
+                                      placeholder: (context, text) {
+                                        return SvgPicture.asset(
+                                          AssetsConstants.noImg,
+                                        );
+                                      },
+                                      fit: BoxFit.cover,
                                     ),
-                            ),
-                            SizedBox(width: 10.w),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  answerName,
-                                  style: AppTextStyle.boldTextStyle,
-                                ),
-                                SizedBox(height: 2.5.h),
-                                Text(
-                                  ago,
-                                  style: AppTextStyle.hintStyle
-                                      .copyWith(fontSize: 11.sp),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        myCard.value
-                            ? GestureDetector(
-                                onTap: () {
-                                  showMore(context,
-                                      type: 'not default',
-                                      myData: isMyData,
-                                      data: data);
-                                },
-                                child: Icon(
-                                  Icons.more_horiz,
-                                  size: 20.w,
-                                  color: AppColor.primaryColor,
-                                ),
-                              )
-                            : Container(),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 55.w),
-                      child: Text(answerContent),
-                    ),
-                  ],
-                ),
+                                  )
+                                : SvgPicture.asset(
+                                    AssetsConstants.noImg,
+                                  ),
+                          ),
+                          SizedBox(width: 10.w),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                answerName,
+                                style: AppTextStyle.boldTextStyle,
+                              ),
+                              SizedBox(height: 2.5.h),
+                              Text(
+                                ago,
+                                style: AppTextStyle.hintStyle
+                                    .copyWith(fontSize: 11.sp),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      myCard.value
+                          ? GestureDetector(
+                              onTap: () {
+                                showMore(context,
+                                    type: 'not default',
+                                    myData: isMyData,
+                                    data: data);
+                              },
+                              child: Icon(
+                                Icons.more_horiz,
+                                size: 20.w,
+                                color: AppColor.primaryColor,
+                              ),
+                            )
+                          : Container(),
+                    ],
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 55.w),
+                    child: Text(answerContent),
+                  ),
+                ],
               ),
-              SizedBox(height: 15.h),
-              Container(
-                width: 1.sw,
-                height: 30.h,
-                color: const Color(0xffefefef),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          ref
-                              .read(profileControllerProvider.notifier)
-                              .likeQuestion(
-                                questionSeq: data.questions!.seq as int,
-                                userSeq: userInfo!.userInfo!.seq as int,
-                                ref: ref,
-                              );
-                        },
-                        child: Container(
-                          color: Colors.transparent,
-                          height: 30.h,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                likeStatus.value
-                                    ? AssetsConstants.heartActive
-                                    : AssetsConstants.heart,
-                                width: 12.5.w,
-                                height: 12.5.w,
-                                color: likeStatus.value
-                                    ? AppColor.primaryColor
-                                    : AppColor.greyColor,
-                              ),
-                              SizedBox(width: 7.5.w),
-                              Text(
-                                '$questinLikeCount',
-                                style: AppTextStyle.greyStyle.copyWith(
-                                  fontSize: 11.sp,
-                                  color: likeStatus.value
-                                      ? AppColor.primaryColor
-                                      : null,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          ref
-                              .read(profileControllerProvider.notifier)
-                              .bookmarking(
-                                page: 0,
-                                question: data.questions!.seq as int,
-                                user: userInfo!.userInfo!.seq as int,
-                                ref: ref,
-                              );
-                        },
-                        child: Container(
-                          color: Colors.transparent,
-                          height: 30.h,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                saveStatus.value
-                                    ? AssetsConstants.saveActive
-                                    : AssetsConstants.save,
-                                width: 12.5.w,
-                                height: 12.5.w,
-                                color: saveStatus.value
-                                    ? AppColor.primaryColor
-                                    : AppColor.greyColor,
-                              ),
-                              SizedBox(width: 7.5.w),
-                              Text(
-                                '저장',
-                                style: AppTextStyle.greyStyle.copyWith(
-                                  fontSize: 11.sp,
-                                  color: saveStatus.value
-                                      ? AppColor.primaryColor
-                                      : null,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: SizedBox(
+            ),
+            SizedBox(height: 15.h),
+            Container(
+              width: 1.sw,
+              height: 30.h,
+              color: const Color(0xffefefef),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        ref
+                            .read(profileControllerProvider.notifier)
+                            .likeQuestion(
+                              questionSeq: data.questions!.seq as int,
+                              userSeq: userInfo!.userInfo!.seq as int,
+                              ref: ref,
+                            );
+                      },
+                      child: Container(
+                        color: Colors.transparent,
                         height: 30.h,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                              AssetsConstants.share,
+                              likeStatus.value
+                                  ? AssetsConstants.heartActive
+                                  : AssetsConstants.heart,
                               width: 12.5.w,
                               height: 12.5.w,
+                              color: likeStatus.value
+                                  ? AppColor.primaryColor
+                                  : AppColor.greyColor,
                             ),
                             SizedBox(width: 7.5.w),
                             Text(
-                              '공유',
+                              '$questinLikeCount',
                               style: AppTextStyle.greyStyle.copyWith(
                                 fontSize: 11.sp,
+                                color: likeStatus.value
+                                    ? AppColor.primaryColor
+                                    : null,
                               ),
                             )
                           ],
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        ref
+                            .read(profileControllerProvider.notifier)
+                            .bookmarking(
+                              page: 0,
+                              question: data.questions!.seq as int,
+                              user: userInfo!.userInfo!.seq as int,
+                              ref: ref,
+                            );
+                      },
+                      child: Container(
+                        color: Colors.transparent,
+                        height: 30.h,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              saveStatus.value
+                                  ? AssetsConstants.saveActive
+                                  : AssetsConstants.save,
+                              width: 12.5.w,
+                              height: 12.5.w,
+                              color: saveStatus.value
+                                  ? AppColor.primaryColor
+                                  : AppColor.greyColor,
+                            ),
+                            SizedBox(width: 7.5.w),
+                            Text(
+                              '저장',
+                              style: AppTextStyle.greyStyle.copyWith(
+                                fontSize: 11.sp,
+                                color: saveStatus.value
+                                    ? AppColor.primaryColor
+                                    : null,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      height: 30.h,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            AssetsConstants.share,
+                            width: 12.5.w,
+                            height: 12.5.w,
+                          ),
+                          SizedBox(width: 7.5.w),
+                          Text(
+                            '공유',
+                            style: AppTextStyle.greyStyle.copyWith(
+                              fontSize: 11.sp,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

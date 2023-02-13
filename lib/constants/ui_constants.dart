@@ -42,10 +42,13 @@ class UIConstants {
                 //     height: 1.5,
                 //   ),
                 // ),
-                child: SvgPicture.asset(
-                  AssetsConstants.fontLogo,
-                  height: 17.5.h,
-                  color: AppColor.primaryColor,
+                child: Container(
+                  padding: EdgeInsets.only(top: 5.h),
+                  child: SvgPicture.asset(
+                    AssetsConstants.fontLogo,
+                    height: 12.5.h,
+                    color: AppColor.primaryColor,
+                  ),
                 ),
               ),
             ),

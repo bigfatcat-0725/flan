@@ -60,7 +60,7 @@ class SettingLanguage extends HookConsumerWidget {
                         Expanded(
                           child: Text(
                             languageList[index],
-                            style: AppTextStyle.boldTextStyle,
+                            style: AppTextStyle.defaultTextStyle,
                           ),
                         ),
                         SizedBox(width: 10.w),

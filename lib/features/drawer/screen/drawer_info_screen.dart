@@ -25,7 +25,7 @@ class DrawerInfoScreen extends HookConsumerWidget {
               contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
               title: Text(
                 '1:1 문의',
-                style: AppTextStyle.boldTextStyle,
+                style: AppTextStyle.defaultTextStyle,
               ),
               trailing: Icon(
                 Icons.arrow_forward_ios_rounded,
@@ -40,7 +40,7 @@ class DrawerInfoScreen extends HookConsumerWidget {
               contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
               title: Text(
                 '공지사항',
-                style: AppTextStyle.boldTextStyle,
+                style: AppTextStyle.defaultTextStyle,
               ),
               trailing: Icon(
                 Icons.arrow_forward_ios_rounded,

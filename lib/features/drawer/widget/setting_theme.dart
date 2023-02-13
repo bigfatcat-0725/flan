@@ -53,7 +53,7 @@ class SettingTheme extends HookConsumerWidget {
                         children: [
                           Text(
                             "테마색 변경",
-                            style: AppTextStyle.boldTextStyle.copyWith(
+                            style: AppTextStyle.defaultTextStyle.copyWith(
                               color: Colors.white,
                             ),
                           ),

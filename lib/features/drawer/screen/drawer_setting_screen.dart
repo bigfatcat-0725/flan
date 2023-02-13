@@ -66,7 +66,7 @@ class DrawerSettingScreen extends HookConsumerWidget {
                         Expanded(
                           child: Text(
                             settingList[index],
-                            style: AppTextStyle.boldTextStyle,
+                            style: AppTextStyle.defaultTextStyle,
                           ),
                         ),
                         SizedBox(width: 10.w),
