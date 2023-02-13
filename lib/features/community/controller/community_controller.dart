@@ -2,6 +2,8 @@ import 'package:flan/apis/comment_api.dart';
 import 'package:flan/apis/page_api.dart';
 import 'package:flan/core/core.dart';
 import 'package:flan/core/failure.dart';
+import 'package:flan/features/auth/controller/auth_controller.dart';
+import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
 import 'package:flan/features/default/controller/default_controller.dart';
 import 'package:flan/features/default/screen/default_screen.dart';
 import 'package:flan/models/comment/comment_model.dart';
@@ -118,7 +120,10 @@ class CommunityController extends StateNotifier<bool> {
   }) async {
     final res = await _pageAPI.likePage(pageSeq: pageSeq, userSeq: userSeq);
     if (res == 200) {
-      // ref.refresh(pageProvider(0));
+      final userSeq = ref.watch(userInfoProvier)!.userInfo!.seq as int;
+      ref.refresh(pageProvider(0));
+      ref.refresh(bookmarkPageProivder(userSeq));
+
       return true;
     } else {
       return false;

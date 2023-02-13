@@ -72,6 +72,8 @@ class BookmarkAPI {
     final decodeData = utf8.decode(request.bodyBytes);
     final response = jsonDecode(decodeData);
 
+    print(response);
+
     return response;
   }
 }

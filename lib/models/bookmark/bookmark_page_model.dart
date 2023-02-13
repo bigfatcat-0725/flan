@@ -21,6 +21,7 @@ class BookmarkPageModel with _$BookmarkPageModel {
   const factory BookmarkPageModel({
     @JsonKey(name: 'Bookmark') Bookmark? bookmark,
     @JsonKey(name: 'Pages') Pages? pages,
+    @JsonKey(name: 'Users') Users? users,
   }) = _BookmarkPageModel;
 
   factory BookmarkPageModel.fromJson(Map<String, dynamic> json) =>
@@ -31,11 +32,11 @@ class BookmarkPageModel with _$BookmarkPageModel {
 class Bookmark with _$Bookmark {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory Bookmark({
-    int? userSeq,
-    int? pageSeq,
     int? seq,
     int? questionSeq,
     String? createdAt,
+    int? userSeq,
+    int? pageSeq,
   }) = _Bookmark;
 
   factory Bookmark.fromJson(Map<String, dynamic> json) =>
@@ -46,6 +47,8 @@ class Bookmark with _$Bookmark {
 class Pages with _$Pages {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory Pages({
+    int? private,
+    String? status,
     String? createdAt,
     int? userSeq,
     String? title,
@@ -58,9 +61,46 @@ class Pages with _$Pages {
     int? themeSeq,
     String? content,
     int? likes,
-    int? private,
-    String? status,
+    String? remaining,
   }) = _Pages;
 
   factory Pages.fromJson(Map<String, dynamic> json) => _$PagesFromJson(json);
+}
+
+@freezed
+class Users with _$Users {
+  @JsonSerializable(fieldRename: FieldRename.snake)
+  const factory Users({
+    int? seq,
+    int? proposal,
+    String? rememberToken,
+    int? followCnt,
+    int? userLevel,
+    String? email,
+    int? noticeAlram,
+    int? followingCnt,
+    String? auth,
+    String? password,
+    int? questionAlram,
+    String? snsId,
+    String? createdAt,
+    String? nickname,
+    int? answerAlram,
+    String? snsType,
+    String? updatedAt,
+    String? photo,
+    int? commentAlram,
+    String? status,
+    dynamic? deletedAt,
+    String? phoneNumber,
+    int? pCommentAlram,
+    int? nameSearch,
+    String? lastLogin,
+    String? address,
+    dynamic? emailVerifiedAt,
+    int? unknownQ,
+    String? memo,
+  }) = _Users;
+
+  factory Users.fromJson(Map<String, dynamic> json) => _$UsersFromJson(json);
 }

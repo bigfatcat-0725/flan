@@ -1,10 +1,7 @@
 import 'package:flan/constants/constants.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
-import 'package:flan/features/community/widget/community_card.dart';
-import 'package:flan/features/main/widget/main_card.dart';
-import 'package:flan/models/feed/feed_model.dart';
-import 'package:flan/models/page/page_model.dart';
+import 'package:flan/features/bookmark/widget/bookmarkCommunityCard.dart';
 import 'package:flan/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -57,16 +54,16 @@ class BookmarkScreen extends HookConsumerWidget {
                   child: TabBarView(
                     controller: tabController,
                     children: [
-                      ref.watch(bookmarkQuestionProivder(3)).when(
+                      ref
+                          .watch(bookmarkQuestionProivder(
+                              userInfo!.userInfo!.seq as int))
+                          .when(
                             data: (data) {
-                              print(data[0].questions);
                               return ListView.builder(
                                 // physics: const ClampingScrollPhysics(),
-                                itemCount: 5,
+                                itemCount: data.length,
                                 itemBuilder: (context, index) {
-                                  // return MainCard(
-                                  //     data: const Question().copyWith(
-                                  // ));
+                                  // return MainCard();
                                   return Container();
                                 },
                               );
@@ -80,16 +77,19 @@ class BookmarkScreen extends HookConsumerWidget {
                               ),
                             ),
                           ),
-                      ref.watch(bookmarkPageProivder(3)).when(
+                      ref
+                          .watch(bookmarkPageProivder(
+                              userInfo.userInfo!.seq as int))
+                          .when(
                             data: (data) {
                               return ListView.builder(
                                 // physics: const ClampingScrollPhysics(),
-                                itemCount: 5,
+                                itemCount: data.length,
                                 itemBuilder: (context, index) {
-                                  // return CommunityCard(
-                                  //   item: data[index].pages as PageModel,
-                                  // );
-                                  return Container();
+                                  return BookmarkCommunityCard(
+                                    item: data[index],
+                                    index: index,
+                                  );
                                 },
                               );
                             },
