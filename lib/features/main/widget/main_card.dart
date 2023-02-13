@@ -325,14 +325,17 @@ class MainCard extends HookConsumerWidget {
                 children: [
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {
-                        ref
+                      onTap: () async {
+                        final res = await ref
                             .read(profileControllerProvider.notifier)
                             .likeQuestion(
                               questionSeq: data.questions!.seq as int,
                               userSeq: userInfo!.userInfo!.seq as int,
                               ref: ref,
                             );
+                        if (res) {
+                          likeStatus.value = !likeStatus.value;
+                        }
                       },
                       child: Container(
                         color: Colors.transparent,
@@ -368,15 +371,17 @@ class MainCard extends HookConsumerWidget {
                   ),
                   Expanded(
                     child: GestureDetector(
-                      onTap: () {
-                        ref
+                      onTap: () async {
+                        final res = await ref
                             .read(profileControllerProvider.notifier)
-                            .bookmarking(
-                              page: 0,
+                            .questionBookmarking(
                               question: data.questions!.seq as int,
                               user: userInfo!.userInfo!.seq as int,
                               ref: ref,
                             );
+                        if (res) {
+                          saveStatus.value = !saveStatus.value;
+                        }
                       },
                       child: Container(
                         color: Colors.transparent,

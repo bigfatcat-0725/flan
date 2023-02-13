@@ -13,20 +13,6 @@ class MainScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // admob
-    TargetPlatform os = Theme.of(context).platform;
-
-    BannerAd banner = BannerAd(
-      listener: BannerAdListener(
-        onAdFailedToLoad: (Ad ad, LoadAdError error) {},
-        onAdLoaded: (_) {},
-      ),
-      size: AdSize.mediumRectangle,
-      adUnitId: unitID[os == TargetPlatform.iOS ? 'ios' : 'android']!,
-      request: const AdRequest(),
-    )..load();
-    //
-
     final homeTapController = useTabController(initialLength: 3);
 
     return Scaffold(
@@ -34,15 +20,6 @@ class MainScreen extends HookConsumerWidget {
       body: Center(
         child: Column(
           children: [
-            SizedBox(height: 10.h),
-            Container(
-              width: AdSize.mediumRectangle.width.toDouble(),
-              height: AdSize.mediumRectangle.height.toDouble(),
-              color: AppColor.hintColor.withOpacity(0.1),
-              child: AdWidget(
-                ad: banner,
-              ),
-            ),
             SizedBox(height: 10.h),
             Row(
               mainAxisSize: MainAxisSize.min,

@@ -118,7 +118,7 @@ class CommunityController extends StateNotifier<bool> {
   }) async {
     final res = await _pageAPI.likePage(pageSeq: pageSeq, userSeq: userSeq);
     if (res == 200) {
-      ref.refresh(pageProvider(0));
+      // ref.refresh(pageProvider(0));
       return true;
     } else {
       return false;

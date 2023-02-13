@@ -24,19 +24,30 @@ class BookmarkAPI {
     return int.parse(request.body);
   }
 
-  Future<int> bookmarking({
+  Future<int> pageBookmarking({
     required int user,
     required int page,
+  }) async {
+    final url = Uri.parse(
+        'http://topping.io:8855/API/pages/bookmark/update/$page?user_seq=$user');
+    final request = await http.put(
+      url,
+      headers: {
+        "accept": "application/json",
+        "Content-Type": "application/json",
+      },
+    );
+    return request.statusCode;
+  }
+
+  Future<int> questionBookmarking({
+    required int user,
     required int question,
   }) async {
-    final url = Uri.parse('http://topping.io:8855/API/bookmark');
-    final request = await http.post(
+    final url = Uri.parse(
+        'http://topping.io:8855/API/questions/bookmark/update/$question?user_seq=$user');
+    final request = await http.put(
       url,
-      body: jsonEncode({
-        "user_seq": user,
-        "page_seq": page,
-        "question_seq": question,
-      }),
       headers: {
         "accept": "application/json",
         "Content-Type": "application/json",

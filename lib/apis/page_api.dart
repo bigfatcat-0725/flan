@@ -80,4 +80,18 @@ class PageAPI {
     );
     return int.parse(request.body);
   }
+
+  Future<int> getHotPage({
+    required String type,
+  }) async {
+    final url = Uri.parse(
+        'http://topping.io:8855/API/pages/top_three/page?d_type=$type');
+    final request = await http.get(
+      url,
+      headers: {
+        "accept": "application/json",
+      },
+    );
+    return int.parse(request.body);
+  }
 }

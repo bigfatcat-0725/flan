@@ -3,12 +3,14 @@ import 'package:flan/constants/constants.dart';
 import 'package:flan/core/providers.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/default/controller/default_controller.dart';
+import 'package:flan/main.dart';
 import 'package:flan/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class DefaultScreen extends HookConsumerWidget {
@@ -22,6 +24,20 @@ class DefaultScreen extends HookConsumerWidget {
     final currentCategory = ref.watch(currentCategoryProvier);
     final email = ref.watch(userInfoProvier)!.userInfo!.email;
     final userProfileAddress = 'flan.com/${email!.split('@')[0]}';
+
+    // admob
+    TargetPlatform os = Theme.of(context).platform;
+
+    BannerAd banner = BannerAd(
+      listener: BannerAdListener(
+        onAdFailedToLoad: (Ad ad, LoadAdError error) {},
+        onAdLoaded: (_) {},
+      ),
+      size: AdSize.fullBanner,
+      adUnitId: unitID[os == TargetPlatform.iOS ? 'ios' : 'android']!,
+      request: const AdRequest(),
+    )..load();
+    //
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
@@ -43,10 +59,24 @@ class DefaultScreen extends HookConsumerWidget {
               child: widget,
             );
           },
-          child: IndexedStack(
-            index: bottomNav,
-            key: ValueKey<int>(bottomNav),
-            children: UIConstants.bottomTabBarPages,
+          child: Column(
+            children: [
+              Expanded(
+                child: IndexedStack(
+                  index: bottomNav,
+                  key: ValueKey<int>(bottomNav),
+                  children: UIConstants.bottomTabBarPages,
+                ),
+              ),
+              Container(
+                width: AdSize.fullBanner.width.toDouble(),
+                height: AdSize.fullBanner.height.toDouble(),
+                color: AppColor.hintColor.withOpacity(0.1),
+                child: AdWidget(
+                  ad: banner,
+                ),
+              ),
+            ],
           ),
         ),
       ),

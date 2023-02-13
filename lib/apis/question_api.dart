@@ -62,7 +62,7 @@ class QuestionAPI {
     );
   }
 
-  Future<void> likeQuestion({
+  Future<int> likeQuestion({
     required int questionSeq,
     required int userSeq,
   }) async {
@@ -74,6 +74,8 @@ class QuestionAPI {
         "accept": "application/json",
       },
     );
+
+    return request.statusCode;
   }
 
   Future<int> isLikeQuestion({

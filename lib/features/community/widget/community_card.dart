@@ -49,7 +49,7 @@ class CommunityCard extends HookConsumerWidget {
       } else {
         isLike.value = false;
       }
-      if (bookmarkStatus > 0) {
+      if (bookmarkStatus == 1) {
         saveStatus.value = true;
       } else {
         saveStatus.value = false;
@@ -70,6 +70,7 @@ class CommunityCard extends HookConsumerWidget {
             context.push('/community_detail', extra: {
               'page': item,
             });
+            print(item.pages!.seq as int);
           },
           child: Container(
             color: AppColor.scaffoldBackgroundColor,
@@ -267,10 +268,9 @@ class CommunityCard extends HookConsumerWidget {
                           onTap: () async {
                             final res = await ref
                                 .read(profileControllerProvider.notifier)
-                                .bookmarking(
+                                .pageBookmarking(
                                   page: item.pages!.seq as int,
                                   user: userInfo.userInfo!.seq as int,
-                                  question: 0,
                                   ref: ref,
                                 );
                             if (res) {

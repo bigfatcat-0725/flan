@@ -77,13 +77,19 @@ class ProfileController extends StateNotifier<bool> {
     ref.refresh(feedProivder(userSeq));
   }
 
-  void likeQuestion({
+  Future<bool> likeQuestion({
     required int questionSeq,
     required int userSeq,
     required WidgetRef ref,
   }) async {
-    await _questionAPI.likeQuestion(questionSeq: questionSeq, userSeq: userSeq);
-    ref.refresh(feedProivder(userSeq));
+    final res = await _questionAPI.likeQuestion(
+        questionSeq: questionSeq, userSeq: userSeq);
+    if (res == 200) {
+      ref.refresh(feedProivder(userSeq));
+      return true;
+    } else {
+      return false;
+    }
   }
 
   Future<int> isLikeQuestion({
@@ -97,20 +103,33 @@ class ProfileController extends StateNotifier<bool> {
     return res;
   }
 
-  Future<bool> bookmarking({
+  Future<bool> pageBookmarking({
     required int user,
     required int page,
-    required int question,
     required WidgetRef ref,
   }) async {
-    final res = await _bookmarkAPI.bookmarking(
-        user: user, page: page, question: question);
+    final res = await _bookmarkAPI.pageBookmarking(user: user, page: page);
     if (res == 200) {
       if (page == 0) {
         ref.refresh(pageProvider(0));
       } else {
         ref.refresh(pageProvider(0));
       }
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> questionBookmarking({
+    required int user,
+    required int question,
+    required WidgetRef ref,
+  }) async {
+    final res =
+        await _bookmarkAPI.questionBookmarking(user: user, question: question);
+    if (res == 200) {
+      ref.refresh(feedProivder(user));
       return true;
     } else {
       return false;

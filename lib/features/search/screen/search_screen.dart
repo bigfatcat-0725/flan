@@ -202,19 +202,6 @@ class SearchScreen extends HookConsumerWidget {
                       ],
                     ),
                   ),
-                  Container(
-                    width: 1.sw,
-                    height: 50.h,
-                    color: AppColor.hintColor,
-                    child: Center(
-                      child: Text(
-                        '광고',
-                        style: AppTextStyle.defaultTextStyle.copyWith(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
                 ],
               ),
             ),
