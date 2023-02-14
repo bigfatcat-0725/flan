@@ -33,32 +33,34 @@ class CommunityCard extends HookConsumerWidget {
     // 좋아요 && 북마크 확인
 
     void getLikeAndBookmark() async {
-      final status =
-          await ref.read(communityControllerProvider.notifier).isLikePage(
-                userSeq: userInfo.userInfo!.seq as int,
-                pageSeq: item.pages!.seq as int,
-              );
-      final bookmarkStatus =
-          await ref.read(bookmarkControllerProvider.notifier).isBookmarkPage(
-                userSeq: userInfo.userInfo!.seq as int,
-                seq: item.pages!.seq as int,
-              );
+      if (isMounted()) {
+        final status =
+            await ref.read(communityControllerProvider.notifier).isLikePage(
+                  userSeq: userInfo.userInfo!.seq as int,
+                  pageSeq: item.pages!.seq as int,
+                );
+        final bookmarkStatus =
+            await ref.read(bookmarkControllerProvider.notifier).isBookmarkPage(
+                  userSeq: userInfo.userInfo!.seq as int,
+                  seq: item.pages!.seq as int,
+                );
 
-      if (status == 1) {
-        isLike.value = true;
-      } else {
-        isLike.value = false;
-      }
-      if (bookmarkStatus == 1) {
-        saveStatus.value = true;
-      } else {
-        saveStatus.value = false;
+        if (isLike.hasListeners && status == 1) {
+          isLike.value = true;
+        } else {
+          isLike.value = false;
+        }
+        if (saveStatus.hasListeners && bookmarkStatus == 1) {
+          saveStatus.value = true;
+        } else {
+          saveStatus.value = false;
+        }
       }
     }
 
     useEffect(() {
       Future.microtask(() {
-        if (isMounted()) getLikeAndBookmark();
+        getLikeAndBookmark();
       });
       return null;
     }, []);

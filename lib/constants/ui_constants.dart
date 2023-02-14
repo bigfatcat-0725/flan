@@ -167,6 +167,7 @@ class UIConstants {
             child: Container(
               alignment: Alignment.centerLeft,
               height: 30.h,
+              color: Colors.transparent,
               padding: EdgeInsets.only(left: 16.w),
               child: GestureDetector(
                 onTap: () {
