@@ -6,6 +6,7 @@ import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
 import 'package:flan/features/default/controller/default_controller.dart';
 import 'package:flan/features/profile/controller/profile_controller.dart';
+import 'package:flan/models/feed/feed_model.dart';
 import 'package:flan/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,10 @@ class QuestionScreen extends HookConsumerWidget {
     // Theme
     final currentCategory = ref.watch(currentCategoryProvier);
     final cureentCategorySeq = ref.watch(currentCategorySeqProvier);
+
+    useEffect(() {
+      // 익명 컨트롤하기
+    }, []);
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,

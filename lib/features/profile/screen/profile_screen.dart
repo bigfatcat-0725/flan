@@ -107,30 +107,8 @@ class ProfileScreen extends HookConsumerWidget {
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
-                                          SizedBox(width: 5.w),
-
-                                          // level system
-                                          // CachedNetworkImage(
-                                          //     imageUrl:
-                                          //         'https://static.inven.co.kr/image_2011/member/level/1202/lv101.gif?v=190628'),
                                         ],
                                       ),
-                                      // 중복 기능이라 제외
-                                      // GestureDetector(
-                                      //   onTap: () {
-                                      //     showProfileMore(context,
-                                      //         myData:
-                                      //             currentUser.value ? 1 : 0);
-                                      //   },
-                                      //   child: Container(
-                                      //     color: Colors.transparent,
-                                      //     child: Icon(
-                                      //       Icons.more_horiz,
-                                      //       size: 20.w,
-                                      //       color: AppColor.primaryColor,
-                                      //     ),
-                                      //   ),
-                                      // ),
                                     ],
                                   ),
                                   Row(

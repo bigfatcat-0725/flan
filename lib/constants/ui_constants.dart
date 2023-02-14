@@ -33,15 +33,6 @@ class UIConstants {
             Expanded(
               child: Align(
                 alignment: Alignment.centerLeft,
-                // child: Text(
-                //   // 'FLAN˘',
-                //   'FLAN',
-                //   style: AppTextStyle.boldTextStyle.copyWith(
-                //     color: AppColor.primaryColor,
-                //     fontSize: 22.5.sp,
-                //     height: 1.5,
-                //   ),
-                // ),
                 child: Container(
                   padding: EdgeInsets.only(top: 5.h),
                   child: SvgPicture.asset(

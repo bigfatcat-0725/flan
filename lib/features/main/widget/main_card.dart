@@ -13,13 +13,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-// default
-// default + picture
-// detail
-// detail + picture
-// 내 카드는 답변 수정, 삭제 가능
-// 내가 질문해서 얻은 답이나 상대방의 질답 리스트들은 건드릴 수 없음.
-
 class MainCard extends HookConsumerWidget {
   final String type;
   final Question data;
@@ -34,8 +27,6 @@ class MainCard extends HookConsumerWidget {
     final isMounted = useIsMounted();
     final likeStatus = useState(false);
     final saveStatus = useState(false);
-    final tempProfileImg = useState(
-        'https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202105/21/linkagelab/20210521225127146gnfp.jpg');
     final myCard = useState(true);
 
     // 본인
@@ -261,7 +252,8 @@ class MainCard extends HookConsumerWidget {
                                 ? ClipRRect(
                                     borderRadius: BorderRadius.circular(100),
                                     child: CachedNetworkImage(
-                                      imageUrl: tempProfileImg.value,
+                                      imageUrl:
+                                          'http://topping.io:8855$answerProfileImg',
                                       placeholder: (context, text) {
                                         return SvgPicture.asset(
                                           AssetsConstants.noImg,

@@ -48,10 +48,14 @@ class CommunityScreen extends HookConsumerWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            context.push('/question', extra: {
-                              'type': 'community',
-                              'toSeq': currentCategorySeq,
-                            });
+                            if (currentCategorySeq == 0) {
+                              context.push('/category');
+                            } else {
+                              context.push('/question', extra: {
+                                'type': 'community',
+                                'toSeq': currentCategorySeq,
+                              });
+                            }
                           },
                           child: Container(
                             width: 100.w,

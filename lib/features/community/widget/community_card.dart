@@ -33,8 +33,8 @@ class CommunityCard extends HookConsumerWidget {
     // 좋아요 && 북마크 확인
 
     useEffect(() {
-      Future.microtask(() async {
-        if (isMounted()) {
+      if (isMounted()) {
+        Future.microtask(() async {
           final status =
               await ref.read(communityControllerProvider.notifier).isLikePage(
                     userSeq: userInfo.userInfo!.seq as int,
@@ -57,8 +57,8 @@ class CommunityCard extends HookConsumerWidget {
           } else {
             saveStatus.value = false;
           }
-        }
-      });
+        });
+      }
       return null;
     }, []);
 
