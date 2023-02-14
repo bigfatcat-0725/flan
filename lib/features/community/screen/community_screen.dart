@@ -1,6 +1,7 @@
 import 'package:flan/core/core.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
 import 'package:flan/features/community/widget/community_card.dart';
+import 'package:flan/models/page/page_model.dart';
 import 'package:flan/theme/app_color.dart';
 import 'package:flan/theme/app_text_theme.dart';
 import 'package:flutter/material.dart';
@@ -19,10 +20,18 @@ class CommunityScreen extends HookConsumerWidget {
     final currentCategorySeq = ref.watch(currentCategorySeqProvier);
     final filter = useState(0);
 
+    final page = useState(<PageModel>[]);
+
     useEffect(() {
       final currentTap = ref.watch(bottomNavProvier);
 
-      if (currentTap == 1) {}
+      if (currentTap == 1) {
+        Future.microtask(() async {
+          page.value = await ref
+              .watch(communityControllerProvider.notifier)
+              .getThemePage(currentCategorySeq);
+        });
+      }
       return null;
     }, []);
 
@@ -129,9 +138,11 @@ class CommunityScreen extends HookConsumerWidget {
                     child: ListView.builder(
                       itemCount: pageList.length,
                       itemBuilder: (context, index) {
+                        final item = pageList[index];
+
                         return CommunityCard(
-                          item: pageList[index],
-                          index: index,
+                          // key: UniqueKey(),
+                          item: item,
                         );
                       },
                     ),

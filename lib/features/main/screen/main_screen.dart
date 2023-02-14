@@ -21,10 +21,10 @@ class MainScreen extends HookConsumerWidget {
     useEffect(() {
       // 일단 refresh 걸어놓기.
       if (isMounted() && currentTap == 0) {
-        ref.refresh(hotPageProvider('d'));
-        ref.refresh(hotPageProvider('w'));
-        ref.refresh(hotPageProvider('m'));
-        ref.refresh(hotPageProvider('y'));
+        ref.invalidate(hotPageProvider('d'));
+        ref.invalidate(hotPageProvider('w'));
+        ref.invalidate(hotPageProvider('m'));
+        ref.invalidate(hotPageProvider('y'));
       }
       return null;
     }, []);
@@ -70,8 +70,7 @@ class MainScreen extends HookConsumerWidget {
                                   child: ListView.builder(
                                     itemCount: data.length,
                                     itemBuilder: (context, index) {
-                                      return CommunityCard(
-                                          item: data[index], index: index);
+                                      return CommunityCard(item: data[index]);
                                     },
                                   ),
                                 );
@@ -92,8 +91,7 @@ class MainScreen extends HookConsumerWidget {
                                   child: ListView.builder(
                                     itemCount: data.length,
                                     itemBuilder: (context, index) {
-                                      return CommunityCard(
-                                          item: data[index], index: index);
+                                      return CommunityCard(item: data[index]);
                                     },
                                   ),
                                 );
@@ -114,8 +112,7 @@ class MainScreen extends HookConsumerWidget {
                                   child: ListView.builder(
                                     itemCount: data.length,
                                     itemBuilder: (context, index) {
-                                      return CommunityCard(
-                                          item: data[index], index: index);
+                                      return CommunityCard(item: data[index]);
                                     },
                                   ),
                                 );
@@ -136,8 +133,7 @@ class MainScreen extends HookConsumerWidget {
                                   child: ListView.builder(
                                     itemCount: data.length,
                                     itemBuilder: (context, index) {
-                                      return CommunityCard(
-                                          item: data[index], index: index);
+                                      return CommunityCard(item: data[index]);
                                     },
                                   ),
                                 );

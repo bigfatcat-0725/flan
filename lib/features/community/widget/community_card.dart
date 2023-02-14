@@ -15,11 +15,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CommunityCard extends HookConsumerWidget {
   final PageModel item;
-  final int index;
   const CommunityCard({
     super.key,
     required this.item,
-    required this.index,
   });
 
   @override
@@ -60,7 +58,8 @@ class CommunityCard extends HookConsumerWidget {
         });
       }
       return null;
-    }, []);
+    }, [item]);
+    // 위 item 을 인식하게 함으로써 완성.
 
     return Column(
       children: [

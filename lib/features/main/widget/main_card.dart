@@ -75,7 +75,7 @@ class MainCard extends HookConsumerWidget {
         });
       }
       return null;
-    }, []);
+    }, [data]);
     // 저장
     // seq 본인 확인
     final int isMyData =

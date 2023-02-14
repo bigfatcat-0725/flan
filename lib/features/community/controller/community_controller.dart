@@ -1,11 +1,8 @@
 import 'package:flan/apis/comment_api.dart';
 import 'package:flan/apis/page_api.dart';
 import 'package:flan/core/core.dart';
-import 'package:flan/core/failure.dart';
-import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
-import 'package:flan/features/default/controller/default_controller.dart';
-import 'package:flan/features/default/screen/default_screen.dart';
+import 'package:flan/features/main/controller/main_controller.dart';
 import 'package:flan/models/bookmark/bookmark_page_model.dart';
 import 'package:flan/models/comment/comment_model.dart';
 import 'package:flan/models/page/page_model.dart';
@@ -74,11 +71,16 @@ class CommunityController extends StateNotifier<bool> {
           final current = ref.watch(currentCategorySeqProvier);
 
           if (current == 0) {
-            ref.refresh(pageProvider);
+            ref.invalidate(pageProvider);
           } else {
-            ref.refresh(themePageProvider(current));
+            ref.invalidate(themePageProvider(current));
           }
-          showSnackBar(context, '작성 완료.');
+          // top3
+          ref.invalidate(hotPageProvider('d'));
+          ref.invalidate(hotPageProvider('w'));
+          ref.invalidate(hotPageProvider('m'));
+          ref.invalidate(hotPageProvider('y'));
+
           context.pushReplacement('/community_detail', extra: {
             'page': pageModel,
           });
@@ -106,8 +108,7 @@ class CommunityController extends StateNotifier<bool> {
       (l) => showSnackBar(context, l.message),
       (r) {
         if (r == 200) {
-          showSnackBar(context, '작성 완료.');
-          ref.refresh(bookmarkPageProivder(user));
+          ref.invalidate(bookmarkPageProivder(user));
           context.pushReplacement('/bookmark_community_detail', extra: {
             'page': pageModel,
           });
@@ -154,12 +155,12 @@ class CommunityController extends StateNotifier<bool> {
         if (r == 200) {
           final current = ref.watch(currentCategorySeqProvier);
           if (current == 0) {
-            ref.refresh(pageProvider);
+            ref.invalidate(pageProvider);
           } else {
-            ref.refresh(themePageProvider(current));
+            ref.invalidate(themePageProvider(current));
           }
-          showSnackBar(context, '작성 완료.');
-          context.pushReplacement('/');
+
+          context.push('/');
         }
       },
     );
@@ -172,9 +173,12 @@ class CommunityController extends StateNotifier<bool> {
   }) async {
     final res = await _pageAPI.likePage(pageSeq: pageSeq, userSeq: userSeq);
     if (res == 200) {
-      final userSeq = ref.watch(userInfoProvier)!.userInfo!.seq as int;
-      ref.refresh(bookmarkPageProivder(userSeq));
-
+      final current = ref.watch(currentCategorySeqProvier);
+      if (current == 0) {
+        ref.invalidate(pageProvider);
+      } else {
+        ref.invalidate(themePageProvider(current));
+      }
       return true;
     } else {
       return false;
@@ -189,6 +193,7 @@ class CommunityController extends StateNotifier<bool> {
       userSeq: userSeq,
       pageSeq: pageSeq,
     );
+
     return res;
   }
 
@@ -196,14 +201,14 @@ class CommunityController extends StateNotifier<bool> {
     required int pageSeq,
     required WidgetRef ref,
   }) async {
-    final res = await _pageAPI.deletePage(
+    await _pageAPI.deletePage(
       pageSeq: pageSeq,
     );
     final current = ref.watch(currentCategorySeqProvier);
     if (current == 0) {
-      ref.refresh(pageProvider);
+      ref.invalidate(pageProvider);
     } else {
-      ref.refresh(themePageProvider(current));
+      ref.invalidate(themePageProvider(current));
     }
   }
 }

@@ -50,7 +50,6 @@ class DrawerCommunityScreen extends HookConsumerWidget {
                         itemCount: 1,
                         itemBuilder: (context, index) {
                           return CommunityCard(
-                            index: index,
                             item: const PageModel(
                               users: Users(
                                   email: 'test@gmail.com',

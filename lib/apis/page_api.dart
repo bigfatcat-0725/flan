@@ -99,6 +99,7 @@ class PageAPI {
         "accept": "application/json",
       },
     );
+
     return int.parse(request.body);
   }
 
