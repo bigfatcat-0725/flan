@@ -74,7 +74,7 @@ class BookmarkFeedCard extends HookConsumerWidget {
 
     return GestureDetector(
       onTap: () {
-        context.push('/main_detail', extra: {'data': data});
+        context.push('/bookmark_main_detail', extra: {'data': data});
       },
       child: Container(
         color: AppColor.scaffoldBackgroundColor,

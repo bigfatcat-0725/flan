@@ -4,6 +4,7 @@ import 'package:flan/features/bell/screen/bell_screen.dart';
 import 'package:flan/features/bookmark/screen/bookmark_screen.dart';
 import 'package:flan/features/bookmark/widget/bookmark_community_ask.dart';
 import 'package:flan/features/bookmark/widget/bookmark_community_detail.dart';
+import 'package:flan/features/bookmark/widget/bookmark_main_datail.dart';
 import 'package:flan/features/category/screen/category_screen.dart';
 import 'package:flan/features/community/screen/community_ask_screen.dart';
 import 'package:flan/features/community/screen/community_detail_screen.dart';
@@ -48,6 +49,17 @@ final GoRouter router = GoRouter(
 
             return NoTransitionPage(
                 child: MainDetailScreen(
+              data: object['data'],
+            ));
+          },
+        ),
+        GoRoute(
+          path: 'bookmark_main_detail',
+          pageBuilder: (context, state) {
+            final object = state.extra as Map<String, dynamic>;
+
+            return NoTransitionPage(
+                child: BookmarkMainDetail(
               data: object['data'],
             ));
           },

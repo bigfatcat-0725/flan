@@ -68,7 +68,7 @@ class CommunityCard extends HookConsumerWidget {
             context.push('/community_detail', extra: {
               'page': item,
             });
-            // print(item.pages!.seq as int);
+            print(item.pages!.seq as int);
           },
           child: Container(
             color: AppColor.scaffoldBackgroundColor,

@@ -145,7 +145,14 @@ class BookmarkCommunityCard extends HookConsumerWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              showProfileNewCardMore(context);
+                              if (userInfo.userInfo!.seq == item.users!.seq) {
+                                // 본인 삭제 O
+                                showPageDelete(context,
+                                    ref: ref, pageSeq: item.pages!.seq as int);
+                              } else {
+                                // 타인
+                                showProfileNewCardMore(context);
+                              }
                             },
                             child: Icon(
                               Icons.more_horiz,

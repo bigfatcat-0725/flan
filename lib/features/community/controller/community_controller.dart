@@ -179,6 +179,8 @@ class CommunityController extends StateNotifier<bool> {
       } else {
         ref.invalidate(themePageProvider(current));
       }
+      ref.invalidate(bookmarkPageProivder);
+
       return true;
     } else {
       return false;
