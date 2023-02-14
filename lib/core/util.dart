@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flan/features/community/controller/community_controller.dart';
 import 'package:flan/features/profile/controller/profile_controller.dart';
 import 'package:flan/models/feed/feed_model.dart';
 import 'package:flan/theme/app_color.dart';
@@ -236,6 +237,99 @@ Future showReboot(context) {
   );
 }
 
+Future showPageDelete(
+  context, {
+  required WidgetRef ref,
+  required int pageSeq,
+}) {
+  return showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (context) {
+      return AlertDialog(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(5),
+          ),
+        ),
+        content: SizedBox(
+          width: 290.w,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                '삭제하시겠습니까?',
+                style: AppTextStyle.boldTextStyle.copyWith(
+                  fontSize: 13.sp,
+                ),
+              ),
+              SizedBox(height: 20.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () => context.pop(),
+                    child: Container(
+                      width: 100.w,
+                      height: 30.h,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(100),
+                          border: Border.all(
+                            width: 1.w,
+                            color: AppColor.primaryColor,
+                          )),
+                      child: Center(
+                        child: Text(
+                          '취소',
+                          style: AppTextStyle.defaultTextStyle.copyWith(
+                            color: AppColor.primaryColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10.w),
+                  GestureDetector(
+                    onTap: () {
+                      ref.read(communityControllerProvider.notifier).deletePage(
+                            pageSeq: pageSeq,
+                            ref: ref,
+                          );
+                      context.pop();
+                    },
+                    child: Container(
+                      width: 100.w,
+                      height: 30.h,
+                      decoration: BoxDecoration(
+                        color: AppColor.primaryColor,
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      child: Center(
+                        child: Text(
+                          '삭제',
+                          style: AppTextStyle.defaultTextStyle.copyWith(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 20.w,
+          vertical: 30.h,
+        ),
+        insetPadding: EdgeInsets.symmetric(horizontal: 16.w),
+      );
+    },
+  );
+}
+
 Future showDelete(
   context, {
   required WidgetRef ref,
@@ -334,7 +428,7 @@ Future showDelete(
 }
 
 Future showMore(BuildContext context,
-    {String type = 'default', int myData = 1, required Question data}) {
+    {String type = 'default', int myData = 0, required Question data}) {
   return showDialog(
       context: context,
       barrierDismissible: true,

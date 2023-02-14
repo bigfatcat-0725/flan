@@ -22,16 +22,17 @@ class CommunityScreen extends HookConsumerWidget {
     useEffect(() {
       final currentTap = ref.watch(bottomNavProvier);
 
-      if (currentTap == 1) {
-        // 커뮤니티 탭일때만 들어감.
-        Future.microtask(() => ref.refresh(pageProvider(0)));
-      }
+      if (currentTap == 1) {}
       return null;
     }, []);
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
-      body: ref.watch(pageProvider(0)).when(
+      body: ref
+          .watch(currentCategorySeq == 0
+              ? pageProvider
+              : themePageProvider(currentCategorySeq))
+          .when(
             data: (pageList) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,7 +62,7 @@ class CommunityScreen extends HookConsumerWidget {
                             ),
                             child: Center(
                               child: Text(
-                                '질문하기',
+                                currentCategorySeq == 0 ? '카테고리 선택' : '질문하기',
                                 style: AppTextStyle.defaultTextStyle.copyWith(
                                   fontSize: 11.sp,
                                   color: Colors.white,

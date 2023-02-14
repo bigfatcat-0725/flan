@@ -1,3 +1,4 @@
+import 'package:flan/core/providers.dart';
 import 'package:flan/features/community/widget/community_card.dart';
 import 'package:flan/features/main/controller/main_controller.dart';
 import 'package:flan/theme/theme.dart';
@@ -15,10 +16,11 @@ class MainScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final homeTapController = useTabController(initialLength: 4);
     final isMounted = useIsMounted();
+    final currentTap = ref.watch(bottomNavProvier);
 
     useEffect(() {
       // 일단 refresh 걸어놓기.
-      if (isMounted()) {
+      if (isMounted() && currentTap == 0) {
         ref.refresh(hotPageProvider('d'));
         ref.refresh(hotPageProvider('w'));
         ref.refresh(hotPageProvider('m'));
@@ -33,25 +35,6 @@ class MainScreen extends HookConsumerWidget {
         child: Column(
           children: [
             SizedBox(height: 10.h),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Top 3',
-                  style: AppTextStyle.boldTextStyle.copyWith(
-                    fontSize: 14.sp,
-                  ),
-                ),
-                // Image.asset(
-                //   'assets/hot.gif',
-                //   width: 15.w,
-                //   height: 15.w,
-                //   fit: BoxFit.cover,
-                // ),
-              ],
-            ),
-            SizedBox(height: 5.h),
             Expanded(
               child: Column(
                 children: [

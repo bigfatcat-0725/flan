@@ -21,9 +21,14 @@ final communityControllerProvider =
   );
 });
 
-final pageProvider = FutureProvider.family((ref, int seq) {
+final pageProvider = FutureProvider((ref) {
   final communityContoller = ref.watch(communityControllerProvider.notifier);
-  return communityContoller.getPage(seq);
+  return communityContoller.getAllPage();
+});
+
+final themePageProvider = FutureProvider.family((ref, int seq) {
+  final communityContoller = ref.watch(communityControllerProvider.notifier);
+  return communityContoller.getThemePage(seq);
 });
 
 final commentProvider = FutureProvider.family((ref, int seq) {
@@ -66,8 +71,14 @@ class CommunityController extends StateNotifier<bool> {
       (l) => showSnackBar(context, l.message),
       (r) {
         if (r == 200) {
+          final current = ref.watch(currentCategorySeqProvier);
+
+          if (current == 0) {
+            ref.refresh(pageProvider);
+          } else {
+            ref.refresh(themePageProvider(current));
+          }
           showSnackBar(context, '작성 완료.');
-          ref.refresh(pageProvider(0));
           context.pushReplacement('/community_detail', extra: {
             'page': pageModel,
           });
@@ -105,9 +116,16 @@ class CommunityController extends StateNotifier<bool> {
     );
   }
 
-  Future<List<PageModel>> getPage(int seq) async {
+  Future<List<PageModel>> getAllPage() async {
     List<PageModel> pageList = [];
-    final res = await _pageAPI.getPage(seq);
+    final res = await _pageAPI.getAllPage();
+    pageList = [...res.map((e) => PageModel.fromJson(e)).toList()];
+    return pageList;
+  }
+
+  Future<List<PageModel>> getThemePage(int seq) async {
+    List<PageModel> pageList = [];
+    final res = await _pageAPI.getThemePage(seq: seq);
     pageList = [...res.map((e) => PageModel.fromJson(e)).toList()];
     return pageList;
   }
@@ -130,14 +148,18 @@ class CommunityController extends StateNotifier<bool> {
       private: private,
     );
     state = false;
-    // print('${user} ${theme} ${title} ${content} ${status}');
-    // print(res);
     res.fold(
       (l) => showSnackBar(context, l.message),
       (r) {
         if (r == 200) {
+          final current = ref.watch(currentCategorySeqProvier);
+          if (current == 0) {
+            ref.refresh(pageProvider);
+          } else {
+            ref.refresh(themePageProvider(current));
+          }
           showSnackBar(context, '작성 완료.');
-          context.push('/');
+          context.pushReplacement('/');
         }
       },
     );
@@ -151,7 +173,6 @@ class CommunityController extends StateNotifier<bool> {
     final res = await _pageAPI.likePage(pageSeq: pageSeq, userSeq: userSeq);
     if (res == 200) {
       final userSeq = ref.watch(userInfoProvier)!.userInfo!.seq as int;
-      ref.refresh(pageProvider(0));
       ref.refresh(bookmarkPageProivder(userSeq));
 
       return true;
@@ -169,5 +190,20 @@ class CommunityController extends StateNotifier<bool> {
       pageSeq: pageSeq,
     );
     return res;
+  }
+
+  void deletePage({
+    required int pageSeq,
+    required WidgetRef ref,
+  }) async {
+    final res = await _pageAPI.deletePage(
+      pageSeq: pageSeq,
+    );
+    final current = ref.watch(currentCategorySeqProvier);
+    if (current == 0) {
+      ref.refresh(pageProvider);
+    } else {
+      ref.refresh(themePageProvider(current));
+    }
   }
 }

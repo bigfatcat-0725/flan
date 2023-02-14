@@ -29,6 +29,7 @@ class AuthAPI {
           "content-type": "application/x-www-form-urlencoded",
         },
       );
+
       final decodeData = utf8.decode(data.bodyBytes);
       final response = jsonDecode(decodeData);
       final userModel = UserModel.fromJson(response as Map<String, dynamic>);

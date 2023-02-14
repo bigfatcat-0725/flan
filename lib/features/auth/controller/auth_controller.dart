@@ -48,7 +48,9 @@ class AuthController extends StateNotifier<bool> {
     );
     state = false;
     res.fold(
-      (l) => loginShowSnackBar(context, l.message),
+      (l) {
+        loginShowSnackBar(context, l.message);
+      },
       (r) {
         ref.read(userInfoProvier.notifier).update((state) => r);
         if (r.userInfo == null && r.tokenType != null) {

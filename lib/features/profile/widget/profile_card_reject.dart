@@ -158,7 +158,8 @@ class ProfileCardReject extends HookConsumerWidget {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-                      context.push('/ask', extra: {'question': data});
+                      context.push('/ask',
+                          extra: {'question': data, 'type': 'new'});
                     },
                     child: Container(
                       color: Colors.transparent,

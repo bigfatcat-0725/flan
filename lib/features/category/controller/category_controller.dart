@@ -36,7 +36,7 @@ class CategoryController extends StateNotifier<bool> {
       detail: '전체',
       pageCnt: null,
       createdAt: null,
-      seq: 1,
+      seq: 0,
       photo: null,
     );
 

@@ -1,9 +1,6 @@
 import 'dart:convert';
-
 import 'package:flan/core/failure.dart';
 import 'package:flan/core/type_defs.dart';
-import 'package:flan/models/feed/feed_model.dart';
-import 'package:flan/models/page/page_model.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -13,7 +10,7 @@ final pageAPIProvider = Provider((ref) {
 });
 
 class PageAPI {
-  Future<List> getPage(seq) async {
+  Future<List> getAllPage() async {
     final url = Uri.parse('http://topping.io:8855/API/pages');
     final data = await http.get(url, headers: {
       "accept": "application/json",
@@ -21,6 +18,30 @@ class PageAPI {
     final decodeData = utf8.decode(data.bodyBytes);
     final response = jsonDecode(decodeData);
     return response;
+  }
+
+  Future<List> getThemePage({required int seq}) async {
+    final url =
+        Uri.parse('http://topping.io:8855/API/pages/category_page/list$seq');
+    final data = await http.get(url, headers: {
+      "accept": "application/json",
+    });
+    final decodeData = utf8.decode(data.bodyBytes);
+    final response = jsonDecode(decodeData);
+    return response;
+  }
+
+  Future<int> deletePage({
+    required int pageSeq,
+  }) async {
+    final url = Uri.parse('http://topping.io:8855/API/pages/$pageSeq');
+    final request = await http.delete(
+      url,
+      headers: {
+        "accept": "application/json",
+      },
+    );
+    return request.statusCode;
   }
 
   FutureEither<int> postPage({

@@ -117,10 +117,8 @@ final GoRouter router = GoRouter(
         ),
         GoRoute(
           path: 'category',
-          pageBuilder: (context, state) => const MaterialPage(
-            fullscreenDialog: true,
-            child: CategoryScreen(),
-          ),
+          pageBuilder: (context, state) =>
+              const NoTransitionPage(child: CategoryScreen()),
         ),
         GoRoute(
           path: 'bookmark',

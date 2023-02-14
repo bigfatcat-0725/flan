@@ -2,6 +2,7 @@ import 'package:flan/apis/answer_api.dart';
 import 'package:flan/apis/bookmark_api.dart';
 import 'package:flan/apis/question_api.dart';
 import 'package:flan/core/util.dart';
+import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
 import 'package:flan/features/default/controller/default_controller.dart';
 import 'package:flutter/material.dart';
@@ -111,10 +112,9 @@ class ProfileController extends StateNotifier<bool> {
     final res = await _bookmarkAPI.pageBookmarking(user: user, page: page);
     if (res == 200) {
       if (page == 0) {
-        ref.refresh(pageProvider(0));
-      } else {
-        ref.refresh(pageProvider(0));
-      }
+      } else {}
+      ref.refresh(bookmarkPageProivder(user));
+
       return true;
     } else {
       return false;

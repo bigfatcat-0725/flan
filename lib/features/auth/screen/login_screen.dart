@@ -6,6 +6,7 @@ import 'package:flan/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -51,12 +52,10 @@ class LoginScreen extends HookConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: 100.h),
-            Text(
-              'FLAN˘',
-              style: AppTextStyle.boldTextStyle.copyWith(
-                color: AppColor.textColor,
-                fontSize: 30.sp,
-              ),
+            SvgPicture.asset(
+              AssetsConstants.fontLogo,
+              height: 30.h,
+              color: AppColor.textColor,
             ),
             Padding(
               padding: EdgeInsets.only(top: 20.h, bottom: 30.h),

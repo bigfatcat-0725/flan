@@ -32,35 +32,32 @@ class CommunityCard extends HookConsumerWidget {
     final userInfo = ref.watch(userInfoProvier.notifier).state!;
     // 좋아요 && 북마크 확인
 
-    void getLikeAndBookmark() async {
-      if (isMounted()) {
-        final status =
-            await ref.read(communityControllerProvider.notifier).isLikePage(
-                  userSeq: userInfo.userInfo!.seq as int,
-                  pageSeq: item.pages!.seq as int,
-                );
-        final bookmarkStatus =
-            await ref.read(bookmarkControllerProvider.notifier).isBookmarkPage(
-                  userSeq: userInfo.userInfo!.seq as int,
-                  seq: item.pages!.seq as int,
-                );
-
-        if (isLike.hasListeners && status == 1) {
-          isLike.value = true;
-        } else {
-          isLike.value = false;
-        }
-        if (saveStatus.hasListeners && bookmarkStatus == 1) {
-          saveStatus.value = true;
-        } else {
-          saveStatus.value = false;
-        }
-      }
-    }
-
     useEffect(() {
-      Future.microtask(() {
-        getLikeAndBookmark();
+      Future.microtask(() async {
+        if (isMounted()) {
+          final status =
+              await ref.read(communityControllerProvider.notifier).isLikePage(
+                    userSeq: userInfo.userInfo!.seq as int,
+                    pageSeq: item.pages!.seq as int,
+                  );
+          final bookmarkStatus = await ref
+              .read(bookmarkControllerProvider.notifier)
+              .isBookmarkPage(
+                userSeq: userInfo.userInfo!.seq as int,
+                seq: item.pages!.seq as int,
+              );
+
+          if (isLike.hasListeners && status == 1) {
+            isLike.value = true;
+          } else {
+            isLike.value = false;
+          }
+          if (saveStatus.hasListeners && bookmarkStatus == 1) {
+            saveStatus.value = true;
+          } else {
+            saveStatus.value = false;
+          }
+        }
       });
       return null;
     }, []);
@@ -148,7 +145,14 @@ class CommunityCard extends HookConsumerWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              showProfileNewCardMore(context);
+                              if (userInfo.userInfo!.seq == item.users!.seq) {
+                                // 본인 삭제 O
+                                showPageDelete(context,
+                                    ref: ref, pageSeq: item.pages!.seq as int);
+                              } else {
+                                // 타인
+                                showProfileNewCardMore(context);
+                              }
                             },
                             child: Icon(
                               Icons.more_horiz,
