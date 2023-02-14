@@ -1,8 +1,8 @@
 import 'package:flan/constants/constants.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
-import 'package:flan/features/bookmark/widget/bookmarkCommunityCard.dart';
-import 'package:flan/features/bookmark/widget/bookmarkFeedCard.dart';
+import 'package:flan/features/bookmark/widget/bookmark_community_card.dart';
+import 'package:flan/features/bookmark/widget/bookmark_feed_card.dart';
 import 'package:flan/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -64,8 +64,7 @@ class BookmarkScreen extends HookConsumerWidget {
                                 // physics: const ClampingScrollPhysics(),
                                 itemCount: data.length,
                                 itemBuilder: (context, index) {
-                                  // return MainCard();
-                                  return Container();
+                                  return BookmarkFeedCard(data: data[index]);
                                 },
                               );
                             },

@@ -20,8 +20,8 @@ class BookmarkQuestionModel with _$BookmarkQuestionModel {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory BookmarkQuestionModel({
     @JsonKey(name: 'Bookmark') Bookmark? bookmark,
+    @JsonKey(name: 'Users') Users? users,
     @JsonKey(name: 'Questions') Questions? questions,
-    Users? users,
   }) = _BookmarkQuestionModel;
 
   factory BookmarkQuestionModel.fromJson(Map<String, dynamic> json) =>
@@ -32,11 +32,11 @@ class BookmarkQuestionModel with _$BookmarkQuestionModel {
 class Bookmark with _$Bookmark {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory Bookmark({
+    int? pageSeq,
     int? seq,
     int? questionSeq,
     String? createdAt,
     int? userSeq,
-    int? pageSeq,
   }) = _Bookmark;
 
   factory Bookmark.fromJson(Map<String, dynamic> json) =>
@@ -59,10 +59,42 @@ class Questions with _$Questions {
     dynamic? unknownName,
     dynamic? updatedAt,
     String? remaining,
+    List<Answer>? answer,
   }) = _Questions;
 
   factory Questions.fromJson(Map<String, dynamic> json) =>
       _$QuestionsFromJson(json);
+}
+
+@freezed
+class Answer with _$Answer {
+  @JsonSerializable(fieldRename: FieldRename.snake)
+  const factory Answer({
+    @JsonKey(name: 'Users') Users? users,
+    @JsonKey(name: 'Answers') Answers? answers,
+  }) = _Answer;
+
+  factory Answer.fromJson(Map<String, dynamic> json) => _$AnswerFromJson(json);
+}
+
+@freezed
+class Answers with _$Answers {
+  @JsonSerializable(fieldRename: FieldRename.snake)
+  const factory Answers({
+    int? seq,
+    int? userSeq,
+    String? reply,
+    int? likes,
+    dynamic? updatedAt,
+    int? pSeq,
+    int? questionSeq,
+    String? photo,
+    String? createdAt,
+    String? remaining,
+  }) = _Answers;
+
+  factory Answers.fromJson(Map<String, dynamic> json) =>
+      _$AnswersFromJson(json);
 }
 
 @freezed
@@ -71,7 +103,6 @@ class Users with _$Users {
   const factory Users({
     int? seq,
     int? proposal,
-    String? rememberToken,
     int? followCnt,
     int? userLevel,
     String? email,
@@ -90,13 +121,14 @@ class Users with _$Users {
     int? commentAlram,
     String? status,
     dynamic? deletedAt,
-    String? phoneNumber,
     int? pCommentAlram,
+    String? phoneNumber,
     int? nameSearch,
     String? lastLogin,
     String? address,
     dynamic? emailVerifiedAt,
     int? unknownQ,
+    String? rememberToken,
     String? memo,
   }) = _Users;
 
