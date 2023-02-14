@@ -85,7 +85,7 @@ class SearchScreen extends HookConsumerWidget {
                                   search: value,
                                 );
                             searchResult.value = [...data];
-                            print(searchResult.value);
+                            // print(searchResult.value);
                           } else {
                             searchResult.value = [];
                           }

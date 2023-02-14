@@ -36,7 +36,7 @@ class CommentAPI {
         ..fields['reply'] = reply.toString();
 
       final response = await request.send();
-      print(response.statusCode);
+      // print(response.statusCode);
       return right(response.statusCode);
     } catch (e, stackTrace) {
       return left(

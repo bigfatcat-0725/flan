@@ -2,6 +2,7 @@ import 'package:flan/constants/constants.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
 import 'package:flan/features/bookmark/widget/bookmarkCommunityCard.dart';
+import 'package:flan/features/bookmark/widget/bookmarkFeedCard.dart';
 import 'package:flan/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';

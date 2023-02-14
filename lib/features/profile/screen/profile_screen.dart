@@ -38,6 +38,8 @@ class ProfileScreen extends HookConsumerWidget {
     final feedSeqLogic =
         feedSeq == 0 ? userInfo!.userInfo!.seq as int : feedSeq;
 
+    final feedVisible = useState(true);
+
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
       body: ref.watch(feedProivder(feedSeqLogic)).when(
@@ -55,221 +57,236 @@ class ProfileScreen extends HookConsumerWidget {
 
               return Column(
                 children: [
-                  SizedBox(height: 10.h),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 75.w,
-                          height: 75.w,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child: data.myData!.photo != ''
-                              ? ClipRRect(
-                                  borderRadius: BorderRadius.circular(100),
-                                  child: CachedNetworkImage(
-                                    imageUrl:
-                                        'http://topping.io:8855${data.myData!.photo}',
-                                    placeholder: (context, text) {
-                                      return SvgPicture.asset(
-                                        AssetsConstants.noImg,
-                                      );
-                                    },
-                                    fit: BoxFit.cover,
-                                  ),
-                                )
-                              : SvgPicture.asset(
-                                  AssetsConstants.noImg,
-                                ),
-                        ),
-                        SizedBox(width: 15.w),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                  Column(
+                    children: [
+                      SizedBox(height: 10.h),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 75.w,
+                              height: 75.w,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: data.myData!.photo != ''
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            'http://topping.io:8855${data.myData!.photo}',
+                                        placeholder: (context, text) {
+                                          return SvgPicture.asset(
+                                            AssetsConstants.noImg,
+                                          );
+                                        },
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                  : SvgPicture.asset(
+                                      AssetsConstants.noImg,
+                                    ),
+                            ),
+                            SizedBox(width: 15.w),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                        data.myData!.nickname.toString(),
-                                        style:
-                                            AppTextStyle.boldTextStyle.copyWith(
-                                          fontSize: 15.sp,
-                                          fontWeight: FontWeight.w500,
+                                      Row(
+                                        children: [
+                                          Text(
+                                            data.myData!.nickname.toString(),
+                                            style: AppTextStyle.boldTextStyle
+                                                .copyWith(
+                                              fontSize: 15.sp,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          SizedBox(width: 5.w),
+
+                                          // level system
+                                          // CachedNetworkImage(
+                                          //     imageUrl:
+                                          //         'https://static.inven.co.kr/image_2011/member/level/1202/lv101.gif?v=190628'),
+                                        ],
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          showProfileMore(context,
+                                              myData:
+                                                  currentUser.value ? 1 : 0);
+                                        },
+                                        child: Container(
+                                          color: Colors.transparent,
+                                          child: Icon(
+                                            Icons.more_horiz,
+                                            size: 20.w,
+                                            color: AppColor.primaryColor,
+                                          ),
                                         ),
                                       ),
-                                      SizedBox(width: 5.w),
-
-                                      // level system
-                                      // CachedNetworkImage(
-                                      //     imageUrl:
-                                      //         'https://static.inven.co.kr/image_2011/member/level/1202/lv101.gif?v=190628'),
                                     ],
                                   ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      showProfileMore(context,
-                                          myData: currentUser.value ? 1 : 0);
-                                    },
-                                    child: Container(
-                                      color: Colors.transparent,
-                                      child: Icon(
-                                        Icons.more_horiz,
-                                        size: 20.w,
-                                        color: AppColor.primaryColor,
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        '팔로워 ${data.myData!.followCnt}  |  ',
+                                        style:
+                                            AppTextStyle.boldTextStyle.copyWith(
+                                          fontSize: 13.sp,
+                                        ),
                                       ),
-                                    ),
+                                      Text(
+                                        '팔로잉 ${data.myData!.followingCnt}  |  ',
+                                        style:
+                                            AppTextStyle.boldTextStyle.copyWith(
+                                          fontSize: 13.sp,
+                                        ),
+                                      ),
+                                      // 현재 myData 에 답변완료 수 이상으로 확실한 값 사용.
+                                      Text(
+                                        '답변완료 ${finList.length}',
+                                        style:
+                                            AppTextStyle.boldTextStyle.copyWith(
+                                          fontSize: 13.sp,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 5.h),
+                                  // 자신의 프로필이라면 비어있을 경우 나타내고, 아니라면 그대로
+                                  Text(
+                                    (data.myData!.memo.toString() == '' ||
+                                            data.myData!.memo.toString() ==
+                                                'null')
+                                        ? '상태메세지를 작성해보세요!'
+                                        : data.myData!.memo.toString(),
+                                    style:
+                                        (data.myData!.memo.toString() == '' ||
+                                                data.myData!.memo.toString() ==
+                                                    'null')
+                                            ? AppTextStyle.hintStyle
+                                            : AppTextStyle.defaultTextStyle,
                                   ),
                                 ],
                               ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    '팔로워 ${data.myData!.followCnt}  |  ',
-                                    style: AppTextStyle.boldTextStyle.copyWith(
-                                      fontSize: 13.sp,
-                                    ),
-                                  ),
-                                  Text(
-                                    '팔로잉 ${data.myData!.followingCnt}  |  ',
-                                    style: AppTextStyle.boldTextStyle.copyWith(
-                                      fontSize: 13.sp,
-                                    ),
-                                  ),
-                                  // 현재 myData 에 답변완료 수 이상으로 확실한 값 사용.
-                                  Text(
-                                    '답변완료 ${finList.length}',
-                                    style: AppTextStyle.boldTextStyle.copyWith(
-                                      fontSize: 13.sp,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 5.h),
-                              // 자신의 프로필이라면 비어있을 경우 나타내고, 아니라면 그대로
-                              Text(
-                                (data.myData!.memo.toString() == '' ||
-                                        data.myData!.memo.toString() == 'null')
-                                    ? '상태메세지를 작성해보세요!'
-                                    : data.myData!.memo.toString(),
-                                style: (data.myData!.memo.toString() == '' ||
-                                        data.myData!.memo.toString() == 'null')
-                                    ? AppTextStyle.hintStyle
-                                    : AppTextStyle.defaultTextStyle,
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20.h),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: Row(
-                      children: [
-                        // 다른 사람의 프로필이라면 팔로우 표시
-                        // 자기 자신이라면 보관함 표시
-                        Expanded(
-                          child: currentUser.value
-                              ? GestureDetector(
-                                  onTap: () {
-                                    context.go('/bookmark');
-                                  },
-                                  child: Container(
-                                    height: 30.h,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(100),
-                                      color: Colors.white,
-                                      border: Border.all(
-                                        width: 1.w,
-                                        color: AppColor.primaryColor,
+                      ),
+                      SizedBox(height: 20.h),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Row(
+                          children: [
+                            // 다른 사람의 프로필이라면 팔로우 표시
+                            // 자기 자신이라면 보관함 표시
+                            Expanded(
+                              child: currentUser.value
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        context.go('/bookmark');
+                                      },
+                                      child: Container(
+                                        height: 30.h,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                          color: Colors.white,
+                                          border: Border.all(
+                                            width: 1.w,
+                                            color: AppColor.primaryColor,
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            '보관함',
+                                            style: AppTextStyle.defaultTextStyle
+                                                .copyWith(
+                                              fontSize: 11.sp,
+                                              color: isFollow.value
+                                                  ? AppColor.primaryColor
+                                                  : Colors.white,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        '보관함',
-                                        style: AppTextStyle.defaultTextStyle
-                                            .copyWith(
-                                          fontSize: 11.sp,
+                                    )
+                                  : GestureDetector(
+                                      onTap: () {
+                                        isFollow.value = !isFollow.value;
+                                      },
+                                      child: Container(
+                                        height: 30.h,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
                                           color: isFollow.value
-                                              ? AppColor.primaryColor
-                                              : Colors.white,
+                                              ? Colors.white
+                                              : AppColor.primaryColor,
+                                          border: isFollow.value
+                                              ? Border.all(
+                                                  width: 1.w,
+                                                  color: AppColor.primaryColor,
+                                                )
+                                              : null,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            isFollow.value ? '팔로잉' : '팔로우',
+                                            style: AppTextStyle.defaultTextStyle
+                                                .copyWith(
+                                              fontSize: 11.sp,
+                                              color: isFollow.value
+                                                  ? AppColor.primaryColor
+                                                  : Colors.white,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
+                            ),
+                            SizedBox(width: 10.w),
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () {
+                                  context.push('/question', extra: {
+                                    'type': '',
+                                    'toSeq': data.myData!.seq,
+                                  });
+                                },
+                                child: Container(
+                                  height: 30.h,
+                                  decoration: BoxDecoration(
+                                    color: AppColor.primaryColor,
+                                    borderRadius: BorderRadius.circular(100),
                                   ),
-                                )
-                              : GestureDetector(
-                                  onTap: () {
-                                    isFollow.value = !isFollow.value;
-                                  },
-                                  child: Container(
-                                    height: 30.h,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(100),
-                                      color: isFollow.value
-                                          ? Colors.white
-                                          : AppColor.primaryColor,
-                                      border: isFollow.value
-                                          ? Border.all(
-                                              width: 1.w,
-                                              color: AppColor.primaryColor,
-                                            )
-                                          : null,
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        isFollow.value ? '팔로잉' : '팔로우',
-                                        style: AppTextStyle.defaultTextStyle
-                                            .copyWith(
-                                          fontSize: 11.sp,
-                                          color: isFollow.value
-                                              ? AppColor.primaryColor
-                                              : Colors.white,
-                                        ),
+                                  child: Center(
+                                    child: Text(
+                                      '질문하기',
+                                      style: AppTextStyle.defaultTextStyle
+                                          .copyWith(
+                                        fontSize: 11.sp,
+                                        color: Colors.white,
                                       ),
                                     ),
-                                  ),
-                                ),
-                        ),
-                        SizedBox(width: 10.w),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              context.push('/question', extra: {
-                                'type': '',
-                                'toSeq': data.myData!.seq,
-                              });
-                            },
-                            child: Container(
-                              height: 30.h,
-                              decoration: BoxDecoration(
-                                color: AppColor.primaryColor,
-                                borderRadius: BorderRadius.circular(100),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  '질문하기',
-                                  style: AppTextStyle.defaultTextStyle.copyWith(
-                                    fontSize: 11.sp,
-                                    color: Colors.white,
                                   ),
                                 ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: 10.h),
+                    ],
                   ),
-                  SizedBox(height: 10.h),
                   Expanded(
                     child: Column(
                       children: [
