@@ -3,11 +3,12 @@ import 'package:flan/models/bookmark/bookmark_page_model.dart';
 import 'package:flan/models/bookmark/bookmark_question_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final bookmarkQuestionProivder = FutureProvider.family((ref, int user) {
+final bookmarkQuestionProivder =
+    FutureProvider.family.autoDispose((ref, int user) {
   final categoryController = ref.watch(bookmarkControllerProvider.notifier);
   return categoryController.getBookmarkQuestion(user: user);
 });
-final bookmarkPageProivder = FutureProvider.family((ref, int user) {
+final bookmarkPageProivder = FutureProvider.family.autoDispose((ref, int user) {
   final categoryController = ref.watch(bookmarkControllerProvider.notifier);
   return categoryController.getBookmarkPage(user: user);
 });

@@ -11,7 +11,7 @@ final defaultControllerProvider =
   );
 });
 
-final feedProivder = FutureProvider.family((ref, int seq) {
+final feedProivder = FutureProvider.family.autoDispose((ref, int seq) {
   final defaultController = ref.watch(defaultControllerProvider.notifier);
   return defaultController.getFeed(seq);
 });

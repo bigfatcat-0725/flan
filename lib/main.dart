@@ -31,6 +31,21 @@ const Map<String, String> nativeUnitID = kReleaseMode
         'android': 'ca-app-pub-3940256099942544/6300978111',
       };
 
+class Logger extends ProviderObserver {
+  @override
+  void didUpdateProvider(
+    ProviderBase<Object?> provider,
+    Object? previousValue,
+    Object? newValue,
+    ProviderContainer container,
+  ) {
+    print('''
+{
+  "provider": "${provider.name ?? provider.runtimeType}",
+}''');
+  }
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -48,7 +63,10 @@ void main() async {
   }
   //
 
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(ProviderScope(
+    observers: [Logger()],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends HookConsumerWidget {

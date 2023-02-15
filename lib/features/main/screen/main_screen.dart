@@ -21,10 +21,10 @@ class MainScreen extends HookConsumerWidget {
     useEffect(() {
       // 일단 refresh 걸어놓기.
       if (isMounted() && currentTap == 0) {
-        ref.invalidate(hotPageProvider('d'));
-        ref.invalidate(hotPageProvider('w'));
-        ref.invalidate(hotPageProvider('m'));
-        ref.invalidate(hotPageProvider('y'));
+        // ref.invalidate(hotPageProvider('d'));
+        // ref.invalidate(hotPageProvider('w'));
+        // ref.invalidate(hotPageProvider('m'));
+        // ref.invalidate(hotPageProvider('y'));
       }
       return null;
     }, []);

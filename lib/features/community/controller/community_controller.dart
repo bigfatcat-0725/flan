@@ -18,7 +18,7 @@ final communityControllerProvider =
   );
 });
 
-final pageProvider = FutureProvider((ref) {
+final pageProvider = FutureProvider.autoDispose((ref) {
   final communityContoller = ref.watch(communityControllerProvider.notifier);
   return communityContoller.getAllPage();
 });

@@ -9,7 +9,7 @@ final categoryControllerProvider =
   );
 });
 
-final categoryProivder = FutureProvider((ref) {
+final categoryProivder = FutureProvider.autoDispose((ref) {
   final categoryController = ref.watch(categoryControllerProvider.notifier);
   return categoryController.getCategory();
 });

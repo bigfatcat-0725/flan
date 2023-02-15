@@ -9,7 +9,7 @@ final mainControllerProvider =
   );
 });
 
-final hotPageProvider = FutureProvider.family((ref, String type) {
+final hotPageProvider = FutureProvider.family.autoDispose((ref, String type) {
   final mainController = ref.watch(mainControllerProvider.notifier);
   return mainController.getHotPage(type);
 });
