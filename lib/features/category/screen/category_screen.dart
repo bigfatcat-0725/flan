@@ -16,12 +16,11 @@ class CategoryScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isMounted = useIsMounted();
     final categoryList = useState(<CategoryModel>[]);
     final currentCategory = ref.watch(currentCategoryProvier);
 
     useEffect(() {
-      if (isMounted()) {
+      if (context.mounted) {
         Future.microtask(() async {
           final res =
               await ref.read(categoryControllerProvider.notifier).getCategory();
@@ -29,13 +28,14 @@ class CategoryScreen extends HookConsumerWidget {
         });
       }
       return null;
-    }, []);
+    }, [categoryList]);
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
       appBar: UIConstants.qaAppBar(context, '카테고리 설정'),
       body: Column(
         children: [
+          SizedBox(height: 10.h),
           Expanded(
             child: ListView.separated(
               itemCount: categoryList.value.length,

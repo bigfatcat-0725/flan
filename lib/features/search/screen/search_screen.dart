@@ -147,6 +147,27 @@ class SearchScreen extends HookConsumerWidget {
                               color: AppColor.greyColor,
                             ),
                           ),
+                          suffixIconConstraints:
+                              BoxConstraints(minWidth: 30.w, minHeight: 30.w),
+                          suffixIcon: Visibility(
+                            visible: searchStatus.value,
+                            child: GestureDetector(
+                              onTap: () {
+                                searchStatus.value = false;
+                                searchTextController.text = '';
+                                FocusManager.instance.primaryFocus?.unfocus();
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.all(10.w),
+                                child: SvgPicture.asset(
+                                  AssetsConstants.clear,
+                                  color: AppColor.primaryColor,
+                                  width: 17.5.w,
+                                  height: 17.5.w,
+                                ),
+                              ),
+                            ),
+                          ),
                           hintText: '닉네임을 입력하세요',
                           hintStyle: AppTextStyle.hintStyle,
                         ),
@@ -155,22 +176,6 @@ class SearchScreen extends HookConsumerWidget {
                   ),
                 ),
                 SizedBox(width: 10.w),
-                Visibility(
-                  visible: searchStatus.value,
-                  child: GestureDetector(
-                    onTap: () {
-                      searchStatus.value = false;
-                      searchTextController.text = '';
-                      FocusManager.instance.primaryFocus?.unfocus();
-                    },
-                    child: SvgPicture.asset(
-                      AssetsConstants.clear,
-                      color: AppColor.primaryColor,
-                      width: 20.w,
-                      height: 20.w,
-                    ),
-                  ),
-                ),
               ],
             ),
           ),

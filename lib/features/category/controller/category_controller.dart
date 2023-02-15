@@ -22,12 +22,10 @@ class CategoryController extends StateNotifier<bool> {
         super(false);
 
   Future<List<CategoryModel>> getCategory() async {
-    state = true;
     final res = await _categoryAPI.getCategory();
     final data = res
         .map((e) => CategoryModel.fromJson(e as Map<String, dynamic>))
         .toList();
-    state = false;
 
     const all = CategoryModel(
       tag: null,

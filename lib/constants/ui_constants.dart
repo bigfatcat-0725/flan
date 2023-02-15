@@ -25,7 +25,7 @@ class UIConstants {
     required WidgetRef ref,
   }) {
     return AppBar(
-      toolbarHeight: 30.h,
+      toolbarHeight: 25.h,
       elevation: 0,
       leadingWidth: 0,
       titleSpacing: 0,
@@ -122,9 +122,9 @@ class UIConstants {
                         child: Container(
                           color: Colors.transparent,
                           child: SvgPicture.asset(
-                            AssetsConstants.main,
-                            width: 20.w,
-                            height: 20.w,
+                            AssetsConstants.mainFill,
+                            width: 17.5.h,
+                            height: 17.5.h,
                             color: AppColor.primaryColor,
                           ),
                         ),
@@ -138,7 +138,7 @@ class UIConstants {
                             },
                             child: Icon(
                               Icons.menu,
-                              size: 27.5.w,
+                              size: 25.h,
                               color: AppColor.primaryColor,
                             ),
                           );
@@ -159,8 +159,8 @@ class UIConstants {
                       },
                       child: SvgPicture.asset(
                         AssetsConstants.bell,
-                        width: 27.5.w,
-                        height: 27.5.w,
+                        width: 25.h,
+                        height: 25.h,
                         color: AppColor.primaryColor,
                       ),
                     ),
@@ -175,7 +175,7 @@ class UIConstants {
 
   static AppBar qaAppBar(BuildContext context, String title) {
     return AppBar(
-      toolbarHeight: 30.h,
+      toolbarHeight: 25.h,
       automaticallyImplyLeading: false,
       elevation: 0,
       leadingWidth: 0,
@@ -187,7 +187,7 @@ class UIConstants {
           Expanded(
             child: Container(
               alignment: Alignment.centerLeft,
-              height: 30.h,
+              height: 25.h,
               color: Colors.transparent,
               padding: EdgeInsets.only(left: 16.w),
               child: GestureDetector(
@@ -198,11 +198,9 @@ class UIConstants {
                   color: Colors.transparent,
                   child: SvgPicture.asset(
                     AssetsConstants.clear,
-                    width: 20.w,
-                    height: 20.w,
-                    color: title == '회원가입'
-                        ? AppColor.textColor
-                        : AppColor.primaryColor,
+                    width: 25.h,
+                    height: 25.h,
+                    color: AppColor.primaryColor,
                   ),
                 ),
               ),
@@ -210,15 +208,13 @@ class UIConstants {
           ),
           Expanded(
             child: SizedBox(
-              height: 30.h,
+              height: 25.h,
               child: Center(
                 child: Text(
                   title,
                   style: AppTextStyle.boldTextStyle.copyWith(
-                    fontSize: 14.sp,
-                    color: title == '회원가입'
-                        ? AppColor.textColor
-                        : AppColor.primaryColor,
+                    fontSize: 15.sp,
+                    color: AppColor.primaryColor,
                     height: 1.5,
                   ),
                 ),
@@ -227,7 +223,7 @@ class UIConstants {
           ),
           Expanded(
             child: Container(
-              height: 30.h,
+              height: 25.h,
             ),
           ),
         ],

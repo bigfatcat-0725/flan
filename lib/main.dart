@@ -60,7 +60,8 @@ void main() async {
   final themeColor = settingBox.get('color');
   // Theme Color
   if (themeColor != null) {
-    AppColor.primaryColor = Color(0xff407070);
+    // AppColor.primaryColor = Color(0xff407070);
+    AppColor.primaryColor = AppColor.textColor;
   }
   //
 

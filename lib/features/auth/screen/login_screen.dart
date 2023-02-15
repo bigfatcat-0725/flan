@@ -57,13 +57,13 @@ class LoginScreen extends HookConsumerWidget {
                 SvgPicture.asset(
                   AssetsConstants.logo,
                   height: 35.h,
-                  color: AppColor.textColor,
+                  color: AppColor.primaryColor,
                 ),
                 SizedBox(height: 10.h),
                 SvgPicture.asset(
                   AssetsConstants.fontLogo,
                   height: 30.h,
-                  color: AppColor.textColor,
+                  color: AppColor.primaryColor,
                 ),
               ],
             ),

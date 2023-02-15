@@ -6,6 +6,7 @@ import 'package:flan/core/util.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/drawer/controller/drawer_controller.dart';
 import 'package:flan/theme/theme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,7 +39,7 @@ class DrawerProfileScreen extends HookConsumerWidget {
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
-      appBar: UIConstants.qaAppBar(context, '내 정보'),
+      appBar: UIConstants.qaAppBar(context, '프로필 설정'),
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 16.w,
@@ -307,6 +308,48 @@ class DrawerProfileScreen extends HookConsumerWidget {
                 ],
               ),
               SizedBox(height: 30.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '계정 검색 허용',
+                    style: AppTextStyle.boldTextStyle,
+                  ),
+                  CupertinoSwitch(
+                    activeColor: AppColor.primaryColor,
+                    value: true,
+                    onChanged: (value) {},
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '익명 질문 허용',
+                    style: AppTextStyle.boldTextStyle,
+                  ),
+                  CupertinoSwitch(
+                    activeColor: AppColor.primaryColor,
+                    value: true,
+                    onChanged: (value) {},
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '추천 친구 허용',
+                    style: AppTextStyle.boldTextStyle,
+                  ),
+                  CupertinoSwitch(
+                    activeColor: AppColor.primaryColor,
+                    value: true,
+                    onChanged: (value) {},
+                  ),
+                ],
+              ),
             ],
           ),
         ),

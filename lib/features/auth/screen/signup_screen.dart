@@ -34,7 +34,13 @@ class SignUpScreen extends HookConsumerWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 60.h),
+          SizedBox(height: 30.h),
+          SvgPicture.asset(
+            AssetsConstants.fontLogo,
+            height: 30.h,
+            color: AppColor.primaryColor,
+          ),
+          SizedBox(height: 20.h),
           Text(
             'FLAN 에 오신 것을 환영합니다.',
             textAlign: TextAlign.center,
@@ -156,7 +162,7 @@ class SignUpScreen extends HookConsumerWidget {
               height: 40.h,
               margin: EdgeInsets.symmetric(horizontal: 15.w),
               decoration: BoxDecoration(
-                color: AppColor.textColor,
+                color: AppColor.primaryColor,
                 borderRadius: BorderRadius.circular(5),
               ),
               child: Center(
@@ -191,6 +197,7 @@ class SignUpScreen extends HookConsumerWidget {
                     '로그인',
                     style: AppTextStyle.boldTextStyle.copyWith(
                       fontSize: 13.sp,
+                      color: AppColor.primaryColor,
                       decoration: TextDecoration.underline,
                     ),
                   ),
@@ -227,6 +234,7 @@ class SignUpScreen extends HookConsumerWidget {
                       style: AppTextStyle.boldTextStyle.copyWith(
                         fontSize: 13.sp,
                         decoration: TextDecoration.underline,
+                        color: AppColor.primaryColor,
                       ),
                     ),
                   ),
@@ -245,6 +253,7 @@ class SignUpScreen extends HookConsumerWidget {
                       style: AppTextStyle.boldTextStyle.copyWith(
                         fontSize: 13.sp,
                         decoration: TextDecoration.underline,
+                        color: AppColor.primaryColor,
                       ),
                     ),
                   ),
