@@ -51,14 +51,24 @@ class LoginScreen extends HookConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 100.h),
-            SvgPicture.asset(
-              AssetsConstants.fontLogo,
-              height: 30.h,
-              color: AppColor.textColor,
+            SizedBox(height: 80.h),
+            Column(
+              children: [
+                SvgPicture.asset(
+                  AssetsConstants.logo,
+                  height: 35.h,
+                  color: AppColor.textColor,
+                ),
+                SizedBox(height: 10.h),
+                SvgPicture.asset(
+                  AssetsConstants.fontLogo,
+                  height: 30.h,
+                  color: AppColor.textColor,
+                ),
+              ],
             ),
             Padding(
-              padding: EdgeInsets.only(top: 20.h, bottom: 30.h),
+              padding: EdgeInsets.only(top: 30.h, bottom: 30.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -180,7 +190,7 @@ class LoginScreen extends HookConsumerWidget {
                 height: 40.h,
                 margin: EdgeInsets.symmetric(horizontal: 15.w),
                 decoration: BoxDecoration(
-                  color: AppColor.textColor,
+                  color: AppColor.primaryColor,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Center(
@@ -309,7 +319,7 @@ class LoginScreen extends HookConsumerWidget {
                 ),
                 child: Center(
                   child: Text(
-                    '간편 회원가입하기',
+                    '간편 회원가입',
                     style: AppTextStyle.defaultTextStyle.copyWith(
                       fontSize: 13.sp,
                     ),
