@@ -65,7 +65,7 @@ class CommunityController extends StateNotifier<bool> {
     );
     state = false;
     res.fold(
-      (l) => showSnackBar(context, l.message),
+      (l) => null,
       (r) {
         if (r == 200) {
           final current = ref.watch(currentCategorySeqProvier);
@@ -105,7 +105,7 @@ class CommunityController extends StateNotifier<bool> {
     );
     state = false;
     res.fold(
-      (l) => showSnackBar(context, l.message),
+      (l) => null,
       (r) {
         if (r == 200) {
           ref.invalidate(bookmarkPageProivder(user));
@@ -150,7 +150,7 @@ class CommunityController extends StateNotifier<bool> {
     );
     state = false;
     res.fold(
-      (l) => showSnackBar(context, l.message),
+      (l) => null,
       (r) {
         if (r == 200) {
           final current = ref.watch(currentCategorySeqProvier);

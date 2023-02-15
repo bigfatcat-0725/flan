@@ -24,8 +24,8 @@ class CommunityDetailScreen extends HookConsumerWidget {
 
     useEffect(() {
       Future.microtask(
-          () => ref.refresh(commentProvider(page.pages!.seq as int)));
-    }, []);
+          () => ref.invalidate(commentProvider(page.pages!.seq as int)));
+    }, [page]);
 
     // 전에서 가져오는게 아니라
     // 새로 api 하나만 들고오는 걸로 바꿔야 함.

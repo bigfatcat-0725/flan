@@ -11,35 +11,36 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-void showSnackBar(BuildContext context, String content) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text(
-        content,
-        style: AppTextStyle.defaultTextStyle.copyWith(
-          color: Colors.white,
-        ),
-      ),
-      backgroundColor: AppColor.primaryColor,
-      duration: const Duration(seconds: 1),
-    ),
-  );
-}
+// context 침범 조심.
+// void showSnackBar(BuildContext context, String content) {
+//   ScaffoldMessenger.of(context).showSnackBar(
+//     SnackBar(
+//       content: Text(
+//         content,
+//         style: AppTextStyle.defaultTextStyle.copyWith(
+//           color: Colors.white,
+//         ),
+//       ),
+//       backgroundColor: AppColor.primaryColor,
+//       duration: const Duration(seconds: 1),
+//     ),
+//   );
+// }
 
-void loginShowSnackBar(BuildContext context, String content) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text(
-        content,
-        style: AppTextStyle.defaultTextStyle.copyWith(
-          color: Colors.white,
-        ),
-      ),
-      backgroundColor: AppColor.textColor,
-      duration: const Duration(seconds: 1),
-    ),
-  );
-}
+// void loginShowSnackBar(BuildContext context, String content) {
+//   ScaffoldMessenger.of(context).showSnackBar(
+//     SnackBar(
+//       content: Text(
+//         content,
+//         style: AppTextStyle.defaultTextStyle.copyWith(
+//           color: Colors.white,
+//         ),
+//       ),
+//       backgroundColor: AppColor.textColor,
+//       duration: const Duration(seconds: 1),
+//     ),
+//   );
+// }
 
 Future<List<File>> pickImages() async {
   List<File> images = [];
@@ -696,7 +697,7 @@ Future showProfileMore(BuildContext context, {int myData = 1}) {
                       Clipboard.setData(
                         const ClipboardData(text: 'flan.com/hansol'),
                       );
-                      showSnackBar(context, '클립보드에 복사되었습니다.');
+                      // showSnackBar(context, '클립보드에 복사되었습니다.');
                       context.pop();
                     },
                     child: Container(

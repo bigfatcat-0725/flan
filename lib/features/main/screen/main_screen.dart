@@ -35,124 +35,124 @@ class MainScreen extends HookConsumerWidget {
         child: Column(
           children: [
             SizedBox(height: 10.h),
-            Expanded(
-              child: Column(
-                children: [
-                  TabBar(
-                    controller: homeTapController,
-                    labelStyle: AppTextStyle.boldTextStyle,
-                    unselectedLabelColor: AppColor.hintColor,
-                    labelColor: AppColor.textColor,
-                    indicatorColor: AppColor.primaryColor,
-                    tabs: const [
-                      Tab(
-                        text: 'Today',
-                      ),
-                      Tab(
-                        text: 'Week',
-                      ),
-                      Tab(
-                        text: 'Month',
-                      ),
-                      Tab(
-                        text: 'Year',
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: TabBarView(
-                      controller: homeTapController,
-                      children: [
-                        ref.watch(hotPageProvider('d')).when(
-                              data: (data) {
-                                return Padding(
-                                  padding: EdgeInsets.only(top: 10.h),
-                                  child: ListView.builder(
-                                    itemCount: data.length,
-                                    itemBuilder: (context, index) {
-                                      return CommunityCard(item: data[index]);
-                                    },
-                                  ),
-                                );
-                              },
-                              error: (error, stackTrace) => Center(
-                                child: Text(error.toString()),
-                              ),
-                              loading: () => Center(
-                                child: CircularProgressIndicator(
-                                  color: AppColor.primaryColor,
-                                ),
-                              ),
-                            ),
-                        ref.watch(hotPageProvider('w')).when(
-                              data: (data) {
-                                return Padding(
-                                  padding: EdgeInsets.only(top: 10.h),
-                                  child: ListView.builder(
-                                    itemCount: data.length,
-                                    itemBuilder: (context, index) {
-                                      return CommunityCard(item: data[index]);
-                                    },
-                                  ),
-                                );
-                              },
-                              error: (error, stackTrace) => Center(
-                                child: Text(error.toString()),
-                              ),
-                              loading: () => Center(
-                                child: CircularProgressIndicator(
-                                  color: AppColor.primaryColor,
-                                ),
-                              ),
-                            ),
-                        ref.watch(hotPageProvider('m')).when(
-                              data: (data) {
-                                return Padding(
-                                  padding: EdgeInsets.only(top: 10.h),
-                                  child: ListView.builder(
-                                    itemCount: data.length,
-                                    itemBuilder: (context, index) {
-                                      return CommunityCard(item: data[index]);
-                                    },
-                                  ),
-                                );
-                              },
-                              error: (error, stackTrace) => Center(
-                                child: Text(error.toString()),
-                              ),
-                              loading: () => Center(
-                                child: CircularProgressIndicator(
-                                  color: AppColor.primaryColor,
-                                ),
-                              ),
-                            ),
-                        ref.watch(hotPageProvider('y')).when(
-                              data: (data) {
-                                return Padding(
-                                  padding: EdgeInsets.only(top: 10.h),
-                                  child: ListView.builder(
-                                    itemCount: data.length,
-                                    itemBuilder: (context, index) {
-                                      return CommunityCard(item: data[index]);
-                                    },
-                                  ),
-                                );
-                              },
-                              error: (error, stackTrace) => Center(
-                                child: Text(error.toString()),
-                              ),
-                              loading: () => Center(
-                                child: CircularProgressIndicator(
-                                  color: AppColor.primaryColor,
-                                ),
-                              ),
-                            ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            // Expanded(
+            //   child: Column(
+            //     children: [
+            //       TabBar(
+            //         controller: homeTapController,
+            //         labelStyle: AppTextStyle.boldTextStyle,
+            //         unselectedLabelColor: AppColor.hintColor,
+            //         labelColor: AppColor.textColor,
+            //         indicatorColor: AppColor.primaryColor,
+            //         tabs: const [
+            //           Tab(
+            //             text: 'Today',
+            //           ),
+            //           Tab(
+            //             text: 'Week',
+            //           ),
+            //           Tab(
+            //             text: 'Month',
+            //           ),
+            //           Tab(
+            //             text: 'Year',
+            //           ),
+            //         ],
+            //       ),
+            //       Expanded(
+            //         child: TabBarView(
+            //           controller: homeTapController,
+            //           children: [
+            //             ref.watch(hotPageProvider('d')).when(
+            //                   data: (data) {
+            //                     return Padding(
+            //                       padding: EdgeInsets.only(top: 10.h),
+            //                       child: ListView.builder(
+            //                         itemCount: data.length,
+            //                         itemBuilder: (context, index) {
+            //                           return CommunityCard(item: data[index]);
+            //                         },
+            //                       ),
+            //                     );
+            //                   },
+            //                   error: (error, stackTrace) => Center(
+            //                     child: Text(error.toString()),
+            //                   ),
+            //                   loading: () => Center(
+            //                     child: CircularProgressIndicator(
+            //                       color: AppColor.primaryColor,
+            //                     ),
+            //                   ),
+            //                 ),
+            //             ref.watch(hotPageProvider('w')).when(
+            //                   data: (data) {
+            //                     return Padding(
+            //                       padding: EdgeInsets.only(top: 10.h),
+            //                       child: ListView.builder(
+            //                         itemCount: data.length,
+            //                         itemBuilder: (context, index) {
+            //                           return CommunityCard(item: data[index]);
+            //                         },
+            //                       ),
+            //                     );
+            //                   },
+            //                   error: (error, stackTrace) => Center(
+            //                     child: Text(error.toString()),
+            //                   ),
+            //                   loading: () => Center(
+            //                     child: CircularProgressIndicator(
+            //                       color: AppColor.primaryColor,
+            //                     ),
+            //                   ),
+            //                 ),
+            //             ref.watch(hotPageProvider('m')).when(
+            //                   data: (data) {
+            //                     return Padding(
+            //                       padding: EdgeInsets.only(top: 10.h),
+            //                       child: ListView.builder(
+            //                         itemCount: data.length,
+            //                         itemBuilder: (context, index) {
+            //                           return CommunityCard(item: data[index]);
+            //                         },
+            //                       ),
+            //                     );
+            //                   },
+            //                   error: (error, stackTrace) => Center(
+            //                     child: Text(error.toString()),
+            //                   ),
+            //                   loading: () => Center(
+            //                     child: CircularProgressIndicator(
+            //                       color: AppColor.primaryColor,
+            //                     ),
+            //                   ),
+            //                 ),
+            //             ref.watch(hotPageProvider('y')).when(
+            //                   data: (data) {
+            //                     return Padding(
+            //                       padding: EdgeInsets.only(top: 10.h),
+            //                       child: ListView.builder(
+            //                         itemCount: data.length,
+            //                         itemBuilder: (context, index) {
+            //                           return CommunityCard(item: data[index]);
+            //                         },
+            //                       ),
+            //                     );
+            //                   },
+            //                   error: (error, stackTrace) => Center(
+            //                     child: Text(error.toString()),
+            //                   ),
+            //                   loading: () => Center(
+            //                     child: CircularProgressIndicator(
+            //                       color: AppColor.primaryColor,
+            //                     ),
+            //                   ),
+            //                 ),
+            //           ],
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),

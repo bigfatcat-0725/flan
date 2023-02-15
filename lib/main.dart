@@ -42,6 +42,7 @@ class Logger extends ProviderObserver {
     print('''
 {
   "provider": "${provider.name ?? provider.runtimeType}",
+  "newValue": "$newValue"
 }''');
   }
 }

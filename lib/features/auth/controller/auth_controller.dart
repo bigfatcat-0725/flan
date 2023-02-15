@@ -49,12 +49,12 @@ class AuthController extends StateNotifier<bool> {
     state = false;
     res.fold(
       (l) {
-        loginShowSnackBar(context, l.message);
+        // loginShowSnackBar(context, l.message);
       },
       (r) {
         ref.read(userInfoProvier.notifier).update((state) => r);
         if (r.userInfo == null && r.tokenType != null) {
-          loginShowSnackBar(context, r.tokenType.toString());
+          // loginShowSnackBar(context, r.tokenType.toString());
         } else {
           // 로그아웃 -> 로그인 시 IndexedStack 으로 인한 프로필 화면 시작 문제.
           // 로그인 시 홈 화면으로 지정.
@@ -76,7 +76,7 @@ class AuthController extends StateNotifier<bool> {
     final res = await _authAPI.sign(nickname, email, password);
     state = false;
     res.fold(
-      (l) => loginShowSnackBar(context, l.message),
+      (l) => null,
       (r) {
         if (r == 200) {
           showDialog(

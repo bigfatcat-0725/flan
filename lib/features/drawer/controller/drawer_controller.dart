@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'dart:io';
-
 import 'package:flan/apis/user_api.dart';
 import 'package:flan/core/core.dart';
 import 'package:flan/features/default/controller/default_controller.dart';
@@ -35,7 +33,7 @@ class DrawerController extends StateNotifier<bool> {
     final res = await _userAPI.changeMemo(userModel: userModel, memo: memo);
     state = false;
     res.fold(
-      (l) => showSnackBar(context, l.message),
+      (l) => null,
       (r) {
         ref.read(userInfoProvier.notifier).update((state) => r);
 
@@ -43,10 +41,10 @@ class DrawerController extends StateNotifier<bool> {
         final feedSeq = ref.watch(feedSeqProvider);
         final feedSeqLogic =
             feedSeq == 0 ? userModel.userInfo!.seq as int : feedSeq;
-        ref.refresh(feedProivder(feedSeqLogic));
+        ref.invalidate(feedProivder(feedSeqLogic));
         //
 
-        showSnackBar(context, '변경 완료.');
+        // showSnackBar(context, '변경 완료.');
         context.pop();
       },
     );
@@ -62,7 +60,7 @@ class DrawerController extends StateNotifier<bool> {
     final res = await _userAPI.changeName(userModel: userModel, name: name);
     state = false;
     res.fold(
-      (l) => showSnackBar(context, l.message),
+      (l) => null,
       (r) {
         ref.read(userInfoProvier.notifier).update((state) => r);
 
@@ -70,10 +68,10 @@ class DrawerController extends StateNotifier<bool> {
         final feedSeq = ref.watch(feedSeqProvider);
         final feedSeqLogic =
             feedSeq == 0 ? userModel.userInfo!.seq as int : feedSeq;
-        ref.refresh(feedProivder(feedSeqLogic));
+        ref.invalidate(feedProivder(feedSeqLogic));
         //
 
-        showSnackBar(context, '변경 완료.');
+        // showSnackBar(context, '변경 완료.');
         context.pop();
       },
     );
@@ -89,16 +87,16 @@ class DrawerController extends StateNotifier<bool> {
     final res = await _userAPI.changePhoto(userModel: userModel, photo: photo);
     state = false;
     res.fold(
-      (l) => showSnackBar(context, l.message),
+      (l) => null,
       (r) {
         ref.read(userInfoProvier.notifier).update((state) => r);
         // 원래 피드로 돌아감 + refresh
         final feedSeq = ref.watch(feedSeqProvider);
         final feedSeqLogic =
             feedSeq == 0 ? userModel.userInfo!.seq as int : feedSeq;
-        ref.refresh(feedProivder(feedSeqLogic));
+        ref.invalidate(feedProivder(feedSeqLogic));
         //
-        showSnackBar(context, '변경 완료.');
+        // showSnackBar(context, '변경 완료.');
       },
     );
   }

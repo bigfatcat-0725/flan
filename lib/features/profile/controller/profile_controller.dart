@@ -2,7 +2,6 @@ import 'package:flan/apis/answer_api.dart';
 import 'package:flan/apis/bookmark_api.dart';
 import 'package:flan/apis/question_api.dart';
 import 'package:flan/core/core.dart';
-import 'package:flan/core/util.dart';
 import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
 import 'package:flan/features/default/controller/default_controller.dart';
@@ -49,12 +48,12 @@ class ProfileController extends StateNotifier<bool> {
     );
     state = false;
     res.fold(
-      (l) => showSnackBar(context, l.message),
+      (l) => null,
       (r) {
         if (r == 200) {
-          showSnackBar(context, '작성 완료.');
+          // showSnackBar(context, '작성 완료.');
           context.pop();
-          ref.refresh(feedProivder(to));
+          ref.invalidate(feedProivder(to));
         }
       },
     );
@@ -65,9 +64,9 @@ class ProfileController extends StateNotifier<bool> {
     required WidgetRef ref,
     required int userSeq,
   }) async {
-    final res = await _questionAPI.deleteQuestion(questionSeq: questionSeq);
+    await _questionAPI.deleteQuestion(questionSeq: questionSeq);
     // 삭제는 본인 피드니 자신의 피드를 리프레쉬.
-    ref.refresh(feedProivder(userSeq));
+    ref.invalidate(feedProivder(userSeq));
   }
 
   void rejectQuestion({
@@ -157,11 +156,10 @@ class ProfileController extends StateNotifier<bool> {
     );
     state = false;
     res.fold(
-      (l) => showSnackBar(context, l.message),
+      (l) => null,
       (r) {
         if (r == 200) {
-          ref.refresh(feedProivder(user));
-          showSnackBar(context, '작성 완료.');
+          ref.invalidate(feedProivder(user));
           context.pop();
         }
       },
@@ -183,13 +181,12 @@ class ProfileController extends StateNotifier<bool> {
     );
     state = false;
     res.fold(
-      (l) => showSnackBar(context, l.message),
+      (l) => null,
       (r) {
         if (r == 200) {
-          ref.refresh(feedProivder(user));
+          ref.invalidate(feedProivder(user));
           context.pop();
           context.pop();
-          showSnackBar(context, '수정 완료.');
         }
       },
     );

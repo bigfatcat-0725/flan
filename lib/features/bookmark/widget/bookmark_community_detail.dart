@@ -25,7 +25,7 @@ class BookMarkCommunityDetailScreen extends HookConsumerWidget {
 
     useEffect(() {
       Future.microtask(
-          () => ref.refresh(commentProvider(page.pages!.seq as int)));
+          () => ref.invalidate(commentProvider(page.pages!.seq as int)));
     }, []);
 
     // 전에서 가져오는게 아니라
