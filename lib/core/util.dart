@@ -434,6 +434,151 @@ Future showDelete(
   );
 }
 
+Future bookmakrPageMore(
+  BuildContext context, {
+  int myData = 0,
+  required BookmarkPageModel page,
+  required WidgetRef ref,
+}) {
+  return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return AlertDialog(
+          alignment: Alignment.bottomCenter,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(5),
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Column(
+                children: [
+                  if (myData == 0)
+                    Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '차단',
+                                style: AppTextStyle.defaultTextStyle.copyWith(
+                                  color: AppColor.errorColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 5.h),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '신고',
+                                style: AppTextStyle.defaultTextStyle.copyWith(
+                                  color: AppColor.errorColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 5.h),
+                      ],
+                    ),
+                  if (myData == 1)
+                    Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            final current =
+                                ref.watch(currentCategorySeqProvier);
+                            context.pop();
+                            context.push(
+                              '/bookmark_community_page_edit',
+                              extra: {
+                                'page': page,
+                                'toSeq': current,
+                              },
+                            );
+                          },
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '게시물 수정하기',
+                                style: AppTextStyle.defaultTextStyle.copyWith(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 5.h),
+                        GestureDetector(
+                          onTap: () {
+                            // 답변 삭제
+                            ref
+                                .read(communityControllerProvider.notifier)
+                                .deletePage(
+                                  pageSeq: page.pages!.seq as int,
+                                  ref: ref,
+                                  context: context,
+                                );
+                            context.pop();
+                          },
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '게시물 삭제하기',
+                                style: AppTextStyle.defaultTextStyle.copyWith(
+                                  color: AppColor.errorColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                ],
+              ),
+            ],
+          ),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 20.w,
+            vertical: 30.h,
+          ),
+          insetPadding: EdgeInsets.symmetric(horizontal: 0.w),
+        );
+      });
+}
+
 Future pageMore(
   BuildContext context, {
   int myData = 0,
@@ -510,6 +655,7 @@ Future pageMore(
                           onTap: () {
                             final current =
                                 ref.watch(currentCategorySeqProvier);
+                            context.pop();
                             context.push(
                               '/community_page_edit',
                               extra: {

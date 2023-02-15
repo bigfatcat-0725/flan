@@ -22,6 +22,7 @@ import 'package:flan/features/drawer/widget/setting_language.dart';
 import 'package:flan/features/drawer/widget/setting_theme.dart';
 import 'package:flan/features/main/screen/main_detail_screen.dart';
 import 'package:flan/features/qa/screen/ask_screen.dart';
+import 'package:flan/features/qa/screen/bookmark_edit_page_screen.dart';
 import 'package:flan/features/qa/screen/edit_page_screen.dart';
 import 'package:flan/features/qa/screen/question_screen.dart';
 import 'package:flutter/material.dart';
@@ -125,6 +126,18 @@ final GoRouter router = GoRouter(
             );
           },
         ),
+        GoRoute(
+          path: 'bookmark_community_page_edit',
+          pageBuilder: (context, state) {
+            final object = state.extra as Map<String, dynamic>;
+            return NoTransitionPage(
+              child: BookmarkEditPageScreen(
+                toSeq: object['toSeq'],
+                page: object['page'],
+              ),
+            );
+          },
+        ),
 
         // comment edit 입니다.
         GoRoute(
@@ -164,7 +177,7 @@ final GoRouter router = GoRouter(
           pageBuilder: (context, state) {
             final object = state.extra as Map<String, dynamic>;
             return NoTransitionPage(
-                child: BookMarkCommunityDetailScreen(
+                child: BookmarkCommunityDetail(
               page: object['page'],
             ));
           },

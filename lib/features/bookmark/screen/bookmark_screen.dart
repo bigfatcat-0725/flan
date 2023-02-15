@@ -64,7 +64,12 @@ class BookmarkScreen extends HookConsumerWidget {
                                 // physics: const ClampingScrollPhysics(),
                                 itemCount: data.length,
                                 itemBuilder: (context, index) {
-                                  return BookmarkFeedCard(data: data[index]);
+                                  // 아마도 북마크 해놓은 상태 -> 답변 삭제 -> 잘문대기로 이동 -> 북마크에서는 질문 없어서 에러.
+                                  if (data[index].questions!.answer!.isEmpty) {
+                                    return Container();
+                                  } else {
+                                    return BookmarkFeedCard(data: data[index]);
+                                  }
                                 },
                               );
                             },
@@ -88,7 +93,6 @@ class BookmarkScreen extends HookConsumerWidget {
                                 itemBuilder: (context, index) {
                                   return BookmarkCommunityCard(
                                     item: data[index],
-                                    index: index,
                                   );
                                 },
                               );

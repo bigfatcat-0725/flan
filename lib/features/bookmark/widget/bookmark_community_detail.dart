@@ -1,9 +1,7 @@
 import 'package:flan/constants/ui_constants.dart';
 import 'package:flan/features/bookmark/widget/bookmark_comment_card.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
-import 'package:flan/features/community/widget/detail_comment_card.dart';
 import 'package:flan/models/bookmark/bookmark_page_model.dart';
-import 'package:flan/models/page/page_model.dart';
 import 'package:flan/theme/app_color.dart';
 import 'package:flan/theme/app_text_theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,21 +11,19 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class BookMarkCommunityDetailScreen extends HookConsumerWidget {
+class BookmarkCommunityDetail extends HookConsumerWidget {
   final BookmarkPageModel page;
-  const BookMarkCommunityDetailScreen({
+  const BookmarkCommunityDetail({
     required this.page,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final communityContoller = ref.watch(communityControllerProvider.notifier);
-
     useEffect(() {
       Future.microtask(
           () => ref.invalidate(commentProvider(page.pages!.seq as int)));
-    }, []);
+    }, [page]);
 
     // 전에서 가져오는게 아니라
     // 새로 api 하나만 들고오는 걸로 바꿔야 함.
@@ -158,7 +154,11 @@ class BookMarkCommunityDetailScreen extends HookConsumerWidget {
           children: [
             GestureDetector(
               onTap: () {
-                context.push('/bookmark_community_ask', extra: {'page': page});
+                context.push('/bookmark_community_ask', extra: {
+                  'page': page,
+                  'type': 'default',
+                  'commentIndex': 0
+                });
               },
               child: CupertinoTabBar(
                 backgroundColor: AppColor.scaffoldBackgroundColor,

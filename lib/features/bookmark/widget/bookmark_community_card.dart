@@ -5,6 +5,7 @@ import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
 import 'package:flan/features/profile/controller/profile_controller.dart';
 import 'package:flan/models/bookmark/bookmark_page_model.dart';
+import 'package:flan/models/page/page_model.dart';
 import 'package:flan/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -15,11 +16,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class BookmarkCommunityCard extends HookConsumerWidget {
   final BookmarkPageModel item;
-  final int index;
   const BookmarkCommunityCard({
     super.key,
     required this.item,
-    required this.index,
   });
 
   @override
@@ -32,36 +31,36 @@ class BookmarkCommunityCard extends HookConsumerWidget {
     final userInfo = ref.watch(userInfoProvier.notifier).state!;
     // 좋아요 && 북마크 확인
 
-    void getLikeAndBookmark() async {
-      final status =
-          await ref.read(communityControllerProvider.notifier).isLikePage(
-                userSeq: userInfo.userInfo!.seq as int,
-                pageSeq: item.pages!.seq as int,
-              );
-      final bookmarkStatus =
-          await ref.read(bookmarkControllerProvider.notifier).isBookmarkPage(
+    useEffect(() {
+      if (isMounted()) {
+        Future.microtask(() async {
+          final status =
+              await ref.read(communityControllerProvider.notifier).isLikePage(
+                    userSeq: userInfo.userInfo!.seq as int,
+                    pageSeq: item.pages!.seq as int,
+                  );
+          final bookmarkStatus = await ref
+              .read(bookmarkControllerProvider.notifier)
+              .isBookmarkPage(
                 userSeq: userInfo.userInfo!.seq as int,
                 seq: item.pages!.seq as int,
               );
 
-      if (status == 1) {
-        isLike.value = true;
-      } else {
-        isLike.value = false;
+          if (isLike.hasListeners && status == 1) {
+            isLike.value = true;
+          } else {
+            isLike.value = false;
+          }
+          if (saveStatus.hasListeners && bookmarkStatus == 1) {
+            saveStatus.value = true;
+          } else {
+            saveStatus.value = false;
+          }
+        });
       }
-      if (bookmarkStatus == 1) {
-        saveStatus.value = true;
-      } else {
-        saveStatus.value = false;
-      }
-    }
-
-    useEffect(() {
-      Future.microtask(() {
-        if (isMounted()) getLikeAndBookmark();
-      });
       return null;
     }, [item]);
+    // 위 item 을 인식하게 함으로써 완성.
 
     return Column(
       children: [
@@ -70,6 +69,7 @@ class BookmarkCommunityCard extends HookConsumerWidget {
             context.push('/bookmark_community_detail', extra: {
               'page': item,
             });
+            print(item.pages!.seq as int);
           },
           child: Container(
             color: AppColor.scaffoldBackgroundColor,
@@ -145,14 +145,26 @@ class BookmarkCommunityCard extends HookConsumerWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              if (userInfo.userInfo!.seq == item.users!.seq) {
-                                // 본인 삭제 O
-                                showPageDelete(context,
-                                    ref: ref, pageSeq: item.pages!.seq as int);
-                              } else {
-                                // 타인
-                                showProfileNewCardMore(context);
-                              }
+                              // if (userInfo.userInfo!.seq == item.users!.seq) {
+                              //   // 본인 삭제 O
+                              //   showPageDelete(context,
+                              //       ref: ref, pageSeq: item.pages!.seq as int);
+                              // } else {
+                              //   // 타인
+                              //   showProfileNewCardMore(context);
+                              // }
+
+                              final myData =
+                                  userInfo.userInfo!.seq == item.users!.seq
+                                      ? 1
+                                      : 0;
+
+                              bookmakrPageMore(
+                                context,
+                                myData: myData,
+                                page: item,
+                                ref: ref,
+                              );
                             },
                             child: Icon(
                               Icons.more_horiz,
@@ -240,7 +252,7 @@ class BookmarkCommunityCard extends HookConsumerWidget {
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
-                            context.push('/bookmark_community_detail', extra: {
+                            context.push('/community_detail', extra: {
                               'page': item,
                             });
                           },

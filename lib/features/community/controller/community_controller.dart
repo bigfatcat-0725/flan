@@ -1,6 +1,7 @@
 import 'package:flan/apis/comment_api.dart';
 import 'package:flan/apis/page_api.dart';
 import 'package:flan/core/core.dart';
+import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
 import 'package:flan/features/main/controller/main_controller.dart';
 import 'package:flan/models/bookmark/bookmark_page_model.dart';
@@ -215,8 +216,10 @@ class CommunityController extends StateNotifier<bool> {
           } else {
             ref.invalidate(themePageProvider(current));
           }
+          final userSeq = ref.watch(userInfoProvier)!.userInfo!.seq as int;
+          ref.invalidate(bookmarkPageProivder(userSeq));
 
-          context.push('/');
+          context.pop();
         }
       },
     );
