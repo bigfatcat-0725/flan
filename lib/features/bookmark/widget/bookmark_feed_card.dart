@@ -336,7 +336,7 @@ class BookmarkFeedCard extends HookConsumerWidget {
                             ),
                             SizedBox(width: 7.5.w),
                             Text(
-                              '',
+                              '${data.questions!.likes}',
                               style: AppTextStyle.greyStyle.copyWith(
                                 fontSize: 11.sp,
                                 color: likeStatus.value

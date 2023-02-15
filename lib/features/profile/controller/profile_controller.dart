@@ -1,6 +1,7 @@
 import 'package:flan/apis/answer_api.dart';
 import 'package:flan/apis/bookmark_api.dart';
 import 'package:flan/apis/question_api.dart';
+import 'package:flan/core/core.dart';
 import 'package:flan/core/util.dart';
 import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
@@ -75,7 +76,7 @@ class ProfileController extends StateNotifier<bool> {
     required userSeq,
   }) async {
     await _questionAPI.rejectQuestion(questionSeq: questionSeq);
-    ref.refresh(feedProivder(userSeq));
+    ref.invalidate(feedProivder(userSeq));
   }
 
   Future<bool> likeQuestion({
@@ -86,7 +87,7 @@ class ProfileController extends StateNotifier<bool> {
     final res = await _questionAPI.likeQuestion(
         questionSeq: questionSeq, userSeq: userSeq);
     if (res == 200) {
-      ref.refresh(feedProivder(userSeq));
+      ref.invalidate(feedProivder(userSeq));
       return true;
     } else {
       return false;
@@ -112,9 +113,12 @@ class ProfileController extends StateNotifier<bool> {
     final res = await _bookmarkAPI.pageBookmarking(user: user, page: page);
     if (res == 200) {
       if (page == 0) {
-      } else {}
-      ref.refresh(bookmarkPageProivder(user));
-
+        ref.invalidate(pageProvider);
+      } else {
+        final current = ref.watch(currentCategorySeqProvier);
+        ref.invalidate(themePageProvider(current));
+      }
+      ref.invalidate(bookmarkPageProivder(user));
       return true;
     } else {
       return false;
@@ -129,7 +133,8 @@ class ProfileController extends StateNotifier<bool> {
     final res =
         await _bookmarkAPI.questionBookmarking(user: user, question: question);
     if (res == 200) {
-      ref.refresh(feedProivder(user));
+      ref.invalidate(feedProivder(user));
+      ref.invalidate(bookmarkQuestionProivder);
       return true;
     } else {
       return false;

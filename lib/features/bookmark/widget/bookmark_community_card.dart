@@ -61,7 +61,7 @@ class BookmarkCommunityCard extends HookConsumerWidget {
         if (isMounted()) getLikeAndBookmark();
       });
       return null;
-    }, []);
+    }, [item]);
 
     return Column(
       children: [
