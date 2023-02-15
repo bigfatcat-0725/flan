@@ -84,7 +84,8 @@ class MainCard extends HookConsumerWidget {
             : 0;
 
     // 게시물 이미지
-    final List<String> contentImgList = data.questions!.photo ?? [];
+    // 임시로 1
+    final List<String> contentImgList = data.questions!.photo ?? ['1'];
 
     return GestureDetector(
       onTap: () {

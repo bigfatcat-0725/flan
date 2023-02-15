@@ -64,22 +64,11 @@ class BookmarkCommunityCommentEdit extends HookConsumerWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Container(
-                            width: 35.w,
+                          SvgPicture.asset(
+                            AssetsConstants.community,
+                            width: 17.5.w,
                             height: 17.5.w,
-                            decoration: BoxDecoration(
-                              color: AppColor.primaryColor,
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Q&A',
-                                style: AppTextStyle.defaultTextStyle.copyWith(
-                                  color: Colors.white,
-                                  fontSize: 11.sp,
-                                ),
-                              ),
-                            ),
+                            color: AppColor.primaryColor,
                           ),
                           SizedBox(width: 5.w),
                           Text(

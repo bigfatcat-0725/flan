@@ -17,6 +17,7 @@ class DrawerInfoScreen extends HookConsumerWidget {
         appBar: UIConstants.qaAppBar(context, '고객센터'),
         body: ListView(
           children: [
+            SizedBox(height: 10.h),
             ListTile(
               onTap: () {
                 // 상담사 프로필로 이동

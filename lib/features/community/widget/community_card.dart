@@ -61,177 +61,156 @@ class CommunityCard extends HookConsumerWidget {
     }, [item]);
     // 위 item 을 인식하게 함으로써 완성.
 
-    return Column(
-      children: [
-        GestureDetector(
-          onTap: () {
-            context.push('/community_detail', extra: {
-              'page': item,
-            });
-            print(item.pages!.seq as int);
-          },
-          child: Container(
-            color: AppColor.scaffoldBackgroundColor,
-            padding: EdgeInsets.symmetric(
-              vertical: 5.h,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                width: 35.w,
-                                height: 17.5.w,
-                                decoration: BoxDecoration(
+    return Container(
+      margin: EdgeInsets.symmetric(
+        horizontal: 16.w,
+        vertical: 8.h,
+      ),
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: () {
+              context.push('/community_detail', extra: {
+                'page': item,
+              });
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 10.h),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: const [
+                  BoxShadow(
+                    blurRadius: 2.5,
+                    color: Color(0xffcccccc),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                SvgPicture.asset(
+                                  AssetsConstants.community,
+                                  width: 17.5.w,
+                                  height: 17.5.w,
                                   color: AppColor.primaryColor,
-                                  borderRadius: BorderRadius.circular(100),
                                 ),
-                                child: Center(
-                                  child: Text(
-                                    'Q&A',
-                                    style:
-                                        AppTextStyle.defaultTextStyle.copyWith(
-                                      color: Colors.white,
-                                      fontSize: 11.sp,
-                                    ),
+                                SizedBox(width: 5.w),
+                                Text(
+                                  item.pages?.private == 1
+                                      ? item.users!.nickname.toString()
+                                      : '익명',
+                                  style: AppTextStyle.boldTextStyle.copyWith(
+                                    fontSize: 11.sp,
+                                    color: AppColor.primaryColor,
                                   ),
                                 ),
-                              ),
-                              SizedBox(width: 5.w),
-                              Text(
-                                item.pages?.private == 1
-                                    ? item.users!.nickname.toString()
-                                    : '익명',
-                                style: AppTextStyle.defaultTextStyle.copyWith(
-                                  fontSize: 11.sp,
-                                  color: AppColor.primaryColor,
+                                SizedBox(width: 5.w),
+                                Text(
+                                  item.pages!.remaining.toString(),
+                                  style: AppTextStyle.hintStyle.copyWith(
+                                    fontSize: 10.5.sp,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 5.w),
-                              Text(
-                                item.pages!.remaining.toString(),
-                                style: AppTextStyle.hintStyle.copyWith(
-                                  fontSize: 11.sp,
-                                ),
-                              ),
-                              SizedBox(width: 5.w),
-                              // Container(
-                              //   width: 2.5.w,
-                              //   height: 2.5.w,
-                              //   decoration: const BoxDecoration(
-                              //     color: Color(0xffcccccc),
-                              //     shape: BoxShape.circle,
-                              //   ),
-                              // ),
-                              // SizedBox(width: 5.w),
-                              // Text(
-                              //   '게시판명',
-                              //   style: AppTextStyle.hintStyle.copyWith(
-                              //     fontSize: 11.sp,
-                              //   ),
-                              // ),
-                            ],
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              // if (userInfo.userInfo!.seq == item.users!.seq) {
-                              //   // 본인 삭제 O
-                              //   showPageDelete(context,
-                              //       ref: ref, pageSeq: item.pages!.seq as int);
-                              // } else {
-                              //   // 타인
-                              //   showProfileNewCardMore(context);
-                              // }
-
-                              final myData =
-                                  userInfo.userInfo!.seq == item.users!.seq
-                                      ? 1
-                                      : 0;
-
-                              pageMore(
-                                context,
-                                myData: myData,
-                                page: item,
-                                ref: ref,
-                              );
-                            },
-                            child: Icon(
-                              Icons.more_horiz,
-                              size: 20.w,
-                              color: AppColor.primaryColor,
+                                SizedBox(width: 5.w),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10.h),
-                      Text(
-                        item.pages!.title.toString(),
-                        style: AppTextStyle.boldTextStyle.copyWith(
-                          fontSize: 13.sp,
-                        ),
-                      ),
-                      SizedBox(height: 5.h),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              item.pages!.content.toString(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 15.h),
-                Container(
-                  width: 1.sw,
-                  height: 30.h,
-                  color: const Color(0xffefefef),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () async {
-                            final res = await ref
-                                .read(communityControllerProvider.notifier)
-                                .likePage(
+                            GestureDetector(
+                              onTap: () {
+                                final myData =
+                                    userInfo.userInfo!.seq == item.users!.seq
+                                        ? 1
+                                        : 0;
+
+                                pageMore(
+                                  context,
+                                  myData: myData,
+                                  page: item,
                                   ref: ref,
-                                  pageSeq: item.pages!.seq as int,
-                                  userSeq: userInfo.userInfo!.seq as int,
                                 );
-                            if (res) {
-                              isLike.value = !isLike.value;
-                            }
-                          },
-                          child: Container(
-                            color: Colors.transparent,
-                            height: 30.h,
-                            child: Row(
+                              },
+                              child: Icon(
+                                Icons.more_horiz,
+                                size: 20.w,
+                                color: AppColor.primaryColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10.h),
+                        Text(
+                          item.pages!.title.toString(),
+                          style: AppTextStyle.boldTextStyle.copyWith(
+                            fontSize: 13.sp,
+                          ),
+                        ),
+                        SizedBox(height: 5.h),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                item.pages!.content.toString(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10.h),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                SvgPicture.asset(
-                                  isLike.value
-                                      ? AssetsConstants.heartActive
-                                      : AssetsConstants.heart,
-                                  width: 12.5.w,
-                                  height: 12.5.w,
-                                  color: isLike.value
-                                      ? AppColor.primaryColor
-                                      : AppColor.greyColor,
+                                GestureDetector(
+                                  onTap: () async {
+                                    final res = await ref
+                                        .read(communityControllerProvider
+                                            .notifier)
+                                        .likePage(
+                                          ref: ref,
+                                          pageSeq: item.pages!.seq as int,
+                                          userSeq:
+                                              userInfo.userInfo!.seq as int,
+                                        );
+                                    if (res) {
+                                      isLike.value = !isLike.value;
+                                    }
+                                  },
+                                  child: SvgPicture.asset(
+                                    isLike.value
+                                        ? AssetsConstants.heartActive
+                                        : AssetsConstants.heart,
+                                    width: 14.w,
+                                    height: 14.w,
+                                    color: isLike.value
+                                        ? AppColor.primaryColor
+                                        : AppColor.greyColor,
+                                  ),
                                 ),
                                 SizedBox(width: 7.5.w),
                                 Text(
@@ -245,27 +224,15 @@ class CommunityCard extends HookConsumerWidget {
                                 ),
                               ],
                             ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            context.push('/community_detail', extra: {
-                              'page': item,
-                            });
-                          },
-                          child: Container(
-                            color: Colors.transparent,
-                            height: 30.h,
-                            child: Row(
+                            SizedBox(width: 15.w),
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 SvgPicture.asset(
                                   AssetsConstants.comment,
-                                  width: 12.5.w,
-                                  height: 12.5.w,
+                                  width: 14.w,
+                                  height: 14.w,
                                   color: AppColor.greyColor.withOpacity(0.6),
                                 ),
                                 SizedBox(width: 7.5.w),
@@ -277,63 +244,47 @@ class CommunityCard extends HookConsumerWidget {
                                 ),
                               ],
                             ),
-                          ),
+                          ],
                         ),
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () async {
-                            final res = await ref
-                                .read(profileControllerProvider.notifier)
-                                .pageBookmarking(
-                                  page: item.pages!.seq as int,
-                                  user: userInfo.userInfo!.seq as int,
-                                  ref: ref,
-                                );
-                            if (res) {
-                              saveStatus.value = !saveStatus.value;
-                            }
-                          },
-                          child: Container(
-                            color: Colors.transparent,
-                            height: 30.h,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset(
-                                  saveStatus.value
-                                      ? AssetsConstants.saveActive
-                                      : AssetsConstants.save,
-                                  width: 12.5.w,
-                                  height: 12.5.w,
-                                  color: saveStatus.value
-                                      ? AppColor.primaryColor
-                                      : AppColor.greyColor,
-                                ),
-                                SizedBox(width: 7.5.w),
-                                Text(
-                                  '저장',
-                                  style: AppTextStyle.greyStyle.copyWith(
-                                    fontSize: 11.sp,
-                                    color: saveStatus.value
-                                        ? AppColor.primaryColor
-                                        : null,
-                                  ),
-                                ),
-                              ],
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () async {
+                                final res = await ref
+                                    .read(profileControllerProvider.notifier)
+                                    .pageBookmarking(
+                                      page: item.pages!.seq as int,
+                                      user: userInfo.userInfo!.seq as int,
+                                      ref: ref,
+                                    );
+                                if (res) {
+                                  saveStatus.value = !saveStatus.value;
+                                }
+                              },
+                              child: SvgPicture.asset(
+                                saveStatus.value
+                                    ? AssetsConstants.saveActive
+                                    : AssetsConstants.save,
+                                width: 14.w,
+                                height: 14.w,
+                                color: saveStatus.value
+                                    ? AppColor.primaryColor
+                                    : AppColor.greyColor,
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

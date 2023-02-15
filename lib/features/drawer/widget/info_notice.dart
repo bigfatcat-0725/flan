@@ -16,6 +16,7 @@ class InfoNotice extends HookConsumerWidget {
       backgroundColor: AppColor.scaffoldBackgroundColor,
       body: Column(
         children: [
+          SizedBox(height: 10.h),
           Expanded(
             child: ListView.separated(
               reverse: false,

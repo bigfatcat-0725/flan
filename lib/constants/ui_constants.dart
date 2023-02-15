@@ -187,7 +187,7 @@ class UIConstants {
           Expanded(
             child: Container(
               alignment: Alignment.centerLeft,
-              height: 25.h,
+              height: 20.h,
               color: Colors.transparent,
               padding: EdgeInsets.only(left: 16.w),
               child: GestureDetector(
@@ -198,8 +198,8 @@ class UIConstants {
                   color: Colors.transparent,
                   child: SvgPicture.asset(
                     AssetsConstants.clear,
-                    width: 25.h,
-                    height: 25.h,
+                    width: 20.h,
+                    height: 20.h,
                     color: AppColor.primaryColor,
                   ),
                 ),

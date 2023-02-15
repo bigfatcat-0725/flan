@@ -1,3 +1,4 @@
+import 'package:flan/constants/assets_constants.dart';
 import 'package:flan/constants/ui_constants.dart';
 import 'package:flan/features/bookmark/widget/bookmark_comment_card.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -50,22 +52,11 @@ class BookmarkCommunityDetail extends HookConsumerWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Container(
-                            width: 35.w,
+                          SvgPicture.asset(
+                            AssetsConstants.community,
+                            width: 17.5.w,
                             height: 17.5.w,
-                            decoration: BoxDecoration(
-                              color: AppColor.primaryColor,
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Q&A',
-                                style: AppTextStyle.defaultTextStyle.copyWith(
-                                  color: Colors.white,
-                                  fontSize: 11.sp,
-                                ),
-                              ),
-                            ),
+                            color: AppColor.primaryColor,
                           ),
                           SizedBox(width: 5.w),
                           Text(
