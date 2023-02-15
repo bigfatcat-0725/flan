@@ -97,17 +97,42 @@ class ProfileScreen extends HookConsumerWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            data.myData!.nickname.toString(),
-                                            style: AppTextStyle.boldTextStyle
-                                                .copyWith(
-                                              fontSize: 15.sp,
-                                              fontWeight: FontWeight.w500,
+                                      Expanded(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              data.myData!.nickname.toString(),
+                                              style: AppTextStyle.boldTextStyle
+                                                  .copyWith(
+                                                fontSize: 15.sp,
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                            GestureDetector(
+                                              onTap: () {
+                                                showProfileMore(context,
+                                                    myData: currentUser.value ==
+                                                            true
+                                                        ? 1
+                                                        : 0,
+                                                    id: currentUser.value ==
+                                                            true
+                                                        ? 'flan.com/${userInfo.userInfo!.email!.split('@')[0]}'
+                                                        : 'flan.com/${data.myData!.email!.split('@')[0]}');
+                                              },
+                                              child: Container(
+                                                color: Colors.transparent,
+                                                child: Icon(
+                                                  Icons.more_horiz,
+                                                  size: 20.w,
+                                                  color: AppColor.primaryColor,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),

@@ -242,29 +242,37 @@ class MainCard extends HookConsumerWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Container(
-                            width: 45.w,
-                            height: 45.w,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: answerProfileImg != ''
-                                ? ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          'http://topping.io:8855$answerProfileImg',
-                                      placeholder: (context, text) {
-                                        return SvgPicture.asset(
-                                          AssetsConstants.noImg,
-                                        );
-                                      },
-                                      fit: BoxFit.cover,
+                          GestureDetector(
+                            onTap: () {
+                              // 혹시나 피드가 생겨서 다른 사람의 답변한 새질문 등을 사용하는 곳이 온다면..
+                              ref.read(feedSeqProvider.notifier).onChange(
+                                  data.questions!.answer![0].users!.seq as int);
+                              ref.read(bottomNavProvier.notifier).onChange(3);
+                            },
+                            child: Container(
+                              width: 45.w,
+                              height: 45.w,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: answerProfileImg != ''
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            'http://topping.io:8855$answerProfileImg',
+                                        placeholder: (context, text) {
+                                          return SvgPicture.asset(
+                                            AssetsConstants.noImg,
+                                          );
+                                        },
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                  : SvgPicture.asset(
+                                      AssetsConstants.noImg,
                                     ),
-                                  )
-                                : SvgPicture.asset(
-                                    AssetsConstants.noImg,
-                                  ),
+                            ),
                           ),
                           SizedBox(width: 10.w),
                           Column(

@@ -6,6 +6,7 @@ import 'package:flan/features/community/screen/community_screen.dart';
 import 'package:flan/features/main/screen/main_screen.dart';
 import 'package:flan/features/profile/screen/profile_screen.dart';
 import 'package:flan/features/search/screen/search_screen.dart';
+import 'package:flan/models/user/user_model.dart';
 import 'package:flan/theme/app_color.dart';
 import 'package:flan/theme/app_text_theme.dart';
 import 'package:flutter/material.dart';
@@ -40,13 +41,10 @@ class UIConstants {
             Expanded(
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Container(
-                  padding: EdgeInsets.only(top: 5.h),
-                  child: SvgPicture.asset(
-                    AssetsConstants.fontLogo,
-                    height: 12.5.h,
-                    color: AppColor.primaryColor,
-                  ),
+                child: SvgPicture.asset(
+                  AssetsConstants.fontLogo,
+                  height: 16.5.h,
+                  color: AppColor.primaryColor,
                 ),
               ),
             ),
@@ -78,33 +76,33 @@ class UIConstants {
                   ),
                 ),
               ),
-            if (index == 3)
-              Expanded(
-                child: GestureDetector(
-                  onTap: () {
-                    Clipboard.setData(
-                      const ClipboardData(text: 'flan.com/admin'),
-                    );
-                    showDefaultDialog(context, '클립보드에 복사되었습니다.');
-                  },
-                  child: Container(
-                    color: Colors.transparent,
-                    margin: EdgeInsets.only(left: 10.w),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          profileAddress.toString(),
-                          style: AppTextStyle.defaultTextStyle.copyWith(
-                            fontSize: 15.sp,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+            // if (index == 3)
+            //   Expanded(
+            //     child: GestureDetector(
+            //       onTap: () {
+            //         Clipboard.setData(
+            //           const ClipboardData(text: 'flan.com/admin'),
+            //         );
+            //         showDefaultDialog(context, '클립보드에 복사되었습니다.');
+            //       },
+            //       child: Container(
+            //         color: Colors.transparent,
+            //         margin: EdgeInsets.only(left: 10.w),
+            //         child: Row(
+            //           mainAxisAlignment: MainAxisAlignment.center,
+            //           children: [
+            //             Text(
+            //               profileAddress.toString(),
+            //               style: AppTextStyle.defaultTextStyle.copyWith(
+            //                 fontSize: 15.sp,
+            //                 decoration: TextDecoration.underline,
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     ),
+            //   ),
             if (index == 3)
               Expanded(
                 child: Align(
@@ -125,13 +123,13 @@ class UIConstants {
                           color: Colors.transparent,
                           child: SvgPicture.asset(
                             AssetsConstants.main,
-                            width: 17.5.w,
-                            height: 17.5.w,
+                            width: 20.w,
+                            height: 20.w,
                             color: AppColor.primaryColor,
                           ),
                         ),
                       ),
-                      SizedBox(width: 10.w),
+                      SizedBox(width: 7.5.w),
                       Builder(
                         builder: (context) {
                           return GestureDetector(
@@ -140,7 +138,7 @@ class UIConstants {
                             },
                             child: Icon(
                               Icons.menu,
-                              size: 22.5.w,
+                              size: 27.5.w,
                               color: AppColor.primaryColor,
                             ),
                           );
@@ -161,8 +159,8 @@ class UIConstants {
                       },
                       child: SvgPicture.asset(
                         AssetsConstants.bell,
-                        width: 25.w,
-                        height: 25.w,
+                        width: 27.5.w,
+                        height: 27.5.w,
                         color: AppColor.primaryColor,
                       ),
                     ),
@@ -237,7 +235,7 @@ class UIConstants {
     );
   }
 
-  static Drawer appDrawer(BuildContext context) {
+  static Drawer appDrawer(BuildContext context, {required UserModel userInfo}) {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -273,12 +271,14 @@ class UIConstants {
                         onTap: () {
                           // 클립보드 복사
                           Clipboard.setData(
-                            const ClipboardData(text: 'flan.com/admin'),
+                            ClipboardData(
+                                text:
+                                    'flan.com/${userInfo.userInfo!.email!.split('@')[0]}'),
                           );
                           showDefaultDialog(context, '클립보드에 복사되었습니다.');
                         },
                         child: Text(
-                          'flan.com/admin',
+                          'flan.com/${userInfo.userInfo!.email!.split('@')[0]}',
                           style: AppTextStyle.defaultTextStyle.copyWith(
                             color: Colors.white,
                             fontSize: 15.sp,

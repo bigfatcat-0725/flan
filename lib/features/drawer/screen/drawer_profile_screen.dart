@@ -103,7 +103,7 @@ class DrawerProfileScreen extends HookConsumerWidget {
                         ),
                         SizedBox(width: 5.w),
                         Text(
-                          '사진 변경',
+                          '사진변경',
                           style: AppTextStyle.defaultTextStyle,
                         ),
                       ],

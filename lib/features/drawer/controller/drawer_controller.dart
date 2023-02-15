@@ -1,11 +1,14 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flan/apis/user_api.dart';
 import 'package:flan/core/core.dart';
 import 'package:flan/features/default/controller/default_controller.dart';
+import 'package:flan/models/page/page_model.dart';
 import 'package:flan/models/user/user_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 import '../../auth/controller/auth_controller.dart';
 
@@ -99,5 +102,17 @@ class DrawerController extends StateNotifier<bool> {
         // showSnackBar(context, '변경 완료.');
       },
     );
+  }
+
+  Future<List> writtenPage(seq) async {
+    final url = Uri.parse('http://topping.io:8855/API/pages/written/page/$seq');
+    final data = await http.get(url, headers: {
+      "accept": "application/json",
+    });
+    final decodeData = utf8.decode(data.bodyBytes);
+    final response = jsonDecode(decodeData);
+    var list = response.map((e) => Pages.fromJson(e)).toList();
+    print(list);
+    return list;
   }
 }

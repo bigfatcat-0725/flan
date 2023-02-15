@@ -24,6 +24,7 @@ class DefaultScreen extends HookConsumerWidget {
     final currentCategory = ref.watch(currentCategoryProvier);
     final email = ref.watch(userInfoProvier)!.userInfo!.email;
     final userProfileAddress = 'flan.com/${email!.split('@')[0]}';
+    final userInfo = ref.watch(userInfoProvier)!;
 
     // admob
     TargetPlatform os = Theme.of(context).platform;
@@ -48,7 +49,7 @@ class DefaultScreen extends HookConsumerWidget {
         index: bottomNav,
         ref: ref,
       ),
-      endDrawer: UIConstants.appDrawer(context),
+      endDrawer: UIConstants.appDrawer(context, userInfo: userInfo),
       body: Container(
         margin: EdgeInsets.only(top: 5.h),
         // IndexedStack 이동 간 애니메이션 구현을 위한 패키지 사용.

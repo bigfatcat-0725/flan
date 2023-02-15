@@ -38,7 +38,7 @@ class SearchScreen extends HookConsumerWidget {
       final status = await Permission.contacts.status;
       if (status.isGranted) {
         if (kDebugMode) {
-          print('허락됨');
+          print('연락처 접근 허용');
         }
         recommendStatus.value = 1;
 
@@ -60,7 +60,7 @@ class SearchScreen extends HookConsumerWidget {
                     .substring(1, phoneList.toString().length - 1));
       } else if (status.isDenied) {
         if (kDebugMode) {
-          print('거절됨');
+          print('연락처 접근 거절');
         }
         recommendStatus.value = 2;
 
@@ -70,7 +70,7 @@ class SearchScreen extends HookConsumerWidget {
       }
       if (status.isPermanentlyDenied) {
         if (kDebugMode) {
-          print('영구적 거절 상태');
+          print('연락처 접근 거절2');
         }
         recommendStatus.value = 3;
         recommendUserList.value = await ref
