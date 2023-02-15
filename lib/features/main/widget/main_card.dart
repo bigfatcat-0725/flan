@@ -287,10 +287,13 @@ class MainCard extends HookConsumerWidget {
                       myCard.value
                           ? GestureDetector(
                               onTap: () {
-                                showMore(context,
-                                    type: 'not default',
-                                    myData: isMyData,
-                                    data: data);
+                                showMore(
+                                  context,
+                                  type: 'not default',
+                                  myData: isMyData,
+                                  data: data,
+                                  ref: ref,
+                                );
                               },
                               child: Icon(
                                 Icons.more_horiz,

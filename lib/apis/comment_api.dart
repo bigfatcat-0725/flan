@@ -65,4 +65,18 @@ class CommentAPI {
       );
     }
   }
+
+  Future<int> deleteComment({
+    required int seq,
+  }) async {
+    final url = Uri.parse('http://topping.io:8855/API/comment/$seq');
+    final request = await http.delete(
+      url,
+      headers: {
+        "accept": "application/json",
+      },
+    );
+    // 1, 0
+    return int.parse(request.body);
+  }
 }

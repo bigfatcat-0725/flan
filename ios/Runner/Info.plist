@@ -261,6 +261,7 @@
          <string>3qcr597p9d.skadnetwork</string>
        </dict>
      </array>
-
+<key>NSContactsUsageDescription</key>
+<string>연락처 권환 요구</string>
 </dict>
 </plist>

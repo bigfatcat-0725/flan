@@ -52,4 +52,18 @@ class AnswerAPI {
       );
     }
   }
+
+  Future<int> deleteAnswer({
+    required int seq,
+  }) async {
+    final url = Uri.parse('http://topping.io:8855/API/answers/$seq');
+    final request = await http.delete(
+      url,
+      headers: {
+        "accept": "application/json",
+      },
+    );
+    // 1, 0
+    return int.parse(request.body);
+  }
 }

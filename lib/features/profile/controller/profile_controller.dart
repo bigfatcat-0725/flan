@@ -191,4 +191,20 @@ class ProfileController extends StateNotifier<bool> {
       },
     );
   }
+
+  void deleteAnswer({
+    required int seq,
+    required int mySeq,
+    required WidgetRef ref,
+    required BuildContext context,
+  }) async {
+    final res = await _answerAPI.deleteAnswer(seq: seq);
+    if (res == 1) {
+      // 본인 프로필에서 지우는거니까
+      ref.invalidate(feedProivder(mySeq));
+      if (context.mounted) {
+        context.pop();
+      }
+    }
+  }
 }

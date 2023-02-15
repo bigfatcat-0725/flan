@@ -436,6 +436,7 @@ Future showMore(
   String type = 'default',
   int myData = 0,
   required Question data,
+  required WidgetRef ref,
 }) {
   return showDialog(
       context: context,
@@ -531,6 +532,12 @@ Future showMore(
                   GestureDetector(
                     onTap: () {
                       // 답변 삭제
+                      ref.read(profileControllerProvider.notifier).deleteAnswer(
+                            seq: data.questions!.answer![0].answers!.seq as int,
+                            mySeq: data.users!.seq as int,
+                            ref: ref,
+                            context: context,
+                          );
                     },
                     child: Container(
                       width: 1.sw,

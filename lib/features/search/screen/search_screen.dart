@@ -1,5 +1,7 @@
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flan/apis/user_api.dart';
 import 'package:flan/constants/constants.dart';
+import 'package:flan/core/core.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/search/controller/search_controller.dart';
 import 'package:flan/features/search/widget/recommend_card.dart';
@@ -10,6 +12,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SearchScreen extends HookConsumerWidget {
   const SearchScreen({
@@ -20,33 +23,47 @@ class SearchScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final searchTextController = useTextEditingController();
     final searchStatus = useState(false);
+    final bottomIndex = ref.watch(bottomNavProvier);
 
     // 본인
     final userInfo = ref.watch(userInfoProvier.notifier).state!;
 
-    // ref.listen(bottomNavProvier, (previous, next) {
-    //   final page = ref.watch(bottomNavProvier.notifier).state;
-    //   if (page == 2) {
-    //     // search 페이지는 다른 곳 들렸다가 왔을 시 초기화 되어야 함.
-    //     searchTextController.text = '';
-    //     searchStatus.value = false;
-    //     FocusManager.instance.primaryFocus?.unfocus();
-    //   }
-    // });
-
     final searchResult = useState(<UserInfo>[]);
 
-    // void searchUser() async {
-    //   searchResult.value = await ref
-    //       .read(searchControllerProvider.notifier)
-    //       .searchUser(
-    //           user: userInfo.userInfo!.seq as int,
-    //           search: searchTextController.text);
-    // }
-    //
-    // useEffect(() {
-    //   searchUser();
-    // }, [searchResult.value]);
+    getPermission() async {
+      //(주의) Android 11버전 이상과 iOS에서는 유저가 한 두번 이상 거절하면 다시는 팝업 띄울 수 없습니다.
+      final status = await Permission.contacts.status;
+      if (status.isGranted) {
+        print('허락됨');
+        final contacts =
+            await ContactsService.getContacts(withThumbnails: false);
+        final phoneList = [];
+
+        for (final data in contacts) {
+          final phoneNumber = data.phones?.elementAt(0).value;
+          phoneList.add(phoneNumber);
+        }
+
+        print(
+            phoneList.toString().substring(1, phoneList.toString().length - 1));
+
+        // 요렇게 해서 보내기.
+        // 허락 상태면 추천친구.
+      } else if (status.isDenied) {
+        // 거절 상태면 설정 버튼 놓고 연락처 접근 허용 받기.
+        print('거절됨');
+      }
+      if (status.isPermanentlyDenied) {
+        openAppSettings();
+      }
+    }
+
+    useEffect(() {
+      if (bottomIndex == 2) {
+        Future.microtask(() => getPermission());
+      }
+      return null;
+    }, []);
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
