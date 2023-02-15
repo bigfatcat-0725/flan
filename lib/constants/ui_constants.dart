@@ -1,5 +1,7 @@
 import 'package:flan/constants/assets_constants.dart';
+import 'package:flan/core/providers.dart';
 import 'package:flan/core/util.dart';
+import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/community/screen/community_screen.dart';
 import 'package:flan/features/main/screen/main_screen.dart';
 import 'package:flan/features/profile/screen/profile_screen.dart';
@@ -11,11 +13,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class UIConstants {
   static AppBar appBar(
-      BuildContext context, String category, String profileAddress,
-      {required int index}) {
+    BuildContext context,
+    String category,
+    String profileAddress, {
+    required int index,
+    required WidgetRef ref,
+  }) {
     return AppBar(
       toolbarHeight: 30.h,
       elevation: 0,
@@ -102,19 +109,44 @@ class UIConstants {
               Expanded(
                 child: Align(
                   alignment: Alignment.centerRight,
-                  child: Builder(
-                    builder: (context) {
-                      return GestureDetector(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GestureDetector(
                         onTap: () {
-                          Scaffold.of(context).openEndDrawer();
+                          // 본인 피드로 이동.
+                          final userInfo = ref.watch(userInfoProvier);
+                          ref
+                              .read(feedSeqProvider.notifier)
+                              .onChange(userInfo!.userInfo!.seq as int);
+                          ref.read(bottomNavProvier.notifier).onChange(3);
                         },
-                        child: Icon(
-                          Icons.menu,
-                          size: 22.5.w,
-                          color: AppColor.primaryColor,
+                        child: Container(
+                          color: Colors.transparent,
+                          child: SvgPicture.asset(
+                            AssetsConstants.main,
+                            width: 17.5.w,
+                            height: 17.5.w,
+                            color: AppColor.primaryColor,
+                          ),
                         ),
-                      );
-                    },
+                      ),
+                      SizedBox(width: 10.w),
+                      Builder(
+                        builder: (context) {
+                          return GestureDetector(
+                            onTap: () {
+                              Scaffold.of(context).openEndDrawer();
+                            },
+                            child: Icon(
+                              Icons.menu,
+                              size: 22.5.w,
+                              color: AppColor.primaryColor,
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
               )

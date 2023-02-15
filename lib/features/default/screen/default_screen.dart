@@ -46,6 +46,7 @@ class DefaultScreen extends HookConsumerWidget {
         currentCategory,
         userProfileAddress,
         index: bottomNav,
+        ref: ref,
       ),
       endDrawer: UIConstants.appDrawer(context),
       body: Container(
@@ -126,7 +127,7 @@ class DefaultScreen extends HookConsumerWidget {
               width: 17.5.w,
               height: 17.5.w,
               color:
-                  bottomNav == 4 ? AppColor.primaryColor : AppColor.hintColor,
+                  bottomNav == 3 ? AppColor.primaryColor : AppColor.hintColor,
             ),
           ),
         ],

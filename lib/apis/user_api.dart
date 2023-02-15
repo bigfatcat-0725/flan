@@ -121,4 +121,6 @@ class UserAPI {
     final response = jsonDecode(decodeData);
     return response;
   }
+
+  // 추천친구 - searchController 직접
 }
