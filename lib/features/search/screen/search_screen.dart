@@ -7,6 +7,8 @@ import 'package:flan/features/search/controller/search_controller.dart';
 import 'package:flan/features/search/widget/recommend_card.dart';
 import 'package:flan/models/user/user_model.dart';
 import 'package:flan/theme/theme.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,6 +26,8 @@ class SearchScreen extends HookConsumerWidget {
     final searchTextController = useTextEditingController();
     final searchStatus = useState(false);
     final bottomIndex = ref.watch(bottomNavProvier);
+    final recommendUserList = useState([]);
+    final recommendStatus = useState(0);
 
     // 본인
     final userInfo = ref.watch(userInfoProvier.notifier).state!;
@@ -31,10 +35,13 @@ class SearchScreen extends HookConsumerWidget {
     final searchResult = useState(<UserInfo>[]);
 
     getPermission() async {
-      //(주의) Android 11버전 이상과 iOS에서는 유저가 한 두번 이상 거절하면 다시는 팝업 띄울 수 없습니다.
       final status = await Permission.contacts.status;
       if (status.isGranted) {
-        print('허락됨');
+        if (kDebugMode) {
+          print('허락됨');
+        }
+        recommendStatus.value = 1;
+
         final contacts =
             await ContactsService.getContacts(withThumbnails: false);
         final phoneList = [];
@@ -44,23 +51,40 @@ class SearchScreen extends HookConsumerWidget {
           phoneList.add(phoneNumber);
         }
 
-        print(
-            phoneList.toString().substring(1, phoneList.toString().length - 1));
-
-        // 요렇게 해서 보내기.
-        // 허락 상태면 추천친구.
+        recommendUserList.value = await ref
+            .read(searchControllerProvider.notifier)
+            .recommendUser(
+                seq: userInfo.userInfo!.seq as int,
+                number: phoneList
+                    .toString()
+                    .substring(1, phoneList.toString().length - 1));
       } else if (status.isDenied) {
-        // 거절 상태면 설정 버튼 놓고 연락처 접근 허용 받기.
-        print('거절됨');
+        if (kDebugMode) {
+          print('거절됨');
+        }
+        recommendStatus.value = 2;
+
+        recommendUserList.value = await ref
+            .read(searchControllerProvider.notifier)
+            .recommendUser(seq: userInfo.userInfo!.seq as int, number: '');
       }
       if (status.isPermanentlyDenied) {
-        openAppSettings();
+        if (kDebugMode) {
+          print('영구적 거절 상태');
+        }
+        recommendStatus.value = 3;
+        recommendUserList.value = await ref
+            .read(searchControllerProvider.notifier)
+            .recommendUser(seq: userInfo.userInfo!.seq as int, number: '');
+        // openAppSettings();
       }
     }
 
     useEffect(() {
-      if (bottomIndex == 2) {
-        Future.microtask(() => getPermission());
+      if (context.mounted) {
+        if (bottomIndex == 2) {
+          Future.microtask(() => getPermission());
+        }
       }
       return null;
     }, []);
@@ -207,14 +231,18 @@ class SearchScreen extends HookConsumerWidget {
                           ),
                         ),
                         Expanded(
-                          child: ListView.builder(
-                            // physics: const ClampingScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return Container();
-                            },
-                            itemCount: 15,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.w),
+                            child: ListView.builder(
+                              itemBuilder: (context, index) {
+                                return RecommendCard(
+                                  userInfo: recommendUserList.value[index],
+                                );
+                              },
+                              itemCount: recommendUserList.value.length,
+                            ),
                           ),
-                        ),
+                        )
                       ],
                     ),
                   ),
