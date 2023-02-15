@@ -4,7 +4,6 @@ import 'package:flan/core/providers.dart';
 import 'package:flan/core/util.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/models/comment/comment_model.dart';
-import 'package:flan/models/feed/feed_model.dart';
 import 'package:flan/models/page/page_model.dart';
 import 'package:flan/theme/app_color.dart';
 import 'package:flan/theme/app_text_theme.dart';
@@ -26,13 +25,9 @@ class DetailCommentCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final img = useState(
-        'https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202105/21/linkagelab/20210521225127146gnfp.jpg');
     // 1 익명 0 실명
     // 익명이면 프로필 타고 들어갈 수도 없음.
     final userStatus = useState(1);
-    final bottomNav = ref.watch(bottomNavProvier);
-
     final userInfo = ref.watch(userInfoProvier);
 
     return Column(
@@ -111,8 +106,13 @@ class DetailCommentCard extends HookConsumerWidget {
                 final myData =
                     userInfo!.userInfo!.seq == comment.users!.seq ? 1 : 0;
 
-                commentMore(context,
-                    page: page, comment: comment, myData: myData);
+                commentMore(
+                  context,
+                  page: page,
+                  comment: comment,
+                  myData: myData,
+                  ref: ref,
+                );
               },
               child: Icon(
                 Icons.more_horiz,

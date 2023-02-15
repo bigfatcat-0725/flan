@@ -144,14 +144,26 @@ class CommunityCard extends HookConsumerWidget {
                           ),
                           GestureDetector(
                             onTap: () {
-                              if (userInfo.userInfo!.seq == item.users!.seq) {
-                                // 본인 삭제 O
-                                showPageDelete(context,
-                                    ref: ref, pageSeq: item.pages!.seq as int);
-                              } else {
-                                // 타인
-                                showProfileNewCardMore(context);
-                              }
+                              // if (userInfo.userInfo!.seq == item.users!.seq) {
+                              //   // 본인 삭제 O
+                              //   showPageDelete(context,
+                              //       ref: ref, pageSeq: item.pages!.seq as int);
+                              // } else {
+                              //   // 타인
+                              //   showProfileNewCardMore(context);
+                              // }
+
+                              final myData =
+                                  userInfo.userInfo!.seq == item.users!.seq
+                                      ? 1
+                                      : 0;
+
+                              pageMore(
+                                context,
+                                myData: myData,
+                                page: item,
+                                ref: ref,
+                              );
                             },
                             child: Icon(
                               Icons.more_horiz,

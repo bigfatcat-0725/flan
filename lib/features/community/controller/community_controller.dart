@@ -224,6 +224,7 @@ class CommunityController extends StateNotifier<bool> {
   void deletePage({
     required int pageSeq,
     required WidgetRef ref,
+    required BuildContext context,
   }) async {
     await _pageAPI.deletePage(
       pageSeq: pageSeq,
@@ -233,6 +234,39 @@ class CommunityController extends StateNotifier<bool> {
       ref.invalidate(pageProvider);
     } else {
       ref.invalidate(themePageProvider(current));
+    }
+    ref.invalidate(bookmarkPageProivder);
+    if (context.mounted) {
+      context.pop();
+    }
+  }
+
+  void deleteComment({
+    required int seq,
+    required PageModel page,
+    required WidgetRef ref,
+    required BuildContext context,
+  }) async {
+    final res = await _commentAPI.deleteComment(seq: seq);
+    if (res == 1) {
+      final current = ref.watch(currentCategorySeqProvier);
+
+      if (current == 0) {
+        ref.invalidate(pageProvider);
+      } else {
+        ref.invalidate(themePageProvider(current));
+      }
+      // top3
+      ref.invalidate(hotPageProvider('d'));
+      ref.invalidate(hotPageProvider('w'));
+      ref.invalidate(hotPageProvider('m'));
+      ref.invalidate(hotPageProvider('y'));
+
+      ref.invalidate(commentProvider(page.pages!.seq as int));
+
+      if (context.mounted) {
+        context.pop();
+      }
     }
   }
 }

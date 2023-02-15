@@ -7,8 +7,8 @@ import 'package:flan/models/feed/feed_model.dart';
 import 'package:flan/models/page/page_model.dart';
 import 'package:flan/theme/app_color.dart';
 import 'package:flan/theme/app_text_theme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -54,7 +54,9 @@ Future<List<File>> pickImages() async {
       images.add(File(image.path));
     }
   }
-  print(images);
+  if (kDebugMode) {
+    print(images);
+  }
   return images;
 }
 
@@ -299,8 +301,8 @@ Future showPageDelete(
                       ref.read(communityControllerProvider.notifier).deletePage(
                             pageSeq: pageSeq,
                             ref: ref,
+                            context: context,
                           );
-                      context.pop();
                     },
                     child: Container(
                       width: 100.w,
@@ -431,6 +433,140 @@ Future showDelete(
   );
 }
 
+Future pageMore(
+  BuildContext context, {
+  int myData = 0,
+  required PageModel page,
+  required WidgetRef ref,
+}) {
+  return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return AlertDialog(
+          alignment: Alignment.bottomCenter,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(5),
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Column(
+                children: [
+                  if (myData == 0)
+                    Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '차단',
+                                style: AppTextStyle.defaultTextStyle.copyWith(
+                                  color: AppColor.errorColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 5.h),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '신고',
+                                style: AppTextStyle.defaultTextStyle.copyWith(
+                                  color: AppColor.errorColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 5.h),
+                      ],
+                    ),
+                  if (myData == 1)
+                    Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '게시물 수정하기',
+                                style: AppTextStyle.defaultTextStyle.copyWith(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 5.h),
+                        GestureDetector(
+                          onTap: () {
+                            // 답변 삭제
+                            ref
+                                .read(communityControllerProvider.notifier)
+                                .deletePage(
+                                  pageSeq: page.pages!.seq as int,
+                                  ref: ref,
+                                  context: context,
+                                );
+                            context.pop();
+                          },
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '게시물 삭제하기',
+                                style: AppTextStyle.defaultTextStyle.copyWith(
+                                  color: AppColor.errorColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                ],
+              ),
+            ],
+          ),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 20.w,
+            vertical: 30.h,
+          ),
+          insetPadding: EdgeInsets.symmetric(horizontal: 0.w),
+        );
+      });
+}
+
 Future showMore(
   BuildContext context, {
   String type = 'default',
@@ -549,7 +685,9 @@ Future showMore(
                       child: Center(
                         child: Text(
                           '답변 삭제하기',
-                          style: AppTextStyle.defaultTextStyle.copyWith(),
+                          style: AppTextStyle.defaultTextStyle.copyWith(
+                            color: AppColor.errorColor,
+                          ),
                         ),
                       ),
                     ),
@@ -572,6 +710,7 @@ Future commentMore(
   int myData = 0,
   required PageModel page,
   required CommentModel comment,
+  required WidgetRef ref,
 }) {
   return showDialog(
       context: context,
@@ -591,98 +730,107 @@ Future commentMore(
             children: [
               Column(
                 children: [
-                  Column(
-                    children: [
-                      if (myData == 0)
-                        Column(
-                          children: [
-                            GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                width: 1.sw,
-                                height: 40.h,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Colors.white,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    '차단',
-                                    style:
-                                        AppTextStyle.defaultTextStyle.copyWith(
-                                      color: AppColor.errorColor,
-                                    ),
-                                  ),
+                  if (myData == 0)
+                    Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '차단',
+                                style: AppTextStyle.defaultTextStyle.copyWith(
+                                  color: AppColor.errorColor,
                                 ),
                               ),
                             ),
-                            SizedBox(height: 5.h),
-                            GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                width: 1.sw,
-                                height: 40.h,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Colors.white,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    '신고',
-                                    style:
-                                        AppTextStyle.defaultTextStyle.copyWith(
-                                      color: AppColor.errorColor,
-                                    ),
-                                  ),
+                          ),
+                        ),
+                        SizedBox(height: 5.h),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '신고',
+                                style: AppTextStyle.defaultTextStyle.copyWith(
+                                  color: AppColor.errorColor,
                                 ),
                               ),
                             ),
-                            SizedBox(height: 5.h),
-                          ],
+                          ),
                         ),
-                    ],
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      context.pop();
-                      context.push('/community_edit',
-                          extra: {'page': page, 'comment': comment});
-                    },
-                    child: Container(
-                      width: 1.sw,
-                      height: 40.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.white,
-                      ),
-                      child: Center(
-                        child: Text(
-                          '답변 수정하기',
-                          style: AppTextStyle.defaultTextStyle.copyWith(),
-                        ),
-                      ),
+                        SizedBox(height: 5.h),
+                      ],
                     ),
-                  ),
-                  SizedBox(height: 5.h),
-                  GestureDetector(
-                    onTap: () {
-                      // 답변 삭제
-                    },
-                    child: Container(
-                      width: 1.sw,
-                      height: 40.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.white,
-                      ),
-                      child: Center(
-                        child: Text(
-                          '답변 삭제하기',
-                          style: AppTextStyle.defaultTextStyle.copyWith(),
+                  if (myData == 1)
+                    Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            context.pop();
+                            context.push('/community_edit',
+                                extra: {'page': page, 'comment': comment});
+                          },
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '답변 수정하기',
+                                style: AppTextStyle.defaultTextStyle.copyWith(),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                        SizedBox(height: 5.h),
+                        GestureDetector(
+                          onTap: () {
+                            // 답변 삭제
+                            ref
+                                .read(communityControllerProvider.notifier)
+                                .deleteComment(
+                                  seq: comment.comment!.seq as int,
+                                  page: page,
+                                  ref: ref,
+                                  context: context,
+                                );
+                          },
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '답변 삭제하기',
+                                style: AppTextStyle.defaultTextStyle.copyWith(
+                                  color: AppColor.errorColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
                 ],
               ),
             ],
@@ -720,98 +868,97 @@ Future commentMoreBookmark(
             children: [
               Column(
                 children: [
-                  Column(
-                    children: [
-                      if (myData == 0)
-                        Column(
-                          children: [
-                            GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                width: 1.sw,
-                                height: 40.h,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Colors.white,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    '차단',
-                                    style:
-                                        AppTextStyle.defaultTextStyle.copyWith(
-                                      color: AppColor.errorColor,
-                                    ),
-                                  ),
+                  if (myData == 0)
+                    Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '차단',
+                                style: AppTextStyle.defaultTextStyle.copyWith(
+                                  color: AppColor.errorColor,
                                 ),
                               ),
                             ),
-                            SizedBox(height: 5.h),
-                            GestureDetector(
-                              onTap: () {},
-                              child: Container(
-                                width: 1.sw,
-                                height: 40.h,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: Colors.white,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    '신고',
-                                    style:
-                                        AppTextStyle.defaultTextStyle.copyWith(
-                                      color: AppColor.errorColor,
-                                    ),
-                                  ),
+                          ),
+                        ),
+                        SizedBox(height: 5.h),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '신고',
+                                style: AppTextStyle.defaultTextStyle.copyWith(
+                                  color: AppColor.errorColor,
                                 ),
                               ),
                             ),
-                            SizedBox(height: 5.h),
-                          ],
+                          ),
                         ),
-                    ],
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      context.pop();
-                      context.push('/bookmark_community_edit',
-                          extra: {'page': page, 'comment': comment});
-                    },
-                    child: Container(
-                      width: 1.sw,
-                      height: 40.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.white,
-                      ),
-                      child: Center(
-                        child: Text(
-                          '답변 수정하기',
-                          style: AppTextStyle.defaultTextStyle.copyWith(),
-                        ),
-                      ),
+                        SizedBox(height: 5.h),
+                      ],
                     ),
-                  ),
-                  SizedBox(height: 5.h),
-                  GestureDetector(
-                    onTap: () {
-                      // 답변 삭제
-                    },
-                    child: Container(
-                      width: 1.sw,
-                      height: 40.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.white,
-                      ),
-                      child: Center(
-                        child: Text(
-                          '답변 삭제하기',
-                          style: AppTextStyle.defaultTextStyle.copyWith(),
+                  if (myData == 1)
+                    Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            context.pop();
+                            context.push('/bookmark_community_edit',
+                                extra: {'page': page, 'comment': comment});
+                          },
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '답변 수정하기',
+                                style: AppTextStyle.defaultTextStyle.copyWith(),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                        SizedBox(height: 5.h),
+                        GestureDetector(
+                          onTap: () {
+                            // 답변 삭제
+                          },
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '답변 삭제하기',
+                                style: AppTextStyle.defaultTextStyle.copyWith(),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
                 ],
               ),
             ],
@@ -896,142 +1043,142 @@ Future showProfileNewCardMore(BuildContext context) {
         );
       });
 }
-
-Future showProfileMore(BuildContext context, {int myData = 1}) {
-  return showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (context) {
-        return AlertDialog(
-          alignment: Alignment.bottomCenter,
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(5),
-            ),
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Column(
-                children: [
-                  // 차단, 신고는 본인의 경우 나타나지 않는다.
-                  if (myData != 1)
-                    Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            width: 1.sw,
-                            height: 40.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.white,
-                            ),
-                            child: Center(
-                              child: Text(
-                                '차단',
-                                style: AppTextStyle.defaultTextStyle.copyWith(
-                                  color: AppColor.errorColor,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 5.h),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            width: 1.sw,
-                            height: 40.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.white,
-                            ),
-                            child: Center(
-                              child: Text(
-                                '신고',
-                                style: AppTextStyle.defaultTextStyle.copyWith(
-                                  color: AppColor.errorColor,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 5.h),
-                      ],
-                    ),
-
-                  GestureDetector(
-                    onTap: () {
-                      // 클립보드 복사
-                      Clipboard.setData(
-                        const ClipboardData(text: 'flan.com/hansol'),
-                      );
-                      // showSnackBar(context, '클립보드에 복사되었습니다.');
-                      context.pop();
-                    },
-                    child: Container(
-                      width: 1.sw,
-                      height: 40.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.white,
-                      ),
-                      child: Center(
-                        child: Text(
-                          '프로필 URL 복사',
-                          style: AppTextStyle.defaultTextStyle.copyWith(),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5.h),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      width: 1.sw,
-                      height: 40.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.white,
-                      ),
-                      child: Center(
-                        child: Text(
-                          '이 프로필 공유하기',
-                          style: AppTextStyle.defaultTextStyle.copyWith(),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5.h),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      width: 1.sw,
-                      height: 40.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.white,
-                      ),
-                      child: Center(
-                        child: Text(
-                          'QR 코드',
-                          style: AppTextStyle.defaultTextStyle.copyWith(),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 20.w,
-            vertical: 30.h,
-          ),
-          insetPadding: EdgeInsets.symmetric(horizontal: 0.w),
-        );
-      });
-}
+// 안쓸듯
+// Future showProfileMore(BuildContext context, {int myData = 1}) {
+//   return showDialog(
+//       context: context,
+//       barrierDismissible: true,
+//       builder: (context) {
+//         return AlertDialog(
+//           alignment: Alignment.bottomCenter,
+//           elevation: 0,
+//           backgroundColor: Colors.transparent,
+//           shape: const RoundedRectangleBorder(
+//             borderRadius: BorderRadius.all(
+//               Radius.circular(5),
+//             ),
+//           ),
+//           content: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             children: [
+//               Column(
+//                 children: [
+//                   // 차단, 신고는 본인의 경우 나타나지 않는다.
+//                   if (myData != 1)
+//                     Column(
+//                       children: [
+//                         GestureDetector(
+//                           onTap: () {},
+//                           child: Container(
+//                             width: 1.sw,
+//                             height: 40.h,
+//                             decoration: BoxDecoration(
+//                               borderRadius: BorderRadius.circular(5),
+//                               color: Colors.white,
+//                             ),
+//                             child: Center(
+//                               child: Text(
+//                                 '차단',
+//                                 style: AppTextStyle.defaultTextStyle.copyWith(
+//                                   color: AppColor.errorColor,
+//                                 ),
+//                               ),
+//                             ),
+//                           ),
+//                         ),
+//                         SizedBox(height: 5.h),
+//                         GestureDetector(
+//                           onTap: () {},
+//                           child: Container(
+//                             width: 1.sw,
+//                             height: 40.h,
+//                             decoration: BoxDecoration(
+//                               borderRadius: BorderRadius.circular(5),
+//                               color: Colors.white,
+//                             ),
+//                             child: Center(
+//                               child: Text(
+//                                 '신고',
+//                                 style: AppTextStyle.defaultTextStyle.copyWith(
+//                                   color: AppColor.errorColor,
+//                                 ),
+//                               ),
+//                             ),
+//                           ),
+//                         ),
+//                         SizedBox(height: 5.h),
+//                       ],
+//                     ),
+//
+//                   GestureDetector(
+//                     onTap: () {
+//                       // 클립보드 복사
+//                       Clipboard.setData(
+//                         const ClipboardData(text: 'flan.com/hansol'),
+//                       );
+//                       // showSnackBar(context, '클립보드에 복사되었습니다.');
+//                       context.pop();
+//                     },
+//                     child: Container(
+//                       width: 1.sw,
+//                       height: 40.h,
+//                       decoration: BoxDecoration(
+//                         borderRadius: BorderRadius.circular(5),
+//                         color: Colors.white,
+//                       ),
+//                       child: Center(
+//                         child: Text(
+//                           '프로필 URL 복사',
+//                           style: AppTextStyle.defaultTextStyle.copyWith(),
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                   SizedBox(height: 5.h),
+//                   GestureDetector(
+//                     onTap: () {},
+//                     child: Container(
+//                       width: 1.sw,
+//                       height: 40.h,
+//                       decoration: BoxDecoration(
+//                         borderRadius: BorderRadius.circular(5),
+//                         color: Colors.white,
+//                       ),
+//                       child: Center(
+//                         child: Text(
+//                           '이 프로필 공유하기',
+//                           style: AppTextStyle.defaultTextStyle.copyWith(),
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                   SizedBox(height: 5.h),
+//                   GestureDetector(
+//                     onTap: () {},
+//                     child: Container(
+//                       width: 1.sw,
+//                       height: 40.h,
+//                       decoration: BoxDecoration(
+//                         borderRadius: BorderRadius.circular(5),
+//                         color: Colors.white,
+//                       ),
+//                       child: Center(
+//                         child: Text(
+//                           'QR 코드',
+//                           style: AppTextStyle.defaultTextStyle.copyWith(),
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ],
+//           ),
+//           contentPadding: EdgeInsets.symmetric(
+//             horizontal: 20.w,
+//             vertical: 30.h,
+//           ),
+//           insetPadding: EdgeInsets.symmetric(horizontal: 0.w),
+//         );
+//       });
+// }
