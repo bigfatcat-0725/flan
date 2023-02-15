@@ -8,6 +8,7 @@ import 'package:flan/features/bookmark/widget/bookmark_main_datail.dart';
 import 'package:flan/features/category/screen/category_screen.dart';
 import 'package:flan/features/community/screen/community_ask_screen.dart';
 import 'package:flan/features/community/screen/community_detail_screen.dart';
+import 'package:flan/features/community/screen/community_edit_screen.dart';
 import 'package:flan/features/default/screen/default_screen.dart';
 import 'package:flan/features/drawer/screen/drawer_community_screen.dart';
 import 'package:flan/features/drawer/screen/drawer_info_screen.dart';
@@ -103,6 +104,28 @@ final GoRouter router = GoRouter(
             final object = state.extra as Map<String, dynamic>;
             return NoTransitionPage(
                 child: BookmarkCommunityAskScreen(
+              page: object['page'],
+            ));
+          },
+        ),
+        GoRoute(
+          path: 'community_edit',
+          pageBuilder: (context, state) {
+            final object = state.extra as Map<String, dynamic>;
+            return NoTransitionPage(
+                child: CommunityEditScreen(
+              comment: object['comment'],
+              page: object['page'],
+            ));
+          },
+        ),
+        GoRoute(
+          path: 'bookmark_community_edit',
+          pageBuilder: (context, state) {
+            final object = state.extra as Map<String, dynamic>;
+            return NoTransitionPage(
+                child: CommunityEditScreen(
+              comment: object['comment'],
               page: object['page'],
             ));
           },

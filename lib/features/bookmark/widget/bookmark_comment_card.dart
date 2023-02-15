@@ -3,6 +3,7 @@ import 'package:flan/constants/assets_constants.dart';
 import 'package:flan/core/providers.dart';
 import 'package:flan/core/util.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
+import 'package:flan/models/bookmark/bookmark_page_model.dart';
 import 'package:flan/models/comment/comment_model.dart';
 import 'package:flan/models/feed/feed_model.dart';
 import 'package:flan/models/page/page_model.dart';
@@ -15,10 +16,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class DetailCommentCard extends HookConsumerWidget {
+class BookmarkCommentCard extends HookConsumerWidget {
   final CommentModel comment;
-  final PageModel page;
-  const DetailCommentCard({
+  final BookmarkPageModel page;
+  const BookmarkCommentCard({
     required this.comment,
     required this.page,
     Key? key,
@@ -111,7 +112,7 @@ class DetailCommentCard extends HookConsumerWidget {
                 final myData =
                     userInfo!.userInfo!.seq == comment.users!.seq ? 1 : 0;
 
-                commentMore(context,
+                commentMoreBookmark(context,
                     page: page, comment: comment, myData: myData);
               },
               child: Icon(

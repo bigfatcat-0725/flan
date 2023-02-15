@@ -44,4 +44,25 @@ class CommentAPI {
       );
     }
   }
+
+  FutureEither<int> editComment({
+    required int user,
+    required int commentSeq,
+    required String reply,
+  }) async {
+    try {
+      final url = Uri.parse('http://topping.io:8855/API/comment/$commentSeq');
+
+      final request = http.MultipartRequest("PUT", url)
+        ..fields['reply'] = reply.toString();
+
+      final response = await request.send();
+
+      return right(response.statusCode);
+    } catch (e, stackTrace) {
+      return left(
+        Failure(e.toString(), stackTrace),
+      );
+    }
+  }
 }

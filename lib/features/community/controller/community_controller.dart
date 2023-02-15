@@ -6,6 +6,7 @@ import 'package:flan/features/main/controller/main_controller.dart';
 import 'package:flan/models/bookmark/bookmark_page_model.dart';
 import 'package:flan/models/comment/comment_model.dart';
 import 'package:flan/models/page/page_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -84,6 +85,27 @@ class CommunityController extends StateNotifier<bool> {
           context.pushReplacement('/community_detail', extra: {
             'page': pageModel,
           });
+        }
+      },
+    );
+  }
+
+  void editComment({
+    required int user,
+    required int commentSeq,
+    required int pageSeq,
+    required String reply,
+    required WidgetRef ref,
+    required BuildContext context,
+  }) async {
+    final res = await _commentAPI.editComment(
+        user: user, commentSeq: commentSeq, reply: reply);
+    res.fold(
+      (l) => null,
+      (r) {
+        if (r == 200) {
+          ref.invalidate(commentProvider(pageSeq));
+          context.pop();
         }
       },
     );

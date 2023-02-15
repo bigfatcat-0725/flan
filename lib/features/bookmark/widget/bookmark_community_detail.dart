@@ -1,4 +1,5 @@
 import 'package:flan/constants/ui_constants.dart';
+import 'package:flan/features/bookmark/widget/bookmark_comment_card.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
 import 'package:flan/features/community/widget/detail_comment_card.dart';
 import 'package:flan/models/bookmark/bookmark_page_model.dart';
@@ -130,8 +131,8 @@ class BookMarkCommunityDetailScreen extends HookConsumerWidget {
                                     return Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 16.w),
-                                      child:
-                                          DetailCommentCard(comment: comment),
+                                      child: BookmarkCommentCard(
+                                          page: page, comment: comment),
                                     );
                                   },
                                 ),

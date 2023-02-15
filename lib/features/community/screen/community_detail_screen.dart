@@ -129,8 +129,8 @@ class CommunityDetailScreen extends HookConsumerWidget {
                                     return Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 16.w),
-                                      child:
-                                          DetailCommentCard(comment: comment),
+                                      child: DetailCommentCard(
+                                          page: page, comment: comment),
                                     );
                                   },
                                 ),
@@ -156,7 +156,11 @@ class CommunityDetailScreen extends HookConsumerWidget {
           children: [
             GestureDetector(
               onTap: () {
-                context.push('/community_ask', extra: {'page': page});
+                context.push('/community_ask', extra: {
+                  'page': page,
+                  'type': 'default',
+                  'commentIndex': 0
+                });
               },
               child: CupertinoTabBar(
                 backgroundColor: AppColor.scaffoldBackgroundColor,
