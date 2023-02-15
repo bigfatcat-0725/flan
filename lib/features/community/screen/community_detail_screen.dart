@@ -142,10 +142,8 @@ class CommunityDetailScreen extends HookConsumerWidget {
                 error: (error, stackTrace) => Center(
                   child: Text(error.toString()),
                 ),
-                loading: () => Center(
-                  child: CircularProgressIndicator(
-                    color: AppColor.primaryColor,
-                  ),
+                loading: () => const Center(
+                  child: CupertinoActivityIndicator(),
                 ),
               ),
         ],

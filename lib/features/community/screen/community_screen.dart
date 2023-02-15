@@ -4,6 +4,7 @@ import 'package:flan/features/community/widget/community_card.dart';
 import 'package:flan/models/page/page_model.dart';
 import 'package:flan/theme/app_color.dart';
 import 'package:flan/theme/app_text_theme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -153,10 +154,8 @@ class CommunityScreen extends HookConsumerWidget {
             error: (error, stackTrace) => Center(
               child: Text(error.toString()),
             ),
-            loading: () => Center(
-              child: CircularProgressIndicator(
-                color: AppColor.primaryColor,
-              ),
+            loading: () => const Center(
+              child: CupertinoActivityIndicator(),
             ),
           ),
     );
