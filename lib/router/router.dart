@@ -3,12 +3,13 @@ import 'package:flan/features/auth/screen/signup_screen.dart';
 import 'package:flan/features/bell/screen/bell_screen.dart';
 import 'package:flan/features/bookmark/screen/bookmark_screen.dart';
 import 'package:flan/features/bookmark/widget/bookmark_community_ask.dart';
+import 'package:flan/features/bookmark/widget/bookmark_community_comment_edit_screen.dart';
 import 'package:flan/features/bookmark/widget/bookmark_community_detail.dart';
 import 'package:flan/features/bookmark/widget/bookmark_main_datail.dart';
 import 'package:flan/features/category/screen/category_screen.dart';
 import 'package:flan/features/community/screen/community_ask_screen.dart';
 import 'package:flan/features/community/screen/community_detail_screen.dart';
-import 'package:flan/features/community/screen/community_edit_screen.dart';
+import 'package:flan/features/community/screen/community_comment_edit.dart';
 import 'package:flan/features/default/screen/default_screen.dart';
 import 'package:flan/features/drawer/screen/drawer_community_screen.dart';
 import 'package:flan/features/drawer/screen/drawer_info_screen.dart';
@@ -21,6 +22,7 @@ import 'package:flan/features/drawer/widget/setting_language.dart';
 import 'package:flan/features/drawer/widget/setting_theme.dart';
 import 'package:flan/features/main/screen/main_detail_screen.dart';
 import 'package:flan/features/qa/screen/ask_screen.dart';
+import 'package:flan/features/qa/screen/edit_page_screen.dart';
 import 'package:flan/features/qa/screen/question_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -42,7 +44,7 @@ final GoRouter router = GoRouter(
       path: '/',
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: DefaultScreen()),
-      routes: [
+      routes: ([
         GoRoute(
           path: 'main_detail',
           pageBuilder: (context, state) {
@@ -93,9 +95,10 @@ final GoRouter router = GoRouter(
           pageBuilder: (context, state) {
             final object = state.extra as Map<String, dynamic>;
             return NoTransitionPage(
-                child: CommunityAskScreen(
-              page: object['page'],
-            ));
+              child: CommunityAskScreen(
+                page: object['page'],
+              ),
+            );
           },
         ),
         GoRoute(
@@ -108,12 +111,28 @@ final GoRouter router = GoRouter(
             ));
           },
         ),
+
+        // page edit 입니다
+        GoRoute(
+          path: 'community_page_edit',
+          pageBuilder: (context, state) {
+            final object = state.extra as Map<String, dynamic>;
+            return NoTransitionPage(
+              child: EditPageScreen(
+                toSeq: object['toSeq'],
+                page: object['page'],
+              ),
+            );
+          },
+        ),
+
+        // comment edit 입니다.
         GoRoute(
           path: 'community_edit',
           pageBuilder: (context, state) {
             final object = state.extra as Map<String, dynamic>;
             return NoTransitionPage(
-                child: CommunityEditScreen(
+                child: CommunityCommentEdit(
               comment: object['comment'],
               page: object['page'],
             ));
@@ -124,7 +143,7 @@ final GoRouter router = GoRouter(
           pageBuilder: (context, state) {
             final object = state.extra as Map<String, dynamic>;
             return NoTransitionPage(
-                child: CommunityEditScreen(
+                child: BookmarkCommunityCommentEdit(
               comment: object['comment'],
               page: object['page'],
             ));
@@ -219,7 +238,7 @@ final GoRouter router = GoRouter(
             ),
           ],
         ),
-      ],
+      ]),
     ),
   ],
 );

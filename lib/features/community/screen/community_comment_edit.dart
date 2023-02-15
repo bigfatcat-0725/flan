@@ -5,7 +5,6 @@ import 'package:flan/constants/constants.dart';
 import 'package:flan/core/core.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
-import 'package:flan/models/bookmark/bookmark_page_model.dart';
 import 'package:flan/models/comment/comment_model.dart';
 import 'package:flan/models/page/page_model.dart';
 import 'package:flan/theme/theme.dart';
@@ -17,10 +16,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class CommunityEditScreen extends HookConsumerWidget {
-  final BookmarkPageModel page;
+class CommunityCommentEdit extends HookConsumerWidget {
+  final PageModel page;
   final CommentModel comment;
-  const CommunityEditScreen({
+  const CommunityCommentEdit({
     Key? key,
     required this.page,
     required this.comment,

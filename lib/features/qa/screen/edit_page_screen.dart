@@ -7,6 +7,7 @@ import 'package:flan/features/community/controller/community_controller.dart';
 import 'package:flan/features/default/controller/default_controller.dart';
 import 'package:flan/features/profile/controller/profile_controller.dart';
 import 'package:flan/models/feed/feed_model.dart';
+import 'package:flan/models/page/page_model.dart';
 import 'package:flan/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,13 +17,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class QuestionScreen extends HookConsumerWidget {
-  final String type;
+class EditPageScreen extends HookConsumerWidget {
   final int toSeq;
-  const QuestionScreen({
+  final PageModel page;
+  const EditPageScreen({
     Key? key,
-    this.type = 'default',
     required this.toSeq,
+    required this.page,
   }) : super(key: key);
 
   @override
@@ -40,9 +41,20 @@ class QuestionScreen extends HookConsumerWidget {
     final currentCategory = ref.watch(currentCategoryProvier);
     final cureentCategorySeq = ref.watch(currentCategorySeqProvier);
 
+    useEffect(() {
+      privateCheck.value = page.pages?.private == 0 ? true : false;
+      titleTextController.text = page.pages!.title.toString();
+      questionTextController.text = page.pages!.content.toString();
+
+      return null;
+    }, []);
+
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
-      appBar: UIConstants.qaAppBar(context, '질문하기'),
+      appBar: UIConstants.qaAppBar(
+        context,
+        '게시물 수정',
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: Column(
@@ -66,45 +78,43 @@ class QuestionScreen extends HookConsumerWidget {
                 ),
               ],
             ),
-            if (type == 'community')
-              Column(
-                children: [
-                  SizedBox(height: 10.h),
-                  Text(
-                    '현재 카테고리 : $currentCategory',
-                    style: AppTextStyle.boldTextStyle.copyWith(
+            Column(
+              children: [
+                SizedBox(height: 10.h),
+                Text(
+                  '현재 카테고리 : $currentCategory',
+                  style: AppTextStyle.boldTextStyle.copyWith(
+                    fontSize: 13.sp,
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                TextField(
+                  controller: titleTextController,
+                  cursorColor: AppColor.primaryColor,
+                  maxLines: 1,
+                  style: AppTextStyle.boldTextStyle.copyWith(
+                    fontSize: 13.sp,
+                  ),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: '제목을 입력하세요.',
+                    hintStyle: AppTextStyle.hintStyle.copyWith(
                       fontSize: 13.sp,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                ],
-              ),
-            if (type == 'community')
-              Column(
-                children: [
-                  TextField(
-                    controller: titleTextController,
-                    cursorColor: AppColor.primaryColor,
-                    maxLines: 1,
-                    style: AppTextStyle.boldTextStyle.copyWith(
-                      fontSize: 13.sp,
-                    ),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: '제목을 입력하세요.',
-                      hintStyle: AppTextStyle.hintStyle.copyWith(
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: 1.sw,
-                    height: 0.5.h,
-                    color: AppColor.hintColor,
-                  ),
-                  SizedBox(height: 5.h),
-                ],
-              ),
+                ),
+                Container(
+                  width: 1.sw,
+                  height: 0.5.h,
+                  color: AppColor.hintColor,
+                ),
+                SizedBox(height: 5.h),
+              ],
+            ),
             Expanded(
               child: TextField(
                 controller: questionTextController,
@@ -271,31 +281,16 @@ class QuestionScreen extends HookConsumerWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        // 질문 생성
-                        if (type == 'community') {
-                          ref
-                              .read(communityControllerProvider.notifier)
-                              .postPage(
-                                user: userInfo!.userInfo!.seq as int,
-                                theme: toSeq,
-                                title: titleTextController.text,
-                                content: questionTextController.text,
-                                private: privateCheck.value ? "0" : "1",
-                                context: context,
-                                ref: ref,
-                              );
-                        } else {
-                          ref
-                              .read(profileControllerProvider.notifier)
-                              .postQuestion(
-                                user: userInfo!.userInfo!.seq as int,
-                                to: toSeq,
-                                title: questionTextController.text,
-                                private: privateCheck.value ? "0" : "1",
-                                context: context,
-                                ref: ref,
-                              );
-                        }
+                        // page
+                        ref.read(communityControllerProvider.notifier).editPage(
+                              page: page.pages!.seq as int,
+                              theme: toSeq,
+                              title: titleTextController.text,
+                              content: questionTextController.text,
+                              private: privateCheck.value ? "0" : "1",
+                              context: context,
+                              ref: ref,
+                            );
                       },
                       child: Container(
                         width: 100.w,

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flan/core/core.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
 import 'package:flan/features/profile/controller/profile_controller.dart';
 import 'package:flan/models/bookmark/bookmark_page_model.dart';
@@ -506,7 +507,17 @@ Future pageMore(
                     Column(
                       children: [
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            final current =
+                                ref.watch(currentCategorySeqProvier);
+                            context.push(
+                              '/community_page_edit',
+                              extra: {
+                                'page': page,
+                                'toSeq': current,
+                              },
+                            );
+                          },
                           child: Container(
                             width: 1.sw,
                             height: 40.h,

@@ -6,7 +6,6 @@ import 'package:flan/features/main/controller/main_controller.dart';
 import 'package:flan/models/bookmark/bookmark_page_model.dart';
 import 'package:flan/models/comment/comment_model.dart';
 import 'package:flan/models/page/page_model.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -165,6 +164,41 @@ class CommunityController extends StateNotifier<bool> {
     state = true;
     final res = await _pageAPI.postPage(
       user: user,
+      theme: theme,
+      title: title,
+      content: content,
+      private: private,
+    );
+    state = false;
+    res.fold(
+      (l) => null,
+      (r) {
+        if (r == 200) {
+          final current = ref.watch(currentCategorySeqProvier);
+          if (current == 0) {
+            ref.invalidate(pageProvider);
+          } else {
+            ref.invalidate(themePageProvider(current));
+          }
+
+          context.push('/');
+        }
+      },
+    );
+  }
+
+  void editPage({
+    required int page,
+    required int theme,
+    required String title,
+    required String content,
+    required String private,
+    required BuildContext context,
+    required WidgetRef ref,
+  }) async {
+    state = true;
+    final res = await _pageAPI.editPage(
+      page: page,
       theme: theme,
       title: title,
       content: content,

@@ -72,6 +72,33 @@ class PageAPI {
     }
   }
 
+  FutureEither<int> editPage({
+    required int page,
+    required int theme,
+    required String title,
+    required String content,
+    required String private,
+  }) async {
+    try {
+      // status 1 공개 0 익명
+      final url = Uri.parse('http://topping.io:8855/API/pages/$page');
+
+      final request = http.MultipartRequest("PUT", url)
+        ..fields['theme_seq'] = theme.toString()
+        ..fields['title'] = title.toString()
+        ..fields['content'] = content.toString()
+        ..fields['private'] = private.toString()
+        ..fields['status'] = '1'.toString();
+
+      final response = await request.send();
+      return right(response.statusCode);
+    } catch (e, stackTrace) {
+      return left(
+        Failure(e.toString(), stackTrace),
+      );
+    }
+  }
+
   Future<int> likePage({
     required int pageSeq,
     required int userSeq,
