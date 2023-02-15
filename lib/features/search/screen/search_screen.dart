@@ -204,10 +204,10 @@ class SearchScreen extends HookConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SizedBox(height: 15.h),
                         Container(
                           color: AppColor.scaffoldBackgroundColor,
                           padding: EdgeInsets.symmetric(
-                            vertical: 10.h,
                             horizontal: 16.w,
                           ),
                           child: Row(
@@ -216,20 +216,21 @@ class SearchScreen extends HookConsumerWidget {
                               Text(
                                 '추천친구',
                                 style: AppTextStyle.boldTextStyle.copyWith(
-                                  fontSize: 13.sp,
+                                  fontSize: 14.sp,
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () {},
-                                child: Icon(
-                                  Icons.refresh,
-                                  color: AppColor.primaryColor,
-                                  size: 20.w,
-                                ),
-                              ),
+                              // GestureDetector(
+                              //   onTap: () {},
+                              //   child: Icon(
+                              //     Icons.refresh,
+                              //     color: AppColor.primaryColor,
+                              //     size: 20.w,
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
+                        SizedBox(height: 5.h),
                         Expanded(
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.w),
