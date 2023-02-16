@@ -24,6 +24,10 @@ class UIConstants {
     required int index,
     required WidgetRef ref,
   }) {
+    final userInfo = ref.watch(userInfoProvier);
+    final feedSeq = ref.watch(feedSeqProvider);
+    final feedName = ref.watch(feedNameProvider);
+
     return AppBar(
       toolbarHeight: 25.h,
       elevation: 0,
@@ -110,25 +114,26 @@ class UIConstants {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          // 본인 피드로 이동.
-                          final userInfo = ref.watch(userInfoProvier);
-                          ref
-                              .read(feedSeqProvider.notifier)
-                              .onChange(userInfo!.userInfo!.seq as int);
-                          ref.read(bottomNavProvier.notifier).onChange(3);
-                        },
-                        child: Container(
-                          color: Colors.transparent,
-                          child: SvgPicture.asset(
-                            AssetsConstants.mainFill,
-                            width: 17.5.h,
-                            height: 17.5.h,
-                            color: AppColor.primaryColor,
+                      // feedSeq 0 이라는 것은 한번도 클릭한 적이 없었던 것.
+                      if (userInfo!.userInfo!.seq != feedSeq && feedSeq != 0)
+                        GestureDetector(
+                          onTap: () {
+                            // 본인 피드로 이동.
+                            ref
+                                .read(feedSeqProvider.notifier)
+                                .onChange(userInfo.userInfo!.seq as int);
+                            ref.read(bottomNavProvier.notifier).onChange(3);
+                          },
+                          child: Container(
+                            color: Colors.transparent,
+                            child: SvgPicture.asset(
+                              AssetsConstants.mainFill,
+                              width: 17.5.h,
+                              height: 17.5.h,
+                              color: AppColor.primaryColor,
+                            ),
                           ),
                         ),
-                      ),
                       SizedBox(width: 7.5.w),
                       Builder(
                         builder: (context) {
@@ -197,9 +202,9 @@ class UIConstants {
                 child: Container(
                   color: Colors.transparent,
                   child: SvgPicture.asset(
-                    AssetsConstants.clear,
-                    width: 20.h,
-                    height: 20.h,
+                    AssetsConstants.back,
+                    width: 15.h,
+                    height: 15.h,
                     color: AppColor.primaryColor,
                   ),
                 ),
@@ -215,7 +220,6 @@ class UIConstants {
                   style: AppTextStyle.boldTextStyle.copyWith(
                     fontSize: 15.sp,
                     color: AppColor.primaryColor,
-                    height: 1.5,
                   ),
                 ),
               ),

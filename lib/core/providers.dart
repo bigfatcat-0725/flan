@@ -31,6 +31,15 @@ class FeedSeq extends StateNotifier<int> {
   void onChange(int index) => state = index;
 }
 
+final feedNameProvider = StateNotifierProvider<FeedName, String>((ref) {
+  return FeedName();
+});
+
+class FeedName extends StateNotifier<String> {
+  FeedName() : super('');
+  void onChange(String name) => state = name;
+}
+
 final currentCategoryProvier =
     StateNotifierProvider<CurrentCategory, String>((ref) {
   return CurrentCategory();

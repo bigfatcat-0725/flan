@@ -30,4 +30,5 @@ class AssetsConstants {
   static const String facebook = 'assets/facebook.png';
   static const String fontLogo = 'assets/font_logo.svg';
   static const String mainFill = 'assets/main_fill.svg';
+  static const String back = 'assets/back.svg';
 }

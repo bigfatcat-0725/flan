@@ -33,7 +33,7 @@ class ProfileCardNew extends HookConsumerWidget {
     final String ago = data.questions!.remaining as String;
 
     // 게시물 이미지
-    final List<String> contentImgList = data.questions!.photo ?? [];
+    final List<String> contentImgList = data.questions!.photo ?? ['1', '2'];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,7 +151,7 @@ class ProfileCardNew extends HookConsumerWidget {
         if (isMyData == 1)
           Container(
             width: 1.sw,
-            height: 30.h,
+            height: 25.h,
             color: const Color(0xffefefef),
             child: Row(
               children: [
@@ -163,7 +163,7 @@ class ProfileCardNew extends HookConsumerWidget {
                     },
                     child: Container(
                       color: Colors.transparent,
-                      height: 30.h,
+                      height: 25.h,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -175,7 +175,7 @@ class ProfileCardNew extends HookConsumerWidget {
                           ),
                           SizedBox(width: 7.5.w),
                           Text(
-                            '답변작성',
+                            '답변',
                             style: AppTextStyle.greyStyle.copyWith(
                               fontSize: 11.sp,
                             ),
@@ -199,7 +199,7 @@ class ProfileCardNew extends HookConsumerWidget {
                     },
                     child: Container(
                       color: Colors.transparent,
-                      height: 30.h,
+                      height: 25.h,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -212,7 +212,7 @@ class ProfileCardNew extends HookConsumerWidget {
                           ),
                           SizedBox(width: 7.5.w),
                           Text(
-                            '거절하기',
+                            '거절',
                             style: AppTextStyle.greyStyle.copyWith(
                               fontSize: 11.sp,
                             ),

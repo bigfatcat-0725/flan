@@ -92,7 +92,7 @@ class MainCard extends HookConsumerWidget {
         context.push('/main_detail', extra: {'data': data});
       },
       child: Container(
-        color: AppColor.scaffoldBackgroundColor,
+        color: Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -320,11 +320,11 @@ class MainCard extends HookConsumerWidget {
                 ],
               ),
             ),
-            SizedBox(height: 15.h),
+            SizedBox(height: 10.h),
             Container(
               width: 1.sw,
-              height: 30.h,
-              color: const Color(0xffefefef),
+              height: 25.h,
+              color: Colors.white,
               child: Row(
                 children: [
                   Expanded(
@@ -343,7 +343,7 @@ class MainCard extends HookConsumerWidget {
                       },
                       child: Container(
                         color: Colors.transparent,
-                        height: 30.h,
+                        height: 25.h,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -389,7 +389,7 @@ class MainCard extends HookConsumerWidget {
                       },
                       child: Container(
                         color: Colors.transparent,
-                        height: 30.h,
+                        height: 25.h,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -421,7 +421,7 @@ class MainCard extends HookConsumerWidget {
                   ),
                   Expanded(
                     child: SizedBox(
-                      height: 30.h,
+                      height: 25.h,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -445,6 +445,7 @@ class MainCard extends HookConsumerWidget {
                 ],
               ),
             ),
+            SizedBox(height: 5.h),
           ],
         ),
       ),

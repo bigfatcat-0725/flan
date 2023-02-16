@@ -27,6 +27,7 @@ class CommunityDetailScreen extends HookConsumerWidget {
     useEffect(() {
       Future.microtask(
           () => ref.invalidate(commentProvider(page.pages!.seq as int)));
+      return null;
     }, [page]);
 
     // 전에서 가져오는게 아니라
@@ -140,56 +141,49 @@ class CommunityDetailScreen extends HookConsumerWidget {
         ],
       ),
       bottomNavigationBar: SizedBox(
-        height: MediaQuery.of(context).padding.bottom + 40.h,
-        child: Column(
-          children: [
-            GestureDetector(
-              onTap: () {
-                context.push('/community_ask', extra: {
-                  'page': page,
-                  'type': 'default',
-                  'commentIndex': 0
-                });
-              },
-              child: CupertinoTabBar(
-                backgroundColor: AppColor.scaffoldBackgroundColor,
-                items: [
-                  BottomNavigationBarItem(
-                    icon: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 1.sw / 2,
-                          height: 40.h,
-                          color: AppColor.scaffoldBackgroundColor,
-                          padding: EdgeInsets.only(left: 16.w),
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            '댓글입력...',
-                            style: AppTextStyle.defaultTextStyle.copyWith(
-                              fontSize: 13.sp,
-                              color: AppColor.textColor,
-                            ),
-                          ),
+        height: MediaQuery.of(context).padding.bottom + 50.h,
+        child: GestureDetector(
+          onTap: () {
+            context.push('/community_ask',
+                extra: {'page': page, 'type': 'default', 'commentIndex': 0});
+          },
+          child: CupertinoTabBar(
+            backgroundColor: Colors.white,
+            items: [
+              BottomNavigationBarItem(
+                icon: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 1.sw / 2,
+                      height: 40.h,
+                      color: Colors.white,
+                      padding: EdgeInsets.only(left: 16.w),
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        '댓글입력...',
+                        style: AppTextStyle.defaultTextStyle.copyWith(
+                          fontSize: 13.sp,
+                          color: AppColor.textColor,
                         ),
-                      ],
-                    ),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Padding(
-                      padding: EdgeInsets.only(right: 16.w),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(),
-                        ],
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+              BottomNavigationBarItem(
+                icon: Padding(
+                  padding: EdgeInsets.only(right: 16.w),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

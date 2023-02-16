@@ -151,7 +151,7 @@ class ProfileCardReject extends HookConsumerWidget {
         if (isMyData == 1)
           Container(
             width: 1.sw,
-            height: 30.h,
+            height: 25.h,
             color: const Color(0xffefefef),
             child: Row(
               children: [
@@ -163,7 +163,7 @@ class ProfileCardReject extends HookConsumerWidget {
                     },
                     child: Container(
                       color: Colors.transparent,
-                      height: 30.h,
+                      height: 25.h,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -175,7 +175,7 @@ class ProfileCardReject extends HookConsumerWidget {
                           ),
                           SizedBox(width: 7.5.w),
                           Text(
-                            '답변작성',
+                            '답변',
                             style: AppTextStyle.greyStyle.copyWith(
                               fontSize: 11.sp,
                             ),
@@ -195,7 +195,7 @@ class ProfileCardReject extends HookConsumerWidget {
                     },
                     child: Container(
                       color: Colors.transparent,
-                      height: 30.h,
+                      height: 25.h,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -208,7 +208,7 @@ class ProfileCardReject extends HookConsumerWidget {
                           ),
                           SizedBox(width: 7.5.w),
                           Text(
-                            '삭제하기',
+                            '삭제',
                             style: AppTextStyle.greyStyle.copyWith(
                               fontSize: 11.sp,
                             ),
