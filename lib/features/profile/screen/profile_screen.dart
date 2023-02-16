@@ -397,15 +397,12 @@ class ProfileScreen extends HookConsumerWidget {
                               tabs: [
                                 Tab(
                                   text: '미답변 (${ingList.length})',
-                                  height: 35.h,
                                 ),
                                 Tab(
                                   text: '답변완료 (${finList.length})',
-                                  height: 35.h,
                                 ),
                                 Tab(
                                   text: '거절 (${canList.length})',
-                                  height: 35.h,
                                 ),
                               ],
                             ),
