@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flan/core/type_defs.dart';
 import 'package:flan/core/failure.dart';
 import 'package:fpdart/fpdart.dart';
@@ -10,7 +12,8 @@ final answerAPIProvider = Provider((ref) {
 
 class AnswerAPI {
   // 대댓글은 따로 처리 해야함.
-  FutureEither<int> postAnswer({
+  FutureEither<int> postAnswer(
+    List<File> fileList, {
     required int user,
     required int questionSeq,
     required String title,
@@ -22,6 +25,13 @@ class AnswerAPI {
         ..fields['user_seq'] = user.toString()
         ..fields['question_seq'] = questionSeq.toString()
         ..fields['reply'] = title.toString();
+
+      if (fileList.isNotEmpty) {
+        for (var file in fileList) {
+          request.files
+              .add(await http.MultipartFile.fromPath('img', file.path));
+        }
+      }
 
       final response = await request.send();
       return right(response.statusCode);

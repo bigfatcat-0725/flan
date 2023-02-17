@@ -52,7 +52,8 @@ class AskScreen extends HookConsumerWidget {
     });
 
     // 게시물 이미지
-    final List<String> contentImgList = question.questions!.photo ?? [];
+    final List<String> contentImg =
+        question.questions!.photo.toString().split(',');
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
@@ -200,52 +201,55 @@ class AskScreen extends HookConsumerWidget {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      Positioned(
-                        top: 7.5.w,
-                        left: 7.5.w,
-                        child: Container(
-                          width: 40.w,
-                          height: 20.h,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 1.w,
-                              color: AppColor.primaryColor,
-                            ),
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                          child: Center(
-                            child: Text(
-                              '${picturesCurIndex.value} / ${pictures.value.length}',
-                              style: AppTextStyle.boldTextStyle.copyWith(
-                                color: AppColor.primaryColor,
-                                fontSize: 10.sp,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        top: 7.5.w,
-                        right: 7.5.w,
-                        child: GestureDetector(
-                          onTap: () {
-                            pictures.value.removeAt(picturesCurIndex.value - 1);
-                            // 다시 담아줘야 state 변경함.
-                            pictures.value = [...pictures.value];
-                            picturesCurIndex.value = picturesCurIndex.value - 1;
-                          },
-                          child: SizedBox(
-                            width: 20.w,
-                            height: 20.w,
-                            child: FittedBox(
-                              child: SvgPicture.asset(
-                                AssetsConstants.clear,
-                                color: AppColor.primaryColor,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Positioned(
+                      //   top: 7.5.w,
+                      //   left: 7.5.w,
+                      //   child: Container(
+                      //     width: 40.w,
+                      //     height: 20.h,
+                      //     decoration: BoxDecoration(
+                      //       border: Border.all(
+                      //         width: 1.w,
+                      //         color: AppColor.primaryColor,
+                      //       ),
+                      //       borderRadius: BorderRadius.circular(100),
+                      //     ),
+                      //     child: Center(
+                      //       child: Text(
+                      //         '${picturesCurIndex.value} / ${pictures.value.length}',
+                      //         style: AppTextStyle.boldTextStyle.copyWith(
+                      //           color: AppColor.primaryColor,
+                      //           fontSize: 10.sp,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      // Positioned(
+                      //   top: 7.5.w,
+                      //   right: 7.5.w,
+                      //   child: GestureDetector(
+                      //     onTap: () {
+                      //       pictures.value.removeAt(picturesCurIndex.value - 1);
+                      //       // 다시 담아줘야 state 변경함.
+                      //       pictures.value = [...pictures.value];
+                      //       if (picturesCurIndex.value != 0) {
+                      //         picturesCurIndex.value =
+                      //             picturesCurIndex.value - 1;
+                      //       }
+                      //     },
+                      //     child: SizedBox(
+                      //       width: 20.w,
+                      //       height: 20.w,
+                      //       child: FittedBox(
+                      //         child: SvgPicture.asset(
+                      //           AssetsConstants.clear,
+                      //           color: AppColor.primaryColor,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   );
                 }).toList(),
@@ -323,6 +327,7 @@ class AskScreen extends HookConsumerWidget {
                           ref
                               .read(profileControllerProvider.notifier)
                               .postAnswer(
+                                pictures.value,
                                 user: userInfo.userInfo!.seq as int,
                                 questionSeq: question.questions!.seq as int,
                                 title: askTextController.text,

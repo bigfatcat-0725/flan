@@ -33,7 +33,10 @@ class ProfileCardNew extends HookConsumerWidget {
     final String ago = data.questions!.remaining as String;
 
     // 게시물 이미지
-    final List<String> contentImgList = data.questions!.photo ?? ['1', '2'];
+    // 카드에서는 1장만
+    final List<String> contentImg = data.questions!.photo != null
+        ? data.questions!.photo.toString().split(',')
+        : [];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,7 +115,8 @@ class ProfileCardNew extends HookConsumerWidget {
                       ),
                     ),
                   ),
-                  if (contentImgList.isNotEmpty)
+                  if (data.questions!.photo != null &&
+                      data.questions!.photo != '')
                     Padding(
                       padding: EdgeInsets.only(left: 5.w),
                       child: Stack(
@@ -121,7 +125,7 @@ class ProfileCardNew extends HookConsumerWidget {
                             borderRadius: BorderRadius.circular(5.w),
                             child: CachedNetworkImage(
                               imageUrl:
-                                  'https://files.heftykrcdn.com/wp-content/uploads/2017/11/c4ca4238a0b923820dcc509a6f75849b10.jpg',
+                                  'http://topping.io:8855${contentImg[0]}',
                               width: 45.w,
                               height: 45.w,
                               fit: BoxFit.cover,
@@ -136,7 +140,7 @@ class ProfileCardNew extends HookConsumerWidget {
                             ),
                             child: Center(
                               child: Text(
-                                '+${contentImgList.length}',
+                                '+${contentImg.length}',
                                 style: AppTextStyle.boldTextStyle.copyWith(
                                   color: Colors.white,
                                 ),

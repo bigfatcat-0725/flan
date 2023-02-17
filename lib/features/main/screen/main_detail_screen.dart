@@ -3,6 +3,7 @@ import 'package:flan/features/main/widget/main_card.dart';
 import 'package:flan/models/feed/feed_model.dart';
 import 'package:flan/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MainDetailScreen extends HookConsumerWidget {
@@ -19,9 +20,26 @@ class MainDetailScreen extends HookConsumerWidget {
       appBar: UIConstants.qaAppBar(context, '상세보기'),
       body: Column(
         children: [
-          MainCard(
-            type: 'detail',
-            data: data,
+          SizedBox(height: 10.h),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 16.w),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: const [
+                BoxShadow(
+                  blurRadius: 2.5,
+                  color: Color(0xffcccccc),
+                ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: MainCard(
+                type: 'detail',
+                data: data,
+              ),
+            ),
           ),
         ],
       ),

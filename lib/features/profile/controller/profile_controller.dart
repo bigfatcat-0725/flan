@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flan/apis/answer_api.dart';
 import 'package:flan/apis/bookmark_api.dart';
@@ -35,7 +36,8 @@ class ProfileController extends StateNotifier<bool> {
         _bookmarkAPI = bookmarkAPI,
         super(false);
 
-  void postQuestion({
+  void postQuestion(
+    List<File> imgList, {
     required int user,
     required int to,
     required String title,
@@ -45,6 +47,7 @@ class ProfileController extends StateNotifier<bool> {
   }) async {
     state = true;
     final res = await _questionAPI.postQuestion(
+      imgList,
       user: user,
       to: to,
       title: title,
@@ -148,7 +151,8 @@ class ProfileController extends StateNotifier<bool> {
   }
 
   // 프로필에서 답변을 한다는 것 자체가 자기 자신의 피드로 들어온 것임.
-  void postAnswer({
+  void postAnswer(
+    List<File> fileList, {
     required int user,
     required int questionSeq,
     required String title,
@@ -157,6 +161,7 @@ class ProfileController extends StateNotifier<bool> {
   }) async {
     state = true;
     final res = await _answerAPI.postAnswer(
+      fileList,
       user: user,
       questionSeq: questionSeq,
       title: title,

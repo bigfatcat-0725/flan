@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flan/core/type_defs.dart';
 import 'package:flan/core/failure.dart';
@@ -11,13 +12,16 @@ final questionAPIProvider = Provider((ref) {
 });
 
 class QuestionAPI {
-  FutureEither<int> postQuestion({
+  FutureEither<int> postQuestion(
+    List<File> imgList, {
     required int user,
     required int to,
     required String title,
     required String private,
   }) async {
     try {
+      print(imgList);
+
       final url = Uri.parse('http://topping.io:8855/API/questions');
 
       final request = http.MultipartRequest("POST", url)
@@ -25,6 +29,13 @@ class QuestionAPI {
         ..fields['to_seq'] = to.toString()
         ..fields['question'] = title.toString()
         ..fields['private'] = private.toString();
+
+      if (imgList.isNotEmpty) {
+        for (var file in imgList) {
+          request.files
+              .add(await http.MultipartFile.fromPath('imgs', file.path));
+        }
+      }
 
       final response = await request.send();
 

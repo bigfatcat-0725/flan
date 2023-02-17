@@ -60,9 +60,7 @@ Future<List<File>> pickImages() async {
       images.add(File(image.path));
     }
   }
-  if (kDebugMode) {
-    print(images);
-  }
+
   return images;
 }
 

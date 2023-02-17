@@ -26,7 +26,6 @@ class HomeFeedCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isMounted = useIsMounted();
     final likeStatus = useState(false);
     final saveStatus = useState(false);
     final myCard = useState(true);
@@ -50,7 +49,7 @@ class HomeFeedCard extends HookConsumerWidget {
     // 좋아요 && 북마크 확인
     useEffect(() {
       // mount 상황이 아니라면 불러오지 않는다. 예기치 않는 오류 해결.
-      if (isMounted()) {
+      if (context.mounted) {
         Future.microtask(() async {
           final status =
               await ref.read(profileControllerProvider.notifier).isLikeQuestion(
@@ -87,7 +86,8 @@ class HomeFeedCard extends HookConsumerWidget {
 
     // 게시물 이미지
     // 임시로 1
-    final List<String> contentImgList = data.questions!.photo ?? ['1'];
+    final List<String> contentImgList =
+        data.questions!.photo != null ? data.questions!.photo.split(',') : [];
 
     return GestureDetector(
       onTap: () {
@@ -334,13 +334,55 @@ class HomeFeedCard extends HookConsumerWidget {
                           : Container(),
                     ],
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 55.w),
-                    child: Text(
-                      answerContent,
-                      maxLines: type != 'detail' ? 3 : 100,
-                      overflow: type == 'detail' ? null : TextOverflow.ellipsis,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(left: 55.w),
+                        child: Text(
+                          answerContent,
+                          maxLines: type != 'detail' ? 3 : 100,
+                          overflow:
+                              type == 'detail' ? null : TextOverflow.ellipsis,
+                        ),
+                      ),
+                      if (data.questions!.answer![0].answers!.photo != '')
+                        if (type == 'default')
+                          Padding(
+                            padding: EdgeInsets.only(left: 5.w),
+                            child: Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(5.w),
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        'http://topping.io:8855${data.questions!.answer![0].answers!.photo}',
+                                    width: 45.w,
+                                    height: 45.w,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Container(
+                                  width: 45.w,
+                                  height: 45.w,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(5.w),
+                                  ),
+                                  // child: Center(
+                                  //   child: Text(
+                                  //     '+${contentImgList.length}',
+                                  //     style:
+                                  //         AppTextStyle.boldTextStyle.copyWith(
+                                  //       color: Colors.white,
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                ),
+                              ],
+                            ),
+                          ),
+                    ],
                   ),
                 ],
               ),

@@ -38,7 +38,7 @@ class FeedAPI {
           (e) => HomeFeedModel.fromJson(e),
         )
         .toList();
-    print(homeFeedList);
+    // print(homeFeedList);
     return homeFeedList;
   }
 }

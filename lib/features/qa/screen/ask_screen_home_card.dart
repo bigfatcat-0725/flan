@@ -324,6 +324,7 @@ class AskScreenHomeCard extends HookConsumerWidget {
                           ref
                               .read(profileControllerProvider.notifier)
                               .postAnswer(
+                                pictures.value,
                                 user: userInfo.userInfo!.seq as int,
                                 questionSeq: question.questions!.seq as int,
                                 title: askTextController.text,

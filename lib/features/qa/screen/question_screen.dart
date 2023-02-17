@@ -141,6 +141,7 @@ class QuestionScreen extends HookConsumerWidget {
                       children: [
                         SizedBox(
                           width: 1.sw,
+                          height: 150.h,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(5),
                             child: Image.file(
@@ -288,6 +289,7 @@ class QuestionScreen extends HookConsumerWidget {
                           ref
                               .read(profileControllerProvider.notifier)
                               .postQuestion(
+                                pictures.value,
                                 user: userInfo!.userInfo!.seq as int,
                                 to: toSeq,
                                 title: questionTextController.text,
