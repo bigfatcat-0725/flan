@@ -118,7 +118,7 @@ class CommunityDetailScreen extends HookConsumerWidget {
                         children: List.generate(
                             contentImgList.length,
                             (index) => Container(
-                                  width: 200.w,
+                                  width: 1.sw,
                                   height: 140.h,
                                   margin: EdgeInsets.only(
                                     right: contentImgList[

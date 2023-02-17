@@ -228,83 +228,93 @@ class BookmarkEditPageScreen extends HookConsumerWidget {
             if (pictures.value.isEmpty)
               Container()
             else
-              Container(
-                margin: EdgeInsets.only(bottom: 10.h),
-                child: CarouselSlider(
-                  options: CarouselOptions(
-                    height: 150.h,
-                    enableInfiniteScroll: false,
-                    viewportFraction: 1,
-                    onPageChanged: (index, reason) {
-                      picturesCurIndex.value = index + 1;
-                    },
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '기존 사진포함 최대 3장입니다.',
+                    style: AppTextStyle.greyStyle,
                   ),
-                  items: pictures.value.map((i) {
-                    return Stack(
-                      children: [
-                        SizedBox(
-                          width: 1.sw,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(5),
-                            child: Image.file(
-                              i,
-                              fit: BoxFit.cover,
-                              filterQuality: FilterQuality.medium,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 7.5.w,
-                          left: 7.5.w,
-                          child: Container(
-                            width: 40.w,
-                            height: 20.h,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 1.w,
-                                color: AppColor.primaryColor,
-                              ),
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: Center(
-                              child: Text(
-                                '${picturesCurIndex.value} / ${pictures.value.length}',
-                                style: AppTextStyle.boldTextStyle.copyWith(
-                                  color: AppColor.primaryColor,
-                                  fontSize: 10.sp,
+                  SizedBox(height: 2.5.h),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10.h),
+                    child: CarouselSlider(
+                      options: CarouselOptions(
+                        height: 150.h,
+                        enableInfiniteScroll: false,
+                        viewportFraction: 1,
+                        onPageChanged: (index, reason) {
+                          picturesCurIndex.value = index + 1;
+                        },
+                      ),
+                      items: pictures.value.map((i) {
+                        return Stack(
+                          children: [
+                            SizedBox(
+                              width: 1.sw,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: Image.file(
+                                  i,
+                                  fit: BoxFit.cover,
+                                  filterQuality: FilterQuality.medium,
                                 ),
                               ),
                             ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 7.5.w,
-                          right: 7.5.w,
-                          child: GestureDetector(
-                            onTap: () {
-                              pictures.value
-                                  .removeAt(picturesCurIndex.value - 1);
-                              // 다시 담아줘야 state 변경함.
-                              pictures.value = [...pictures.value];
-                              picturesCurIndex.value =
-                                  picturesCurIndex.value - 1;
-                            },
-                            child: SizedBox(
-                              width: 20.w,
-                              height: 20.w,
-                              child: FittedBox(
-                                child: SvgPicture.asset(
-                                  AssetsConstants.clear,
-                                  color: AppColor.primaryColor,
+                            Positioned(
+                              top: 7.5.w,
+                              left: 7.5.w,
+                              child: Container(
+                                width: 40.w,
+                                height: 20.h,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 1.w,
+                                    color: AppColor.primaryColor,
+                                  ),
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    '${picturesCurIndex.value} / ${pictures.value.length}',
+                                    style: AppTextStyle.boldTextStyle.copyWith(
+                                      color: AppColor.primaryColor,
+                                      fontSize: 10.sp,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ),
-                      ],
-                    );
-                  }).toList(),
-                ),
+                            Positioned(
+                              top: 7.5.w,
+                              right: 7.5.w,
+                              child: GestureDetector(
+                                onTap: () {
+                                  pictures.value
+                                      .removeAt(picturesCurIndex.value - 1);
+                                  // 다시 담아줘야 state 변경함.
+                                  pictures.value = [...pictures.value];
+                                  picturesCurIndex.value =
+                                      picturesCurIndex.value - 1;
+                                },
+                                child: SizedBox(
+                                  width: 20.w,
+                                  height: 20.w,
+                                  child: FittedBox(
+                                    child: SvgPicture.asset(
+                                      AssetsConstants.clear,
+                                      color: AppColor.primaryColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
               ),
           ],
         ),
@@ -324,8 +334,20 @@ class BookmarkEditPageScreen extends HookConsumerWidget {
                       onTap: () async {
                         final image = await pickCamera();
                         if (image != null) {
-                          pictures.value.add(image);
-                          pictures.value = [...pictures.value];
+                          var defaultMax = 3 -
+                              (page.pages!.photo.toString().split(',')[0] == ''
+                                  ? 0
+                                  : page.pages!.photo
+                                      .toString()
+                                      .split(',')
+                                      .length);
+                          if (pictures.value.length < defaultMax) {
+                            pictures.value.add(image);
+                          }
+                          if (pictures.value.length > defaultMax) {
+                            pictures.value.add(image);
+                            pictures.value = [...pictures.value.sublist(0, 3)];
+                          }
                         }
                       },
                       child: SvgPicture.asset(
@@ -340,8 +362,22 @@ class BookmarkEditPageScreen extends HookConsumerWidget {
                       onTap: () async {
                         final images = await pickImages();
                         if (images.isNotEmpty) {
-                          // 계속 추가
-                          pictures.value = [...pictures.value, ...images];
+                          var defaultMax = 3 -
+                              (page.pages!.photo.toString().split(',')[0] == ''
+                                  ? 0
+                                  : page.pages!.photo
+                                      .toString()
+                                      .split(',')
+                                      .length);
+
+                          if (pictures.value.length < defaultMax) {
+                            pictures.value = [...pictures.value, ...images];
+                          }
+                          if (pictures.value.length > defaultMax) {
+                            pictures.value = [
+                              ...pictures.value.sublist(0, defaultMax)
+                            ];
+                          }
                         }
                       },
                       child: SvgPicture.asset(

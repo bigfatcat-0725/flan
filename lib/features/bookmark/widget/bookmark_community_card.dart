@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flan/constants/constants.dart';
 import 'package:flan/core/util.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
@@ -30,6 +31,9 @@ class BookmarkCommunityCard extends HookConsumerWidget {
     // 본인
     final userInfo = ref.watch(userInfoProvier.notifier).state!;
     // 좋아요 && 북마크 확인
+
+    final List<String> contentImgList =
+        item.pages!.photo != "" ? item.pages!.photo.toString().split(',') : [];
 
     useEffect(() {
       if (isMounted()) {
@@ -149,26 +153,77 @@ class BookmarkCommunityCard extends HookConsumerWidget {
                           ],
                         ),
                         SizedBox(height: 10.h),
-                        Text(
-                          item.pages!.title.toString(),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppTextStyle.boldTextStyle.copyWith(
-                            fontSize: 13.sp,
-                          ),
-                        ),
-                        SizedBox(height: 5.h),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(
-                              child: Text(
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                item.pages!.content.toString(),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    item.pages!.title.toString(),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: AppTextStyle.boldTextStyle.copyWith(
+                                      fontSize: 13.sp,
+                                    ),
+                                  ),
+                                  SizedBox(height: 5.h),
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          item.pages!.content.toString(),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
+                            if (contentImgList.isNotEmpty)
+                              Padding(
+                                padding: EdgeInsets.only(left: 5.w),
+                                child: Stack(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(5.w),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            'http://topping.io:8855${contentImgList[0]}',
+                                        width: 45.w,
+                                        height: 45.w,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 45.w,
+                                      height: 45.w,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black.withOpacity(0.2),
+                                        borderRadius:
+                                            BorderRadius.circular(5.w),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          '+${contentImgList.length}',
+                                          style: AppTextStyle.boldTextStyle
+                                              .copyWith(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                           ],
                         ),
                       ],
