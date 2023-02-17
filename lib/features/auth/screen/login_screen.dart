@@ -49,9 +49,9 @@ class LoginScreen extends HookConsumerWidget {
       backgroundColor: AppColor.scaffoldBackgroundColor,
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 80.h),
             Column(
               children: [
                 SvgPicture.asset(
@@ -205,97 +205,97 @@ class LoginScreen extends HookConsumerWidget {
               ),
             ),
             SizedBox(height: 30.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 1.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: AppColor.hintColor,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                      horizontal: 20.w,
-                    ),
-                    child: Text(
-                      '또는',
-                      style: AppTextStyle.defaultTextStyle,
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      height: 1.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: AppColor.hintColor,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 15.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 45.w,
-                  height: 45.w,
-                  padding: EdgeInsets.all(5.w),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: FittedBox(
-                      child: Image.asset(
-                        AssetsConstants.zalo,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 15.w),
-                Container(
-                  width: 45.w,
-                  height: 45.w,
-                  padding: EdgeInsets.all(5.w),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: Image.asset(
-                      AssetsConstants.facebook,
-                    ),
-                  ),
-                ),
-                SizedBox(width: 15.w),
-                Container(
-                  width: 45.w,
-                  height: 45.w,
-                  padding: EdgeInsets.all(5.w),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: FittedBox(
-                      child: Image.asset(AssetsConstants.google),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 30.h),
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 15.w),
+            //   child: Row(
+            //     children: [
+            //       Expanded(
+            //         child: Container(
+            //           height: 1.h,
+            //           decoration: BoxDecoration(
+            //             borderRadius: BorderRadius.circular(100),
+            //             color: AppColor.hintColor,
+            //           ),
+            //         ),
+            //       ),
+            //       Container(
+            //         margin: EdgeInsets.symmetric(
+            //           horizontal: 20.w,
+            //         ),
+            //         child: Text(
+            //           '또는',
+            //           style: AppTextStyle.defaultTextStyle,
+            //         ),
+            //       ),
+            //       Expanded(
+            //         child: Container(
+            //           height: 1.h,
+            //           decoration: BoxDecoration(
+            //             borderRadius: BorderRadius.circular(100),
+            //             color: AppColor.hintColor,
+            //           ),
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
+            // SizedBox(height: 15.h),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     Container(
+            //       width: 45.w,
+            //       height: 45.w,
+            //       padding: EdgeInsets.all(5.w),
+            //       decoration: const BoxDecoration(
+            //         color: Colors.white,
+            //         shape: BoxShape.circle,
+            //       ),
+            //       child: ClipRRect(
+            //         borderRadius: BorderRadius.circular(100),
+            //         child: FittedBox(
+            //           child: Image.asset(
+            //             AssetsConstants.zalo,
+            //             fit: BoxFit.cover,
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //     SizedBox(width: 15.w),
+            //     Container(
+            //       width: 45.w,
+            //       height: 45.w,
+            //       padding: EdgeInsets.all(5.w),
+            //       decoration: const BoxDecoration(
+            //         color: Colors.white,
+            //         shape: BoxShape.circle,
+            //       ),
+            //       child: ClipRRect(
+            //         borderRadius: BorderRadius.circular(100),
+            //         child: Image.asset(
+            //           AssetsConstants.facebook,
+            //         ),
+            //       ),
+            //     ),
+            //     SizedBox(width: 15.w),
+            //     Container(
+            //       width: 45.w,
+            //       height: 45.w,
+            //       padding: EdgeInsets.all(5.w),
+            //       decoration: const BoxDecoration(
+            //         color: Colors.white,
+            //         shape: BoxShape.circle,
+            //       ),
+            //       child: ClipRRect(
+            //         borderRadius: BorderRadius.circular(100),
+            //         child: FittedBox(
+            //           child: Image.asset(AssetsConstants.google),
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            // SizedBox(height: 30.h),
             Text(
               'FLAN은 처음이신가요?',
               style: AppTextStyle.defaultTextStyle,

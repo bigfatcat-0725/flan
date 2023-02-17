@@ -111,6 +111,56 @@ class UserAPI {
     }
   }
 
+  FutureEither<UserModel> changeProfileOption({
+    required UserModel userModel,
+    required String option,
+    required int value,
+  }) async {
+    try {
+      final userInfo = userModel.userInfo!;
+
+      final url =
+          Uri.parse('http://topping.io:8855/API/users/alram/${userInfo.seq}');
+
+      final request = await http.put(
+        url,
+        body: jsonEncode({
+          "name_search":
+              option == 'search' ? value : userInfo.nameSearch.toString(),
+          "unknown_q":
+              option == 'unknown' ? value : userInfo.unknownQ.toString(),
+          "proposal":
+              option == 'proposal' ? value : userInfo.proposal.toString(),
+          "notice_alram":
+              option == 'notice' ? value : userInfo.noticeAlram.toString(),
+          "question_alram":
+              option == 'question' ? value : userInfo.questionAlram.toString(),
+          "answer_alram":
+              option == 'answer' ? value : userInfo.answerAlram.toString(),
+          "comment_alram":
+              option == 'comment' ? value : userInfo.commentAlram.toString(),
+          "p_comment_alram":
+              option == 'pComment' ? value : userInfo.pCommentAlram.toString(),
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          "accept": "application/json",
+        },
+      );
+
+      final decodeData = utf8.decode(request.bodyBytes);
+
+      final data = userModel.copyWith(
+          userInfo: UserInfo.fromJson(jsonDecode(decodeData)));
+
+      return right(data);
+    } catch (e, stackTrace) {
+      return left(
+        Failure(e.toString(), stackTrace),
+      );
+    }
+  }
+
   Future<List> searchUser({required user, required search}) async {
     final url = Uri.parse(
         'http://topping.io:8855/API/users/nickname/search?user_seq=$user&search=$search');

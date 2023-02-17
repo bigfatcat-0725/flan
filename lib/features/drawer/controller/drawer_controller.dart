@@ -104,6 +104,29 @@ class DrawerController extends StateNotifier<bool> {
     );
   }
 
+  void changeProfileOption({
+    required UserModel userModel,
+    required String option,
+    required int value,
+    required WidgetRef ref,
+    required BuildContext context,
+  }) async {
+    final res = await _userAPI.changeProfileOption(
+        userModel: userModel, option: option, value: value);
+    res.fold(
+      (l) => print(l.message),
+      (r) {
+        ref.read(userInfoProvier.notifier).update((state) => r);
+        // 원래 피드로 돌아감 + refresh
+        final feedSeq = ref.watch(feedSeqProvider);
+        final feedSeqLogic =
+            feedSeq == 0 ? userModel.userInfo!.seq as int : feedSeq;
+        ref.invalidate(feedProivder(feedSeqLogic));
+        // showSnackBar(context, '변경 완료.');
+      },
+    );
+  }
+
   Future<List> writtenPage(seq) async {
     final url = Uri.parse('http://topping.io:8855/API/pages/written/page/$seq');
     final data = await http.get(url, headers: {

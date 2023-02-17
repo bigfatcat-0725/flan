@@ -25,7 +25,7 @@ class DrawerProfileScreen extends HookConsumerWidget {
     final userInfo = ref.watch(userInfoProvier.notifier).state!.userInfo!;
     final userModel = ref.watch(userInfoProvier)!;
 
-    final profilePic = useState('http://topping.io:8855${userInfo.photo!}');
+    final profilePic = useState('http://topping.io:8855${userInfo.photo}');
     final selectPic = useState(false);
 
     final search = useState(false);
@@ -311,7 +311,7 @@ class DrawerProfileScreen extends HookConsumerWidget {
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              'flan.com/${userInfo.email!.split('@')[0]}',
+                              'flan.com/${userInfo.email?.split('@')[0]}',
                             ),
                           ),
                         ),
@@ -331,7 +331,19 @@ class DrawerProfileScreen extends HookConsumerWidget {
                   CupertinoSwitch(
                     activeColor: AppColor.primaryColor,
                     value: search.value,
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      search.value = !search.value;
+
+                      ref
+                          .read(drawerControllerProvider.notifier)
+                          .changeProfileOption(
+                            userModel: userModel,
+                            option: 'search',
+                            value: search.value ? 1 : 0,
+                            ref: ref,
+                            context: context,
+                          );
+                    },
                   ),
                 ],
               ),
@@ -345,7 +357,22 @@ class DrawerProfileScreen extends HookConsumerWidget {
                   CupertinoSwitch(
                     activeColor: AppColor.primaryColor,
                     value: private.value,
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      private.value = !private.value;
+
+                      final user = ref.watch(userInfoProvier);
+                      print(user!.userInfo!.nameSearch);
+
+                      ref
+                          .read(drawerControllerProvider.notifier)
+                          .changeProfileOption(
+                            userModel: userModel,
+                            option: 'unknown',
+                            value: private.value ? 1 : 0,
+                            ref: ref,
+                            context: context,
+                          );
+                    },
                   ),
                 ],
               ),
@@ -359,7 +386,19 @@ class DrawerProfileScreen extends HookConsumerWidget {
                   CupertinoSwitch(
                     activeColor: AppColor.primaryColor,
                     value: recommend.value,
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                      recommend.value = !recommend.value;
+
+                      ref
+                          .read(drawerControllerProvider.notifier)
+                          .changeProfileOption(
+                            userModel: userModel,
+                            option: 'proposal',
+                            value: recommend.value ? 1 : 0,
+                            ref: ref,
+                            context: context,
+                          );
+                    },
                   ),
                 ],
               ),

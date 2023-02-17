@@ -70,7 +70,7 @@ class CommunityScreen extends HookConsumerWidget {
                           },
                           child: Container(
                             width: 100.w,
-                            height: 30.h,
+                            height: 25.h,
                             decoration: BoxDecoration(
                               color: AppColor.primaryColor,
                               borderRadius: BorderRadius.circular(100),

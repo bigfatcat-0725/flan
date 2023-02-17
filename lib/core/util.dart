@@ -100,7 +100,7 @@ Future showPrepareDialog(context) {
             children: [
               Text(
                 '서비스 준비중입니다.',
-                style: AppTextStyle.boldTextStyle.copyWith(
+                style: AppTextStyle.defaultTextStyle.copyWith(
                   fontSize: 13.sp,
                 ),
               ),
@@ -269,7 +269,7 @@ Future showPageDelete(
             children: [
               Text(
                 '삭제하시겠습니까?',
-                style: AppTextStyle.boldTextStyle.copyWith(
+                style: AppTextStyle.defaultTextStyle.copyWith(
                   fontSize: 13.sp,
                 ),
               ),
@@ -363,7 +363,7 @@ Future showDelete(
             children: [
               Text(
                 '삭제하시겠습니까?',
-                style: AppTextStyle.boldTextStyle.copyWith(
+                style: AppTextStyle.defaultTextStyle.copyWith(
                   fontSize: 13.sp,
                 ),
               ),

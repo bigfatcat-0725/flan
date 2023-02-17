@@ -32,9 +32,9 @@ class SignUpScreen extends HookConsumerWidget {
       backgroundColor: AppColor.scaffoldBackgroundColor,
       appBar: UIConstants.qaAppBar(context, '회원가입'),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 30.h),
           SvgPicture.asset(
             AssetsConstants.fontLogo,
             height: 30.h,
@@ -80,7 +80,7 @@ class SignUpScreen extends HookConsumerWidget {
                     color: AppColor.hintColor,
                   ),
                 ),
-                hintText: '이름을 입력하세요.',
+                hintText: '닉네임을 입력하세요.',
                 hintStyle: AppTextStyle.hintStyle,
                 contentPadding: EdgeInsets.all(15.w),
               ),

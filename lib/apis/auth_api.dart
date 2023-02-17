@@ -56,8 +56,20 @@ class AuthAPI {
       final request = http.MultipartRequest("POST", url)
         ..fields['nickname'] = nickname
         ..fields['email'] = email
-        ..fields['password'] = password;
+        ..fields['password'] = password
+        ..fields['name_search'] = 1.toString()
+        ..fields['unknown_q'] = 1.toString()
+        ..fields['proposal'] = 1.toString()
+        ..fields['notice_alram'] = 1.toString()
+        ..fields['question_alram'] = 1.toString()
+        ..fields['answer_alram'] = 1.toString()
+        ..fields['comment_alram'] = 1.toString()
+        ..fields['p_comment_alram'] = 1.toString();
+
       final response = await request.send();
+
+      print(request.fields);
+      print(response.statusCode);
       return right(response.statusCode);
     } catch (e, stackTrace) {
       return left(

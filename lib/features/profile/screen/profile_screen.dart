@@ -380,30 +380,25 @@ class ProfileScreen extends HookConsumerWidget {
                       child: Column(
                         children: [
                           Container(
-                            margin: EdgeInsets.symmetric(horizontal: 16.w),
-                            decoration: BoxDecoration(
-                              border: Border(
-                                  bottom: BorderSide(
-                                      width: 0.8.w,
-                                      color: const Color(0xffD9D9D9))),
-                            ),
+                            height: 32.5.h,
                             child: TabBar(
                               controller: tabController,
                               labelStyle: AppTextStyle.boldTextStyle,
                               unselectedLabelStyle:
                                   AppTextStyle.defaultTextStyle,
-                              unselectedLabelColor: AppColor.textColor,
+                              unselectedLabelColor: AppColor.hintColor,
                               labelColor: AppColor.textColor,
                               indicatorColor: AppColor.primaryColor,
+                              indicatorSize: TabBarIndicatorSize.label,
                               tabs: [
                                 Tab(
-                                  text: '미답변 (${ingList.length})',
+                                  text: '미답변(${ingList.length})',
                                 ),
                                 Tab(
-                                  text: '답변완료 (${finList.length})',
+                                  text: '답변완료(${finList.length})',
                                 ),
                                 Tab(
-                                  text: '거절 (${canList.length})',
+                                  text: '거절(${canList.length})',
                                 ),
                               ],
                             ),

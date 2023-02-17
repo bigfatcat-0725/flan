@@ -25,7 +25,7 @@ class DefaultScreen extends HookConsumerWidget {
     final bottomNav = ref.watch(bottomNavProvier);
     final currentCategory = ref.watch(currentCategoryProvier);
     final email = ref.watch(userInfoProvier)!.userInfo!.email;
-    final userProfileAddress = 'flan.com/${email!.split('@')[0]}';
+    final userProfileAddress = 'flan.com/${email?.split('@')[0]}';
     final userInfo = ref.watch(userInfoProvier)!;
 
     // admob
