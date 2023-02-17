@@ -118,6 +118,34 @@ class AskScreenBookmark extends HookConsumerWidget {
                           fontSize: 13.sp,
                         ),
                       ),
+                      SizedBox(height: 10.h),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: List.generate(
+                              contentImgList.length,
+                              (index) => Container(
+                                    width: 200.w,
+                                    height: 140.h,
+                                    margin: EdgeInsets.only(
+                                      bottom: 10.h,
+                                      right: contentImgList[
+                                                  contentImgList.length - 1] ==
+                                              contentImgList[index]
+                                          ? 0.w
+                                          : 10.w,
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            'http://topping.io:8855${contentImgList[index]}',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  )),
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -313,6 +341,7 @@ class AskScreenBookmark extends HookConsumerWidget {
                           ref
                               .read(profileControllerProvider.notifier)
                               .editAnswer(
+                                pictures.value,
                                 user: userInfo.userInfo!.seq as int,
                                 answerSeq: question
                                     .questions!.answer![0].answers!.seq as int,

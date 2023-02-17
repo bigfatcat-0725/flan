@@ -26,22 +26,18 @@ class MainScreen extends HookConsumerWidget {
       backgroundColor: AppColor.scaffoldBackgroundColor,
       body: ref.watch(homeFeedProvider(userInfo!.userInfo!.seq as int)).when(
             data: (data) {
-              return Container(
-                width: 1.sw,
-                height: 1.sh,
-                child: Column(
-                  children: [
-                    SizedBox(height: 10.h),
-                    Expanded(
-                      child: ListView.builder(
-                        itemBuilder: (context, index) {
-                          return HomeFeedCard(data: data[index]);
-                        },
-                        itemCount: data.length,
-                      ),
+              return Column(
+                children: [
+                  SizedBox(height: 10.h),
+                  Expanded(
+                    child: ListView.builder(
+                      itemBuilder: (context, index) {
+                        return HomeFeedCard(data: data[index]);
+                      },
+                      itemCount: data.length,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               );
             },
             error: (error, stackTrace) => Center(

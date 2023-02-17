@@ -24,9 +24,9 @@ final pageProvider = FutureProvider.autoDispose((ref) {
   return communityContoller.getAllPage();
 });
 
-final themePageProvider = FutureProvider.family((ref, int seq) {
+final themePageProvider = FutureProvider.family((ref, String tag) {
   final communityContoller = ref.watch(communityControllerProvider.notifier);
-  return communityContoller.getThemePage(seq);
+  return communityContoller.getThemePage(tag);
 });
 
 final commentProvider = FutureProvider.family((ref, int seq) {
@@ -69,9 +69,9 @@ class CommunityController extends StateNotifier<bool> {
       (l) => null,
       (r) {
         if (r == 200) {
-          final current = ref.watch(currentCategorySeqProvier);
+          final current = ref.watch(currentCategoryProvier);
 
-          if (current == 0) {
+          if (current == '전체') {
             ref.invalidate(pageProvider);
           } else {
             ref.invalidate(themePageProvider(current));
@@ -146,9 +146,9 @@ class CommunityController extends StateNotifier<bool> {
     return pageList;
   }
 
-  Future<List<PageModel>> getThemePage(int seq) async {
+  Future<List<PageModel>> getThemePage(String tag) async {
     List<PageModel> pageList = [];
-    final res = await _pageAPI.getThemePage(seq: seq);
+    final res = await _pageAPI.getThemePage(tag: tag);
     pageList = [...res.map((e) => PageModel.fromJson(e)).toList()];
     return pageList;
   }
@@ -175,13 +175,13 @@ class CommunityController extends StateNotifier<bool> {
       (l) => null,
       (r) {
         if (r == 200) {
-          final current = ref.watch(currentCategorySeqProvier);
-          if (current == 0) {
+          final current = ref.watch(currentCategoryProvier);
+
+          if (current == '전체') {
             ref.invalidate(pageProvider);
           } else {
             ref.invalidate(themePageProvider(current));
           }
-
           context.push('/');
         }
       },
@@ -210,8 +210,9 @@ class CommunityController extends StateNotifier<bool> {
       (l) => null,
       (r) {
         if (r == 200) {
-          final current = ref.watch(currentCategorySeqProvier);
-          if (current == 0) {
+          final current = ref.watch(currentCategoryProvier);
+
+          if (current == '전체') {
             ref.invalidate(pageProvider);
           } else {
             ref.invalidate(themePageProvider(current));
@@ -232,8 +233,9 @@ class CommunityController extends StateNotifier<bool> {
   }) async {
     final res = await _pageAPI.likePage(pageSeq: pageSeq, userSeq: userSeq);
     if (res == 200) {
-      final current = ref.watch(currentCategorySeqProvier);
-      if (current == 0) {
+      final current = ref.watch(currentCategoryProvier);
+
+      if (current == '전체') {
         ref.invalidate(pageProvider);
       } else {
         ref.invalidate(themePageProvider(current));
@@ -266,8 +268,9 @@ class CommunityController extends StateNotifier<bool> {
     await _pageAPI.deletePage(
       pageSeq: pageSeq,
     );
-    final current = ref.watch(currentCategorySeqProvier);
-    if (current == 0) {
+    final current = ref.watch(currentCategoryProvier);
+
+    if (current == '전체') {
       ref.invalidate(pageProvider);
     } else {
       ref.invalidate(themePageProvider(current));
@@ -286,9 +289,9 @@ class CommunityController extends StateNotifier<bool> {
   }) async {
     final res = await _commentAPI.deleteComment(seq: seq);
     if (res == 1) {
-      final current = ref.watch(currentCategorySeqProvier);
+      final current = ref.watch(currentCategoryProvier);
 
-      if (current == 0) {
+      if (current == '전체') {
         ref.invalidate(pageProvider);
       } else {
         ref.invalidate(themePageProvider(current));

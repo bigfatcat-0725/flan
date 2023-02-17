@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flan/core/type_defs.dart';
 import 'package:flan/core/failure.dart';
 import 'package:fpdart/fpdart.dart';
@@ -20,8 +19,6 @@ class QuestionAPI {
     required String private,
   }) async {
     try {
-      print(imgList);
-
       final url = Uri.parse('http://topping.io:8855/API/questions');
 
       final request = http.MultipartRequest("POST", url)
@@ -39,7 +36,16 @@ class QuestionAPI {
 
       final response = await request.send();
 
-      return right(response.statusCode);
+      final body = await response.stream.bytesToString();
+      print(jsonDecode(body));
+
+      var code = response.statusCode;
+
+      if (jsonDecode(body) == '익명 질문 허용을 하지 않은 회원입니다.') {
+        code = 201;
+      }
+
+      return right(code);
     } catch (e, stackTrace) {
       return left(
         Failure(e.toString(), stackTrace),
@@ -51,7 +57,7 @@ class QuestionAPI {
     required questionSeq,
   }) async {
     final url = Uri.parse('http://topping.io:8855/API/questions/$questionSeq');
-    final request = await http.delete(
+    await http.delete(
       url,
       headers: {
         "accept": "application/json",
@@ -65,8 +71,7 @@ class QuestionAPI {
   }) async {
     final url = Uri.parse(
         'http://topping.io:8855/API/questions/status/update/$questionSeq');
-
-    final request = await http.put(
+    await http.put(
       url,
       headers: {
         "accept": "application/json",

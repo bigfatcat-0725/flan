@@ -42,7 +42,8 @@ class AnswerAPI {
     }
   }
 
-  FutureEither<int> editAnswer({
+  FutureEither<int> editAnswer(
+    List<File> fileList, {
     required int user,
     required int answerSeq,
     required String reply,
@@ -52,6 +53,13 @@ class AnswerAPI {
 
       final request = http.MultipartRequest("PUT", url)
         ..fields['reply'] = reply.toString();
+
+      if (fileList.isNotEmpty) {
+        for (var file in fileList) {
+          request.files
+              .add(await http.MultipartFile.fromPath('img', file.path));
+        }
+      }
 
       final response = await request.send();
 

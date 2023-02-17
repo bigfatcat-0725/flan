@@ -19,6 +19,7 @@ class CommunityScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentCategorySeq = ref.watch(currentCategorySeqProvier);
+    final currentCategory = ref.watch(currentCategoryProvier);
     final filter = useState(0);
 
     final page = useState(<PageModel>[]);
@@ -30,7 +31,7 @@ class CommunityScreen extends HookConsumerWidget {
         Future.microtask(() async {
           page.value = await ref
               .watch(communityControllerProvider.notifier)
-              .getThemePage(currentCategorySeq);
+              .getThemePage(currentCategory);
         });
       }
       return null;
@@ -39,9 +40,9 @@ class CommunityScreen extends HookConsumerWidget {
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
       body: ref
-          .watch(currentCategorySeq == 0
+          .watch(currentCategory == '전체'
               ? pageProvider
-              : themePageProvider(currentCategorySeq))
+              : themePageProvider(currentCategory))
           .when(
             data: (pageList) {
               return Column(
@@ -59,7 +60,7 @@ class CommunityScreen extends HookConsumerWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            if (currentCategorySeq == 0) {
+                            if (currentCategory == '전체') {
                               context.push('/category');
                             } else {
                               context.push('/question', extra: {

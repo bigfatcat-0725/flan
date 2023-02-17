@@ -209,19 +209,32 @@ class MainCard extends HookConsumerWidget {
                   ),
                   if (contentImgList.isNotEmpty)
                     if (type == 'detail')
-                      Column(
-                        children: List.generate(
-                            1,
-                            (index) => Container(
-                                  width: 1.sw,
-                                  height: 150.h,
-                                  margin: EdgeInsets.only(bottom: 5.h),
-                                  child: CachedNetworkImage(
-                                    imageUrl:
-                                        'http://topping.io:8855${contentImgList[0]}',
-                                    fit: BoxFit.cover,
-                                  ),
-                                )),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: List.generate(
+                              contentImgList.length,
+                              (index) => Container(
+                                    width: 200.w,
+                                    height: 140.h,
+                                    margin: EdgeInsets.only(
+                                      bottom: 10.h,
+                                      right: contentImgList[
+                                                  contentImgList.length - 1] ==
+                                              contentImgList[index]
+                                          ? 0.w
+                                          : 10.w,
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            'http://topping.io:8855${contentImgList[index]}',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  )),
+                        ),
                       ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -353,6 +366,29 @@ class MainCard extends HookConsumerWidget {
               ),
             ),
             SizedBox(height: 10.h),
+            if (data.questions!.answer![0].answers!.photo != '')
+              if (type == 'detail')
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 55.w + 16.w,
+                    right: 16.w,
+                    bottom: 16.w,
+                  ),
+                  child: Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5.w),
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              'http://topping.io:8855${data.questions!.answer![0].answers!.photo}',
+                          width: 1.sw,
+                          height: 150.h,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
             if (type != 'detail')
               Container(
                 width: 1.sw,

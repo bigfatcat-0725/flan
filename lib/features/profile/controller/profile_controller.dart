@@ -62,6 +62,9 @@ class ProfileController extends StateNotifier<bool> {
           context.pop();
           ref.invalidate(feedProivder(to));
         }
+        if (r == 201) {
+          showDefaultDialog(context, '익명 질문을 허용하지 않는 회원입니다.');
+        }
       },
     );
   }
@@ -123,7 +126,7 @@ class ProfileController extends StateNotifier<bool> {
       if (page == 0) {
         ref.invalidate(pageProvider);
       } else {
-        final current = ref.watch(currentCategorySeqProvier);
+        final current = ref.watch(currentCategoryProvier);
         ref.invalidate(themePageProvider(current));
       }
       ref.invalidate(bookmarkPageProivder(user));
@@ -180,7 +183,8 @@ class ProfileController extends StateNotifier<bool> {
     );
   }
 
-  void editAnswer({
+  void editAnswer(
+    List<File> imgList, {
     required int user,
     required int answerSeq,
     required String reply,
@@ -189,6 +193,7 @@ class ProfileController extends StateNotifier<bool> {
   }) async {
     state = true;
     final res = await _answerAPI.editAnswer(
+      imgList,
       user: user,
       answerSeq: answerSeq,
       reply: reply,

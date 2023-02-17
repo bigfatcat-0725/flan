@@ -20,9 +20,9 @@ class PageAPI {
     return response;
   }
 
-  Future<List> getThemePage({required int seq}) async {
+  Future<List> getThemePage({required String tag}) async {
     final url =
-        Uri.parse('http://topping.io:8855/API/pages/category_page/list$seq');
+        Uri.parse('http://topping.io:8855/API/pages/category_page/list$tag');
     final data = await http.get(url, headers: {
       "accept": "application/json",
     });
