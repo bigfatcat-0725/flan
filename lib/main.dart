@@ -62,6 +62,8 @@ void main() async {
   if (themeColor != null) {
     AppColor.primaryColor = const Color(0xff407070);
     // AppColor.primaryColor = AppColor.textColor;
+  } else {
+    AppColor.primaryColor = const Color(0xff407070);
   }
   //
 
