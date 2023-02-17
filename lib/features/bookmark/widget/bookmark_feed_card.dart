@@ -389,7 +389,7 @@ class BookmarkFeedCard extends HookConsumerWidget {
                   padding: EdgeInsets.only(
                     left: 55.w + 16.w,
                     right: 16.w,
-                    bottom: 16.w,
+                    bottom: 8.w,
                   ),
                   child: Stack(
                     children: [

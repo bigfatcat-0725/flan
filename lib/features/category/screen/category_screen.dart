@@ -39,7 +39,7 @@ class CategoryScreen extends HookConsumerWidget {
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
-      appBar: UIConstants.qaAppBar(context, '카테고리 설정'),
+      appBar: UIConstants.qaAppBar(context, '카테고리'),
       body: Column(
         children: [
           SizedBox(height: 10.h),

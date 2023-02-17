@@ -87,52 +87,52 @@ class CommunityScreen extends HookConsumerWidget {
                     ),
                   ),
                   SizedBox(height: 10.h),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            filter.value = 0;
-                          },
-                          child: Text(
-                            '최신순',
-                            style: filter.value == 0
-                                ? AppTextStyle.boldTextStyle.copyWith(
-                                    color: AppColor.primaryColor,
-                                    fontSize: 13.sp,
-                                  )
-                                : AppTextStyle.hintStyle.copyWith(
-                                    fontSize: 13.sp,
-                                  ),
-                          ),
-                        ),
-                        Text(
-                          ' | ',
-                          style: AppTextStyle.hintStyle.copyWith(
-                            fontSize: 13.sp,
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            filter.value = 1;
-                          },
-                          child: Text(
-                            '인기순',
-                            style: filter.value == 1
-                                ? AppTextStyle.boldTextStyle.copyWith(
-                                    color: AppColor.primaryColor,
-                                    fontSize: 13.sp,
-                                  )
-                                : AppTextStyle.hintStyle.copyWith(
-                                    fontSize: 13.sp,
-                                  ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 5.h),
+                  // Padding(
+                  //   padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  //   child: Row(
+                  //     children: [
+                  //       GestureDetector(
+                  //         onTap: () {
+                  //           filter.value = 0;
+                  //         },
+                  //         child: Text(
+                  //           '최신순',
+                  //           style: filter.value == 0
+                  //               ? AppTextStyle.boldTextStyle.copyWith(
+                  //                   color: AppColor.primaryColor,
+                  //                   fontSize: 13.sp,
+                  //                 )
+                  //               : AppTextStyle.hintStyle.copyWith(
+                  //                   fontSize: 13.sp,
+                  //                 ),
+                  //         ),
+                  //       ),
+                  //       Text(
+                  //         ' | ',
+                  //         style: AppTextStyle.hintStyle.copyWith(
+                  //           fontSize: 13.sp,
+                  //         ),
+                  //       ),
+                  //       GestureDetector(
+                  //         onTap: () {
+                  //           filter.value = 1;
+                  //         },
+                  //         child: Text(
+                  //           '인기순',
+                  //           style: filter.value == 1
+                  //               ? AppTextStyle.boldTextStyle.copyWith(
+                  //                   color: AppColor.primaryColor,
+                  //                   fontSize: 13.sp,
+                  //                 )
+                  //               : AppTextStyle.hintStyle.copyWith(
+                  //                   fontSize: 13.sp,
+                  //                 ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // SizedBox(height: 5.h),
                   Expanded(
                     child: ListView.builder(
                       itemCount: pageList.length,

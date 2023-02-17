@@ -131,38 +131,36 @@ class QuestionScreen extends HookConsumerWidget {
                       ),
                     ],
                   ),
-                ],
-              ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.h),
-              child: Wrap(
-                spacing: 2.5.w,
-                runSpacing: 5.w,
-                children: List.generate(
-                  tagList.value.length,
-                  (index) => Container(
-                    width: 60.w,
-                    height: 25.h,
-                    padding: EdgeInsets.all(5.w),
-                    decoration: BoxDecoration(
-                      color: AppColor.primaryColor,
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    child: Center(
-                      child: Text(
-                        '#${tagList.value[index]}',
-                        style: AppTextStyle.defaultTextStyle.copyWith(
-                          color: Colors.white,
+                  Wrap(
+                    spacing: 2.5.w,
+                    runSpacing: 5.w,
+                    children: List.generate(
+                      tagList.value.length,
+                      (index) => Container(
+                        width: 60.w,
+                        height: 25.h,
+                        padding: EdgeInsets.all(5.w),
+                        decoration: BoxDecoration(
+                          color: AppColor.primaryColor,
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                        child: Center(
+                          child: Text(
+                            '#${tagList.value[index]}',
+                            style: AppTextStyle.defaultTextStyle.copyWith(
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
-            ),
             if (type == 'community')
               Column(
                 children: [
+                  SizedBox(height: 20.h),
                   TextField(
                     controller: titleTextController,
                     cursorColor: AppColor.primaryColor,
