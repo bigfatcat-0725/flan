@@ -31,6 +31,8 @@ class QuestionScreen extends HookConsumerWidget {
     final privateCheck = useState(true);
     final pictures = useState(<File>[]);
     final picturesCurIndex = useState(1);
+    final tagTextController = useTextEditingController();
+
     final titleTextController = useTextEditingController();
     final questionTextController = useTextEditingController();
 
@@ -40,6 +42,8 @@ class QuestionScreen extends HookConsumerWidget {
     // Theme
     final currentCategory = ref.watch(currentCategoryProvier);
     final cureentCategorySeq = ref.watch(currentCategorySeqProvier);
+
+    final tagList = useState([]);
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
@@ -71,14 +75,91 @@ class QuestionScreen extends HookConsumerWidget {
               Column(
                 children: [
                   SizedBox(height: 10.h),
-                  Text(
-                    '현재 카테고리 : $currentCategory',
-                    style: AppTextStyle.boldTextStyle.copyWith(
-                      fontSize: 13.sp,
-                    ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          children: [
+                            TextField(
+                              controller: tagTextController,
+                              cursorColor: AppColor.primaryColor,
+                              maxLines: 1,
+                              style: AppTextStyle.defaultTextStyle.copyWith(
+                                fontSize: 13.sp,
+                              ),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: '#태그를 입력해주세요.',
+                                hintStyle: AppTextStyle.hintStyle.copyWith(
+                                  fontSize: 13.sp,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: 1.sw,
+                              height: 0.5.h,
+                              color: AppColor.hintColor,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 10.w),
+                      GestureDetector(
+                        onTap: () {
+                          tagList.value.add(tagTextController.text);
+                          tagList.value = [...tagList.value];
+                          print(tagList.value);
+                          tagTextController.clear();
+                        },
+                        child: Container(
+                          width: 100.w,
+                          height: 25.h,
+                          decoration: BoxDecoration(
+                            color: AppColor.primaryColor,
+                            borderRadius: BorderRadius.circular(100),
+                          ),
+                          child: Center(
+                            child: Text(
+                              '태그추가',
+                              style: AppTextStyle.defaultTextStyle.copyWith(
+                                fontSize: 11.sp,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.h),
+              child: Wrap(
+                spacing: 2.5.w,
+                runSpacing: 5.w,
+                children: List.generate(
+                  tagList.value.length,
+                  (index) => Container(
+                    width: 60.w,
+                    height: 25.h,
+                    padding: EdgeInsets.all(5.w),
+                    decoration: BoxDecoration(
+                      color: AppColor.primaryColor,
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    child: Center(
+                      child: Text(
+                        '#${tagList.value[index]}',
+                        style: AppTextStyle.defaultTextStyle.copyWith(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
             if (type == 'community')
               Column(
                 children: [
@@ -280,7 +361,7 @@ class QuestionScreen extends HookConsumerWidget {
                               .postPage(
                                 pictures.value,
                                 user: userInfo!.userInfo!.seq as int,
-                                tag: '테스트',
+                                tag: tagList.value.join(','),
                                 title: titleTextController.text,
                                 content: questionTextController.text,
                                 private: privateCheck.value ? "0" : "1",
