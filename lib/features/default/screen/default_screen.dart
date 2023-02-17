@@ -99,9 +99,9 @@ class DefaultScreen extends HookConsumerWidget {
         backgroundColor: AppColor.scaffoldBackgroundColor,
         activeColor: AppColor.primaryColor,
         inactiveColor: AppColor.hintColor,
+        height: 30.h,
         items: [
           BottomNavigationBarItem(
-            label: '홈',
             icon: SvgPicture.asset(
               AssetsConstants.main,
               width: 17.5.w,
@@ -111,7 +111,6 @@ class DefaultScreen extends HookConsumerWidget {
             ),
           ),
           BottomNavigationBarItem(
-            label: '커뮤니티',
             icon: SvgPicture.asset(
               AssetsConstants.community,
               width: 17.5.w,
@@ -121,7 +120,6 @@ class DefaultScreen extends HookConsumerWidget {
             ),
           ),
           BottomNavigationBarItem(
-            label: '검색',
             icon: SvgPicture.asset(
               AssetsConstants.search,
               width: 17.5.w,
@@ -131,7 +129,6 @@ class DefaultScreen extends HookConsumerWidget {
             ),
           ),
           BottomNavigationBarItem(
-            label: '프로필',
             icon: SvgPicture.asset(
               AssetsConstants.profile,
               width: 17.5.w,

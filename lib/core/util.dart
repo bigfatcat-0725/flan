@@ -99,7 +99,7 @@ Future showPrepareDialog(context) {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                '서비스 준비중입니다.',
+                'Dịch vụ đang được chuẩn bị.',
                 style: AppTextStyle.defaultTextStyle.copyWith(
                   fontSize: 13.sp,
                 ),
@@ -116,7 +116,7 @@ Future showPrepareDialog(context) {
                   ),
                   child: Center(
                     child: Text(
-                      '확인',
+                      'Được rồi',
                       style: AppTextStyle.defaultTextStyle.copyWith(
                         color: Colors.white,
                       ),
@@ -171,7 +171,7 @@ Future showDefaultDialog(context, text) {
                   ),
                   child: Center(
                     child: Text(
-                      '확인',
+                      'Được rồi',
                       style: AppTextStyle.defaultTextStyle.copyWith(
                         color: Colors.white,
                       ),
@@ -226,7 +226,7 @@ Future showReboot(context) {
                   ),
                   child: Center(
                     child: Text(
-                      '확인',
+                      'Được rồi',
                       style: AppTextStyle.defaultTextStyle.copyWith(
                         color: Colors.white,
                       ),

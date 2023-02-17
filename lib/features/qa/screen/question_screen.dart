@@ -44,7 +44,7 @@ class QuestionScreen extends HookConsumerWidget {
     useEffect(() {
       if (context.mounted) {
         if (!addOne.value) {
-          if (currentCategory != '전체') {
+          if (currentCategory != 'toàn bộ') {
             tagList.value.add(currentCategory);
             addOne.value = true;
           }

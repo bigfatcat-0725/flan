@@ -11,6 +11,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:zalo_flutter/zalo_flutter.dart';
 
 class LoginScreen extends HookConsumerWidget {
   const LoginScreen({
@@ -53,7 +54,7 @@ class LoginScreen extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    '익명으로 질문을 주고 받아보실 수 있습니다.',
+                    'Bạn có thể gửi và nhận câu hỏi ẩn danh.',
                     textAlign: TextAlign.center,
                     style: AppTextStyle.defaultTextStyle.copyWith(
                       fontSize: 13.sp,
@@ -61,7 +62,7 @@ class LoginScreen extends HookConsumerWidget {
                   ),
                   SizedBox(height: 2.5.h),
                   Text(
-                    '작성자는 익명으로 보장해드립니다.',
+                    'Các tác giả được đảm bảo ẩn danh.',
                     textAlign: TextAlign.center,
                     style: AppTextStyle.defaultTextStyle.copyWith(
                       fontSize: 13.sp,
@@ -79,7 +80,8 @@ class LoginScreen extends HookConsumerWidget {
                     errorText1.value = '';
                   } else {
                     if (!RegExpConstants.email.hasMatch(value)) {
-                      errorText1.value = '이메일 형식이 아닙니다.';
+                      errorText1.value =
+                          'Nó không phải là một định dạng email.';
                     } else {
                       errorText1.value = '';
                     }
@@ -104,7 +106,7 @@ class LoginScreen extends HookConsumerWidget {
                       color: AppColor.hintColor,
                     ),
                   ),
-                  hintText: '이메일을 입력하세요.',
+                  hintText: 'Vui lòng nhập email của bạn.',
                   hintStyle: AppTextStyle.hintStyle,
                   contentPadding: EdgeInsets.all(15.w),
                 ),
@@ -134,7 +136,7 @@ class LoginScreen extends HookConsumerWidget {
                     errorText2.value = '';
                   } else {
                     if (!RegExpConstants.passwordRegExp1.hasMatch(value)) {
-                      errorText2.value = '문자 + 숫자 8자리 이상이 아닙니다.';
+                      errorText2.value = 'Không quá 8 chữ + số.';
                     } else {
                       errorText2.value = '';
                     }
@@ -160,7 +162,7 @@ class LoginScreen extends HookConsumerWidget {
                       color: AppColor.hintColor,
                     ),
                   ),
-                  hintText: '비밀번호를 입력하세요.',
+                  hintText: 'Vui lòng nhập mật khẩu.',
                   hintStyle: AppTextStyle.hintStyle,
                   contentPadding: EdgeInsets.all(15.w),
                 ),
@@ -197,7 +199,7 @@ class LoginScreen extends HookConsumerWidget {
                       );
                     },
                     child: Text(
-                      '비밀번호 찾기',
+                      'tìm mật khẩu',
                       style: AppTextStyle.greyStyle,
                     ),
                   ),
@@ -227,7 +229,7 @@ class LoginScreen extends HookConsumerWidget {
                 ),
                 child: Center(
                   child: Text(
-                    '로그인',
+                    'đăng nhập',
                     style: AppTextStyle.defaultTextStyle.copyWith(
                       color: Colors.white,
                       fontSize: 13.sp,
@@ -237,99 +239,111 @@ class LoginScreen extends HookConsumerWidget {
               ),
             ),
             SizedBox(height: 30.h),
-            // Padding(
-            //   padding: EdgeInsets.symmetric(horizontal: 15.w),
-            //   child: Row(
-            //     children: [
-            //       Expanded(
-            //         child: Container(
-            //           height: 1.h,
-            //           decoration: BoxDecoration(
-            //             borderRadius: BorderRadius.circular(100),
-            //             color: AppColor.hintColor,
-            //           ),
-            //         ),
-            //       ),
-            //       Container(
-            //         margin: EdgeInsets.symmetric(
-            //           horizontal: 20.w,
-            //         ),
-            //         child: Text(
-            //           '또는',
-            //           style: AppTextStyle.defaultTextStyle,
-            //         ),
-            //       ),
-            //       Expanded(
-            //         child: Container(
-            //           height: 1.h,
-            //           decoration: BoxDecoration(
-            //             borderRadius: BorderRadius.circular(100),
-            //             color: AppColor.hintColor,
-            //           ),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // SizedBox(height: 15.h),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     Container(
-            //       width: 45.w,
-            //       height: 45.w,
-            //       padding: EdgeInsets.all(5.w),
-            //       decoration: const BoxDecoration(
-            //         color: Colors.white,
-            //         shape: BoxShape.circle,
-            //       ),
-            //       child: ClipRRect(
-            //         borderRadius: BorderRadius.circular(100),
-            //         child: FittedBox(
-            //           child: Image.asset(
-            //             AssetsConstants.zalo,
-            //             fit: BoxFit.cover,
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //     SizedBox(width: 15.w),
-            //     Container(
-            //       width: 45.w,
-            //       height: 45.w,
-            //       padding: EdgeInsets.all(5.w),
-            //       decoration: const BoxDecoration(
-            //         color: Colors.white,
-            //         shape: BoxShape.circle,
-            //       ),
-            //       child: ClipRRect(
-            //         borderRadius: BorderRadius.circular(100),
-            //         child: Image.asset(
-            //           AssetsConstants.facebook,
-            //         ),
-            //       ),
-            //     ),
-            //     SizedBox(width: 15.w),
-            //     Container(
-            //       width: 45.w,
-            //       height: 45.w,
-            //       padding: EdgeInsets.all(5.w),
-            //       decoration: const BoxDecoration(
-            //         color: Colors.white,
-            //         shape: BoxShape.circle,
-            //       ),
-            //       child: ClipRRect(
-            //         borderRadius: BorderRadius.circular(100),
-            //         child: FittedBox(
-            //           child: Image.asset(AssetsConstants.google),
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            // SizedBox(height: 30.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      height: 1.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: AppColor.hintColor,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 20.w,
+                    ),
+                    child: Text(
+                      'hoặc',
+                      style: AppTextStyle.defaultTextStyle,
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      height: 1.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: AppColor.hintColor,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 15.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    String? key = await ZaloFlutter.getHashKeyAndroid();
+                    print(key);
+                    var data = await ZaloFlutter.login();
+                    print(data);
+                    var userData = await ZaloFlutter.getUserProfile(
+                      accessToken: data!['data']['accessToken'],
+                    );
+                    print(userData);
+                  },
+                  child: Container(
+                    width: 45.w,
+                    height: 45.w,
+                    padding: EdgeInsets.all(5.w),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: FittedBox(
+                        child: Image.asset(
+                          AssetsConstants.zalo,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                // SizedBox(width: 15.w),
+                // Container(
+                //   width: 45.w,
+                //   height: 45.w,
+                //   padding: EdgeInsets.all(5.w),
+                //   decoration: const BoxDecoration(
+                //     color: Colors.white,
+                //     shape: BoxShape.circle,
+                //   ),
+                //   child: ClipRRect(
+                //     borderRadius: BorderRadius.circular(100),
+                //     child: Image.asset(
+                //       AssetsConstants.facebook,
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(width: 15.w),
+                // Container(
+                //   width: 45.w,
+                //   height: 45.w,
+                //   padding: EdgeInsets.all(5.w),
+                //   decoration: const BoxDecoration(
+                //     color: Colors.white,
+                //     shape: BoxShape.circle,
+                //   ),
+                //   child: ClipRRect(
+                //     borderRadius: BorderRadius.circular(100),
+                //     child: FittedBox(
+                //       child: Image.asset(AssetsConstants.google),
+                //     ),
+                //   ),
+                // ),
+              ],
+            ),
+            SizedBox(height: 30.h),
             Text(
-              'FLAN은 처음이신가요?',
+              'Bạn mới sử dụng FLAN?',
               style: AppTextStyle.defaultTextStyle,
             ),
             SizedBox(height: 10.h),
@@ -351,7 +365,7 @@ class LoginScreen extends HookConsumerWidget {
                 ),
                 child: Center(
                   child: Text(
-                    '간편 회원가입',
+                    'Đăng ký thành viên đơn giản',
                     style: AppTextStyle.defaultTextStyle.copyWith(
                       fontSize: 13.sp,
                     ),

@@ -5,7 +5,6 @@ import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/models/feed/feed_model.dart';
 import 'package:flan/theme/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -22,8 +21,6 @@ class ProfileCardReject extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final saveStatus = useState(false);
-
     // 본인
     final userInfo = ref.watch(userInfoProvier.notifier).state;
 
@@ -34,7 +31,9 @@ class ProfileCardReject extends HookConsumerWidget {
     final String ago = data.questions!.remaining as String;
 
     // 게시물 이미지
-    final List<String> contentImgList = data.questions!.photo ?? [];
+    final List<String> contentImgList = data.questions!.photo != null
+        ? data.questions!.photo.toString().split(',')
+        : [];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +69,7 @@ class ProfileCardReject extends HookConsumerWidget {
                       ),
                       SizedBox(width: 5.w),
                       Text(
-                        private == '1' ? questionName : '익명',
+                        private == '1' ? questionName : 'vô danh',
                         style: AppTextStyle.defaultTextStyle.copyWith(
                           fontSize: 11.sp,
                           color: AppColor.primaryColor,

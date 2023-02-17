@@ -51,6 +51,9 @@ class AuthController extends StateNotifier<bool> {
     res.fold(
       (l) {
         // loginShowSnackBar(context, l.message);
+        if (context.mounted) {
+          context.go('/login');
+        }
       },
       (r) {
         ref.read(userInfoProvier.notifier).update((state) => r);

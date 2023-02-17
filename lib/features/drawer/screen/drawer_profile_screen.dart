@@ -25,7 +25,8 @@ class DrawerProfileScreen extends HookConsumerWidget {
     final userInfo = ref.watch(userInfoProvier.notifier).state!.userInfo!;
     final userModel = ref.watch(userInfoProvier)!;
 
-    final profilePic = useState('http://topping.io:8855${userInfo.photo}');
+    final profilePic = useState(
+        userInfo.photo != '' ? 'http://topping.io:8855${userInfo.photo}' : '');
     final selectPic = useState(false);
 
     final search = useState(false);
@@ -52,7 +53,7 @@ class DrawerProfileScreen extends HookConsumerWidget {
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
-      appBar: UIConstants.qaAppBar(context, '프로필 설정'),
+      appBar: UIConstants.qaAppBar(context, 'cài đặt thông tin'),
       body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 16.w,
@@ -117,7 +118,7 @@ class DrawerProfileScreen extends HookConsumerWidget {
                         ),
                         SizedBox(width: 5.w),
                         Text(
-                          '사진변경',
+                          'thay đổi hình ảnh',
                           style: AppTextStyle.defaultTextStyle,
                         ),
                       ],
@@ -131,7 +132,7 @@ class DrawerProfileScreen extends HookConsumerWidget {
                   SizedBox(
                     width: 80.w,
                     child: Text(
-                      '아이디',
+                      'nhận dạng',
                       style: AppTextStyle.boldTextStyle,
                     ),
                   ),
@@ -169,7 +170,7 @@ class DrawerProfileScreen extends HookConsumerWidget {
                   SizedBox(
                     width: 80.w,
                     child: Text(
-                      '사용자 이름',
+                      'tên nick',
                       style: AppTextStyle.boldTextStyle,
                     ),
                   ),
@@ -222,7 +223,7 @@ class DrawerProfileScreen extends HookConsumerWidget {
                   SizedBox(
                     width: 80.w,
                     child: Text(
-                      '프로필 소개',
+                      'giới thiệu hồ sơ',
                       style: AppTextStyle.boldTextStyle,
                     ),
                   ),
@@ -254,7 +255,7 @@ class DrawerProfileScreen extends HookConsumerWidget {
                                   child: Text(
                                     (userInfo.memo.toString() == 'null' ||
                                             userInfo.memo.toString() == '')
-                                        ? '프로필 소개'
+                                        ? 'giới thiệu hồ sơ'
                                         : userInfo.memo.toString(),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -288,7 +289,7 @@ class DrawerProfileScreen extends HookConsumerWidget {
                   SizedBox(
                     width: 80.w,
                     child: Text(
-                      '프로필 주소',
+                      'Địa chỉ Chi tiết',
                       style: AppTextStyle.boldTextStyle,
                     ),
                   ),
@@ -325,7 +326,7 @@ class DrawerProfileScreen extends HookConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '계정 검색 허용',
+                    'quyền tìm kiếm của người dùng',
                     style: AppTextStyle.boldTextStyle,
                   ),
                   CupertinoSwitch(
@@ -351,7 +352,7 @@ class DrawerProfileScreen extends HookConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '익명 질문 허용',
+                    'làm phiền xin phép',
                     style: AppTextStyle.boldTextStyle,
                   ),
                   CupertinoSwitch(
@@ -380,7 +381,7 @@ class DrawerProfileScreen extends HookConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '추천 친구 허용',
+                    'giới thiệu sự cho phép của bạn bè',
                     style: AppTextStyle.boldTextStyle,
                   ),
                   CupertinoSwitch(

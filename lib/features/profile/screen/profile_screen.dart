@@ -126,7 +126,6 @@ class ProfileScreen extends HookConsumerWidget {
                                         AssetsConstants.noImg,
                                       ),
                               ),
-                              SizedBox(width: 25.w),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -152,7 +151,7 @@ class ProfileScreen extends HookConsumerWidget {
                                               ),
                                               SizedBox(height: 5.h),
                                               Text(
-                                                '팔로워',
+                                                'người đi theo',
                                                 style: AppTextStyle
                                                     .defaultTextStyle
                                                     .copyWith(
@@ -173,7 +172,7 @@ class ProfileScreen extends HookConsumerWidget {
                                               ),
                                               SizedBox(height: 5.h),
                                               Text(
-                                                '팔로잉',
+                                                'Tiếp theo',
                                                 style: AppTextStyle
                                                     .defaultTextStyle
                                                     .copyWith(
@@ -195,7 +194,7 @@ class ProfileScreen extends HookConsumerWidget {
                                               ),
                                               SizedBox(height: 5.h),
                                               Text(
-                                                '답변완료',
+                                                'hoàn thành',
                                                 style: AppTextStyle
                                                     .defaultTextStyle
                                                     .copyWith(
@@ -257,7 +256,7 @@ class ProfileScreen extends HookConsumerWidget {
                               Text(
                                 (data.myData!.memo.toString() == '' ||
                                         data.myData!.memo.toString() == 'null')
-                                    ? '상태메세지를 작성해보세요!'
+                                    ? 'Viết một thông báo trạng thái!'
                                     : data.myData!.memo.toString(),
                                 style: (data.myData!.memo.toString() == '' ||
                                         data.myData!.memo.toString() == 'null')
@@ -293,7 +292,7 @@ class ProfileScreen extends HookConsumerWidget {
                                           ),
                                           child: Center(
                                             child: Text(
-                                              '보관함',
+                                              'khóa',
                                               style: AppTextStyle
                                                   .defaultTextStyle
                                                   .copyWith(
@@ -339,7 +338,9 @@ class ProfileScreen extends HookConsumerWidget {
                                           ),
                                           child: Center(
                                             child: Text(
-                                              isFollow.value ? '팔로잉' : '팔로우',
+                                              isFollow.value
+                                                  ? 'Tiếp theo'
+                                                  : 'Theo',
                                               style: AppTextStyle
                                                   .defaultTextStyle
                                                   .copyWith(
@@ -370,7 +371,7 @@ class ProfileScreen extends HookConsumerWidget {
                                     ),
                                     child: Center(
                                       child: Text(
-                                        '질문하기',
+                                        'Đặt một câu hỏi',
                                         style: AppTextStyle.defaultTextStyle
                                             .copyWith(
                                           fontSize: 11.sp,
@@ -404,7 +405,7 @@ class ProfileScreen extends HookConsumerWidget {
                       ),
                       child: Column(
                         children: [
-                          Container(
+                          SizedBox(
                             height: 32.5.h,
                             child: TabBar(
                               controller: tabController,
@@ -417,13 +418,13 @@ class ProfileScreen extends HookConsumerWidget {
                               indicatorSize: TabBarIndicatorSize.label,
                               tabs: [
                                 Tab(
-                                  text: '미답변(${ingList.length})',
+                                  text: 'Chờ đợi(${ingList.length})',
                                 ),
                                 Tab(
-                                  text: '답변완료(${finList.length})',
+                                  text: 'hoàn thành(${finList.length})',
                                 ),
                                 Tab(
-                                  text: '거절(${canList.length})',
+                                  text: 'từ chối(${canList.length})',
                                 ),
                               ],
                             ),

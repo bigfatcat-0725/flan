@@ -492,7 +492,7 @@ class BookmarkFeedCard extends HookConsumerWidget {
                               ),
                               SizedBox(width: 7.5.w),
                               Text(
-                                '저장',
+                                'cứu',
                                 style: AppTextStyle.greyStyle.copyWith(
                                   fontSize: 11.sp,
                                   color: saveStatus.value
@@ -508,7 +508,8 @@ class BookmarkFeedCard extends HookConsumerWidget {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
-                          showDefaultDialog(context, '서비스 준비중입니다.');
+                          showDefaultDialog(
+                              context, 'Dịch vụ đang được chuẩn bị.');
                         },
                         child: Container(
                           color: Colors.transparent,
@@ -524,7 +525,7 @@ class BookmarkFeedCard extends HookConsumerWidget {
                               ),
                               SizedBox(width: 7.5.w),
                               Text(
-                                '공유',
+                                'chia sẻ',
                                 style: AppTextStyle.greyStyle.copyWith(
                                   fontSize: 11.sp,
                                 ),

@@ -33,6 +33,7 @@ dependencies:
   google_mobile_ads: ^2.3.0
   permission_handler: ^10.2.0
   contacts_service: ^0.6.3
+  zalo_flutter: ^0.0.5
 
 
 dev_dependencies:

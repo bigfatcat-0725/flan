@@ -40,7 +40,7 @@ class CommunityScreen extends HookConsumerWidget {
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
       body: ref
-          .watch(currentCategory == '전체'
+          .watch(currentCategory == 'toàn bộ'
               ? pageProvider
               : themePageProvider(currentCategory))
           .when(
@@ -55,7 +55,7 @@ class CommunityScreen extends HookConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '익명으로 자유롭게 질문해보세요!',
+                          'Vui lòng đặt câu hỏi ẩn danh!',
                           style: AppTextStyle.greyStyle.copyWith(),
                         ),
                         GestureDetector(
@@ -74,7 +74,7 @@ class CommunityScreen extends HookConsumerWidget {
                             ),
                             child: Center(
                               child: Text(
-                                '글쓰기',
+                                'viết',
                                 style: AppTextStyle.defaultTextStyle.copyWith(
                                   fontSize: 11.sp,
                                   color: Colors.white,

@@ -168,7 +168,7 @@ class SearchScreen extends HookConsumerWidget {
                               ),
                             ),
                           ),
-                          hintText: '닉네임을 입력하세요',
+                          hintText: 'Vui lòng nhập nickname của bạn.',
                           hintStyle: AppTextStyle.hintStyle,
                         ),
                       ),
@@ -219,7 +219,7 @@ class SearchScreen extends HookConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                '추천친구',
+                                'người bạn được giới thiệu',
                                 style: AppTextStyle.boldTextStyle.copyWith(
                                   fontSize: 14.sp,
                                 ),

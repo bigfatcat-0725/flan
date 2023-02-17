@@ -1085,6 +1085,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
+  zalo_flutter:
+    dependency: "direct main"
+    description:
+      name: zalo_flutter
+      sha256: "3ac2bdb6d711fc69ff6a409a3cd7897a5daa4a2031cdb7f5eeecbae591a88431"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.5"
 sdks:
   dart: ">=2.19.0 <3.0.0"
   flutter: ">=3.3.0"

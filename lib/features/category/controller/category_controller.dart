@@ -27,12 +27,17 @@ class CategoryController extends StateNotifier<bool> {
         .map((e) => CategoryModel.fromJson(e as Map<String, dynamic>))
         .toList();
 
-    const all = CategoryModel(
+    var allCnt = 0;
+
+    for (var i in data) {
+      allCnt += i.pageCnt!;
+    }
+    var all = CategoryModel(
       tag: null,
       likeCnt: null,
-      title: '전체',
-      detail: '전체',
-      pageCnt: 0,
+      title: 'toàn bộ',
+      detail: 'toàn bộ',
+      pageCnt: allCnt,
       createdAt: null,
       seq: 0,
       photo: null,

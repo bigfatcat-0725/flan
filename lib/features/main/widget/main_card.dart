@@ -135,7 +135,7 @@ class MainCard extends HookConsumerWidget {
                                   ),
                                   SizedBox(width: 5.w),
                                   Text(
-                                    private == '1' ? questionName : '익명',
+                                    private == '1' ? questionName : 'vô danh',
                                     style:
                                         AppTextStyle.defaultTextStyle.copyWith(
                                       fontSize: 11.sp,
@@ -476,7 +476,7 @@ class MainCard extends HookConsumerWidget {
                               ),
                               SizedBox(width: 7.5.w),
                               Text(
-                                '저장',
+                                'cứu',
                                 style: AppTextStyle.greyStyle.copyWith(
                                   fontSize: 11.sp,
                                   color: saveStatus.value
@@ -492,7 +492,8 @@ class MainCard extends HookConsumerWidget {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
-                          showDefaultDialog(context, '서비스 준비중입니다.');
+                          showDefaultDialog(
+                              context, 'Dịch vụ đang được chuẩn bị.');
                         },
                         child: Container(
                           color: Colors.transparent,
@@ -508,7 +509,7 @@ class MainCard extends HookConsumerWidget {
                               ),
                               SizedBox(width: 7.5.w),
                               Text(
-                                '공유',
+                                'chia sẻ',
                                 style: AppTextStyle.greyStyle.copyWith(
                                   fontSize: 11.sp,
                                 ),

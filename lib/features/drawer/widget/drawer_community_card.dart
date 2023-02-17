@@ -231,7 +231,7 @@ class DrawerCommunityCard extends HookConsumerWidget {
                                 ),
                                 SizedBox(width: 7.5.w),
                                 Text(
-                                  '저장',
+                                  'cứu',
                                   style: AppTextStyle.greyStyle.copyWith(
                                     fontSize: 11.sp,
                                     color: saveStatus.value

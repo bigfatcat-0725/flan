@@ -43,7 +43,7 @@ class SignError extends ConsumerWidget {
                 ),
                 child: Center(
                   child: Text(
-                    '확인',
+                    'Được rồi',
                     style: AppTextStyle.defaultTextStyle.copyWith(
                       fontSize: 13.sp,
                       color: Colors.white,

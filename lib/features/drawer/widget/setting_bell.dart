@@ -22,10 +22,10 @@ class SettingBell extends HookConsumerWidget {
     final newC = useState(false);
     final bellBoolList = [newN, newQ, newA, newC];
     final bellList = [
-      '공지사항 알림',
-      '질문 알림',
-      '답변 알림',
-      '댓글 알림',
+      'thông báo báo động',
+      'hỏi báo động',
+      'trả lời báo thức',
+      'bình luận báo động',
     ];
     final userInfo = ref.watch(userInfoProvier);
 
@@ -35,7 +35,7 @@ class SettingBell extends HookConsumerWidget {
     });
 
     return Scaffold(
-      appBar: UIConstants.qaAppBar(context, '알림 설정'),
+      appBar: UIConstants.qaAppBar(context, 'cài đặt báo thức'),
       backgroundColor: AppColor.scaffoldBackgroundColor,
       body: Column(
         children: [

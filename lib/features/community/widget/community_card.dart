@@ -115,7 +115,7 @@ class CommunityCard extends HookConsumerWidget {
                                 Text(
                                   item.pages?.private == 1
                                       ? item.users!.nickname.toString()
-                                      : '익명',
+                                      : 'vô danh',
                                   style: AppTextStyle.boldTextStyle.copyWith(
                                     fontSize: 11.sp,
                                     color: AppColor.primaryColor,

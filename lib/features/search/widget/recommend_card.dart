@@ -130,7 +130,7 @@ class RecommendCard extends HookConsumerWidget {
               ),
               child: Center(
                 child: Text(
-                  isFollow.value ? '팔로잉' : '팔로우',
+                  isFollow.value ? 'Tiếp theo' : 'theo',
                   style: AppTextStyle.defaultTextStyle.copyWith(
                     fontSize: 11.sp,
                     color:

@@ -73,7 +73,7 @@ class ProfileCardNew extends HookConsumerWidget {
                       ),
                       SizedBox(width: 5.w),
                       Text(
-                        private == '1' ? questionName : '익명',
+                        private == '1' ? questionName : 'vô danh',
                         style: AppTextStyle.defaultTextStyle.copyWith(
                           fontSize: 11.sp,
                           color: AppColor.primaryColor,

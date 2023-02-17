@@ -39,7 +39,7 @@ class CategoryScreen extends HookConsumerWidget {
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
-      appBar: UIConstants.qaAppBar(context, '카테고리'),
+      appBar: UIConstants.qaAppBar(context, 'tag'),
       body: Column(
         children: [
           SizedBox(height: 10.h),
@@ -93,7 +93,7 @@ class CategoryScreen extends HookConsumerWidget {
                         ),
                         SizedBox(width: 10.w),
                         Text(
-                          categoryList.value[index].title == '전체'
+                          categoryList.value[index].title == 'toàn bộ'
                               ? allPageCnt.value.toString()
                               : categoryList.value[index].pageCnt.toString(),
                           style: AppTextStyle.greyStyle,
