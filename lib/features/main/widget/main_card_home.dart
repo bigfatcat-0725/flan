@@ -507,25 +507,31 @@ class HomeFeedCard extends HookConsumerWidget {
                       ),
                     ),
                     Expanded(
-                      child: SizedBox(
-                        height: 25.h,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              AssetsConstants.share,
-                              width: 12.5.w,
-                              height: 12.5.w,
-                            ),
-                            SizedBox(width: 7.5.w),
-                            Text(
-                              '공유',
-                              style: AppTextStyle.greyStyle.copyWith(
-                                fontSize: 11.sp,
+                      child: GestureDetector(
+                        onTap: () {
+                          showDefaultDialog(context, '준비중입니다.');
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          height: 25.h,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                AssetsConstants.share,
+                                width: 12.5.w,
+                                height: 12.5.w,
                               ),
-                            )
-                          ],
+                              SizedBox(width: 7.5.w),
+                              Text(
+                                '공유',
+                                style: AppTextStyle.greyStyle.copyWith(
+                                  fontSize: 11.sp,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),

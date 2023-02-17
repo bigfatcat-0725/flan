@@ -48,7 +48,7 @@ class UIConstants {
                 child: SvgPicture.asset(
                   AssetsConstants.fontLogo,
                   height: 13.5.h,
-                  color: AppColor.primaryColor,
+                  color: AppColor.textColor,
                 ),
               ),
             ),
@@ -73,7 +73,7 @@ class UIConstants {
                         Icon(
                           Icons.arrow_drop_down,
                           size: 20.w,
-                          color: AppColor.primaryColor,
+                          color: AppColor.textColor,
                         ),
                       ],
                     ),
@@ -130,7 +130,7 @@ class UIConstants {
                               AssetsConstants.mainFill,
                               width: 17.5.h,
                               height: 17.5.h,
-                              color: AppColor.primaryColor,
+                              color: AppColor.textColor,
                             ),
                           ),
                         ),
@@ -144,7 +144,7 @@ class UIConstants {
                             child: Icon(
                               Icons.menu,
                               size: 20.h,
-                              color: AppColor.primaryColor,
+                              color: AppColor.textColor,
                             ),
                           );
                         },
@@ -166,7 +166,7 @@ class UIConstants {
                         AssetsConstants.bell,
                         width: 22.5.h,
                         height: 22.5.h,
-                        color: AppColor.primaryColor,
+                        color: AppColor.textColor,
                       ),
                     ),
                   ],

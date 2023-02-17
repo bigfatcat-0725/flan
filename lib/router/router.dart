@@ -11,6 +11,7 @@ import 'package:flan/features/community/screen/community_ask_screen.dart';
 import 'package:flan/features/community/screen/community_detail_screen.dart';
 import 'package:flan/features/community/screen/community_comment_edit.dart';
 import 'package:flan/features/default/screen/default_screen.dart';
+import 'package:flan/features/default/screen/splash_screen.dart';
 import 'package:flan/features/drawer/screen/drawer_community_screen.dart';
 import 'package:flan/features/drawer/screen/drawer_info_screen.dart';
 import 'package:flan/features/drawer/screen/drawer_profile_screen.dart';
@@ -32,8 +33,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: '/login',
+  initialLocation: '/splash',
   routes: <RouteBase>[
+    GoRoute(
+      path: '/splash',
+      pageBuilder: (context, state) =>
+          const NoTransitionPage(child: SplashScreen()),
+    ),
     GoRoute(
       path: '/login',
       pageBuilder: (context, state) =>

@@ -92,6 +92,7 @@ class QuestionScreen extends HookConsumerWidget {
                                 hintText: '#태그를 입력해주세요.',
                                 hintStyle: AppTextStyle.hintStyle.copyWith(
                                   fontSize: 13.sp,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ),
@@ -106,10 +107,13 @@ class QuestionScreen extends HookConsumerWidget {
                       SizedBox(width: 10.w),
                       GestureDetector(
                         onTap: () {
-                          tagList.value.add(tagTextController.text);
-                          tagList.value = [...tagList.value];
-                          print(tagList.value);
-                          tagTextController.clear();
+                          if (tagList.value.length == 5) {
+                            showDefaultDialog(context, '태그는 5개까지입니다.');
+                          } else {
+                            tagList.value.add(tagTextController.text);
+                            tagList.value = [...tagList.value];
+                            tagTextController.clear();
+                          }
                         },
                         child: Container(
                           width: 100.w,
@@ -159,7 +163,6 @@ class QuestionScreen extends HookConsumerWidget {
             if (type == 'community')
               Column(
                 children: [
-                  SizedBox(height: 20.h),
                   TextField(
                     controller: titleTextController,
                     cursorColor: AppColor.primaryColor,
