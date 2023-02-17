@@ -44,6 +44,7 @@ class AnswerAPI {
 
   FutureEither<int> editAnswer(
     List<File> fileList, {
+    required String img,
     required int user,
     required int answerSeq,
     required String reply,
@@ -52,6 +53,7 @@ class AnswerAPI {
       final url = Uri.parse('http://topping.io:8855/API/answers/$answerSeq');
 
       final request = http.MultipartRequest("PUT", url)
+        ..fields['photo'] = img.toString()
         ..fields['reply'] = reply.toString();
 
       if (fileList.isNotEmpty) {

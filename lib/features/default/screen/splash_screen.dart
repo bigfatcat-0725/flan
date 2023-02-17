@@ -1,10 +1,12 @@
 import 'package:flan/constants/assets_constants.dart';
+import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/theme/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SplashScreen extends HookConsumerWidget {
@@ -14,13 +16,33 @@ class SplashScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    useEffect(() {
-      Future.microtask(() async {
-        await Future.delayed(const Duration(seconds: 2));
+    // 자동로그인
+    void autoLogin() async {
+      final settingBox = Hive.box('settingBox');
+      final id = settingBox.get('id');
+      final pw = settingBox.get('pw');
+
+      if (id != null && pw != null) {
+        ref.read(authControllerProvider.notifier).login(
+              email: id,
+              password: pw,
+              fcmToken: 'test',
+              context: context,
+              ref: ref,
+            );
+      } else {
         if (context.mounted) {
           context.go('/login');
         }
+      }
+    }
+
+    useEffect(() {
+      Future.microtask(() async {
+        await Future.delayed(const Duration(seconds: 2));
+        autoLogin();
       });
+      return null;
     });
 
     return Scaffold(

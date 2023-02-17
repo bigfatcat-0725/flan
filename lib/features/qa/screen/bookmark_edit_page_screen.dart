@@ -35,18 +35,28 @@ class BookmarkEditPageScreen extends HookConsumerWidget {
     final picturesCurIndex = useState(1);
     final titleTextController = useTextEditingController();
     final questionTextController = useTextEditingController();
-
-    // 본인
-    final userInfo = ref.watch(userInfoProvier.notifier).state;
+    final tagTextController = useTextEditingController();
 
     // Theme
     final currentCategory = ref.watch(currentCategoryProvier);
-    final cureentCategorySeq = ref.watch(currentCategorySeqProvier);
+
+    final tagList = useState([]);
+    final addOne = useState(false);
 
     useEffect(() {
-      privateCheck.value = page.pages?.private == 0 ? true : false;
-      titleTextController.text = page.pages!.title.toString();
-      questionTextController.text = page.pages!.content.toString();
+      if (context.mounted) {
+        privateCheck.value = page.pages?.private == 0 ? true : false;
+        titleTextController.text = page.pages!.title.toString();
+        questionTextController.text = page.pages!.content.toString();
+        if (!addOne.value) {
+          if (page.pages!.tag.toString() != '') {
+            var defaultTag = page.pages!.tag.toString().split(',');
+            for (var i in defaultTag) {
+              tagList.value.add(i);
+            }
+          }
+        }
+      }
 
       return null;
     }, []);
@@ -83,10 +93,91 @@ class BookmarkEditPageScreen extends HookConsumerWidget {
             Column(
               children: [
                 SizedBox(height: 10.h),
-                Text(
-                  '현재 카테고리 : $currentCategory',
-                  style: AppTextStyle.boldTextStyle.copyWith(
-                    fontSize: 13.sp,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        children: [
+                          TextField(
+                            controller: tagTextController,
+                            cursorColor: AppColor.primaryColor,
+                            maxLines: 1,
+                            style: AppTextStyle.defaultTextStyle.copyWith(
+                              fontSize: 13.sp,
+                            ),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: '#태그를 입력해주세요.',
+                              hintStyle: AppTextStyle.hintStyle.copyWith(
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: 1.sw,
+                            height: 0.5.h,
+                            color: AppColor.hintColor,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 10.w),
+                    GestureDetector(
+                      onTap: () {
+                        if (tagList.value.length == 5) {
+                          showDefaultDialog(context, '태그는 5개까지입니다.');
+                        } else {
+                          tagList.value.add(tagTextController.text);
+                          tagList.value = [...tagList.value];
+                          tagTextController.clear();
+                        }
+                      },
+                      child: Container(
+                        width: 100.w,
+                        height: 25.h,
+                        decoration: BoxDecoration(
+                          color: AppColor.primaryColor,
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                        child: Center(
+                          child: Text(
+                            '태그추가',
+                            style: AppTextStyle.defaultTextStyle.copyWith(
+                              fontSize: 11.sp,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 5.h),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Wrap(
+                    alignment: WrapAlignment.start,
+                    spacing: 2.5.w,
+                    children: List.generate(
+                      tagList.value.length,
+                      (index) => Chip(
+                        onDeleted: () {
+                          tagList.value.removeAt(index);
+                          tagList.value = [...tagList.value];
+                        },
+                        deleteIconColor: Colors.white,
+                        label: Text(
+                          tagList.value[index],
+                          style: AppTextStyle.defaultTextStyle.copyWith(
+                            color: Colors.white,
+                          ),
+                        ),
+                        backgroundColor: AppColor.primaryColor,
+                        elevation: 0,
+                        padding: const EdgeInsets.all(8.0),
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -286,6 +377,8 @@ class BookmarkEditPageScreen extends HookConsumerWidget {
                         // page
                         ref.read(communityControllerProvider.notifier).editPage(
                               pictures.value,
+                              tag: tagList.value.join(','),
+                              photo: page.pages!.photo.toString(),
                               page: page.pages!.seq as int,
                               theme: toSeq,
                               title: titleTextController.text,

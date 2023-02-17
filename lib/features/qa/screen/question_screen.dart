@@ -1,20 +1,16 @@
 import 'dart:io';
-import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flan/constants/constants.dart';
 import 'package:flan/core/core.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
-import 'package:flan/features/default/controller/default_controller.dart';
 import 'package:flan/features/profile/controller/profile_controller.dart';
-import 'package:flan/models/feed/feed_model.dart';
 import 'package:flan/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class QuestionScreen extends HookConsumerWidget {
@@ -41,9 +37,21 @@ class QuestionScreen extends HookConsumerWidget {
 
     // Theme
     final currentCategory = ref.watch(currentCategoryProvier);
-    final cureentCategorySeq = ref.watch(currentCategorySeqProvier);
 
     final tagList = useState([]);
+    final addOne = useState(false);
+
+    useEffect(() {
+      if (context.mounted) {
+        if (!addOne.value) {
+          if (currentCategory != '전체') {
+            tagList.value.add(currentCategory);
+            addOne.value = true;
+          }
+        }
+      }
+      return null;
+    });
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
@@ -136,25 +144,29 @@ class QuestionScreen extends HookConsumerWidget {
                     ],
                   ),
                   SizedBox(height: 5.h),
-                  Wrap(
-                    spacing: 2.5.w,
-                    children: List.generate(
-                      tagList.value.length,
-                      (index) => Chip(
-                        onDeleted: () {
-                          tagList.value.removeAt(index);
-                          tagList.value = [...tagList.value];
-                        },
-                        deleteIconColor: Colors.white,
-                        label: Text(
-                          tagList.value[index],
-                          style: AppTextStyle.defaultTextStyle.copyWith(
-                            color: Colors.white,
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Wrap(
+                      alignment: WrapAlignment.start,
+                      spacing: 2.5.w,
+                      children: List.generate(
+                        tagList.value.length,
+                        (index) => Chip(
+                          onDeleted: () {
+                            tagList.value.removeAt(index);
+                            tagList.value = [...tagList.value];
+                          },
+                          deleteIconColor: Colors.white,
+                          label: Text(
+                            tagList.value[index],
+                            style: AppTextStyle.defaultTextStyle.copyWith(
+                              color: Colors.white,
+                            ),
                           ),
+                          backgroundColor: AppColor.primaryColor,
+                          elevation: 0,
+                          padding: const EdgeInsets.all(8.0),
                         ),
-                        backgroundColor: AppColor.primaryColor,
-                        elevation: 0,
-                        padding: const EdgeInsets.all(8.0),
                       ),
                     ),
                   ),

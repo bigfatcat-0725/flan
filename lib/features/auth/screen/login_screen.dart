@@ -25,30 +25,6 @@ class LoginScreen extends HookConsumerWidget {
     final errorText1 = useState('');
     final errorText2 = useState('');
 
-    // 자동로그인
-    void autoLogin() async {
-      final settingBox = Hive.box('settingBox');
-      final id = settingBox.get('id');
-      final pw = settingBox.get('pw');
-
-      if (id != null && pw != null) {
-        ref.read(authControllerProvider.notifier).login(
-              email: id,
-              password: pw,
-              fcmToken: 'test',
-              context: context,
-              ref: ref,
-            );
-      }
-    }
-
-    useEffect(() {
-      Future.microtask(() {
-        autoLogin();
-      });
-      return null;
-    }, []);
-
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
       body: Center(

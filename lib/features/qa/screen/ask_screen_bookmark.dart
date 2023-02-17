@@ -344,6 +344,9 @@ class AskScreenBookmark extends HookConsumerWidget {
                               .read(profileControllerProvider.notifier)
                               .editAnswer(
                                 pictures.value,
+                                img: question
+                                    .questions!.answer![0].answers!.photo
+                                    .toString(),
                                 user: userInfo.userInfo!.seq as int,
                                 answerSeq: question
                                     .questions!.answer![0].answers!.seq as int,

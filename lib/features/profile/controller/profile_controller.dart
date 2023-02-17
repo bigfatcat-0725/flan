@@ -185,6 +185,7 @@ class ProfileController extends StateNotifier<bool> {
 
   void editAnswer(
     List<File> imgList, {
+    required String img,
     required int user,
     required int answerSeq,
     required String reply,
@@ -194,6 +195,7 @@ class ProfileController extends StateNotifier<bool> {
     state = true;
     final res = await _answerAPI.editAnswer(
       imgList,
+      img: img,
       user: user,
       answerSeq: answerSeq,
       reply: reply,

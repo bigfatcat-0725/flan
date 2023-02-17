@@ -88,6 +88,8 @@ class PageAPI {
     required String title,
     required String content,
     required String private,
+    required String photo,
+    required String tag,
   }) async {
     try {
       // status 1 공개 0 익명
@@ -98,6 +100,8 @@ class PageAPI {
         ..fields['title'] = title.toString()
         ..fields['content'] = content.toString()
         ..fields['private'] = private.toString()
+        ..fields['photo'] = photo.toString()
+        ..fields['tag'] = tag.toString()
         ..fields['status'] = '1'.toString();
 
       if (imgList.isNotEmpty) {

@@ -204,6 +204,8 @@ class CommunityController extends StateNotifier<bool> {
     required String title,
     required String content,
     required String private,
+    required String photo,
+    required String tag,
     required BuildContext context,
     required WidgetRef ref,
   }) async {
@@ -211,10 +213,12 @@ class CommunityController extends StateNotifier<bool> {
     final res = await _pageAPI.editPage(
       imgList,
       page: page,
+      tag: tag,
       theme: theme,
       title: title,
       content: content,
       private: private,
+      photo: photo,
     );
     state = false;
     res.fold(
