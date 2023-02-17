@@ -151,6 +151,8 @@ class CommunityCard extends HookConsumerWidget {
                         SizedBox(height: 10.h),
                         Text(
                           item.pages!.title.toString(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: AppTextStyle.boldTextStyle.copyWith(
                             fontSize: 13.sp,
                           ),
@@ -163,6 +165,8 @@ class CommunityCard extends HookConsumerWidget {
                             Expanded(
                               child: Text(
                                 item.pages!.content.toString(),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ],

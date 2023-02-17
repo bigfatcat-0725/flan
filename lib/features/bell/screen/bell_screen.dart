@@ -16,6 +16,7 @@ class BellScreen extends HookConsumerWidget {
       backgroundColor: AppColor.scaffoldBackgroundColor,
       body: Column(
         children: [
+          SizedBox(height: 10.h),
           Expanded(
             child: ListView.separated(
               itemBuilder: (BuildContext context, int index) {
@@ -46,10 +47,10 @@ class BellScreen extends HookConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // 알림 세부 기획 필요.
-                        // 누군가 당신에게 질문을 남겼습니다.
-                        // 누군가 당신이 남긴 질문에 답변을 했습니다.
-                        // 누구 님이 당신을 팔로우하기 시작했습니다.
+                        // 질문
+                        // 답변
+                        // 댓글
+                        // 팔로우
                         Expanded(
                           child: Text(
                             '누군가 당신에게 질문을 남겼습니다.',

@@ -102,10 +102,14 @@ class ProfileCardReject extends HookConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    questionContent,
-                    style: AppTextStyle.boldTextStyle.copyWith(
-                      fontSize: 13.sp,
+                  Expanded(
+                    child: Text(
+                      questionContent,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTextStyle.boldTextStyle.copyWith(
+                        fontSize: 13.sp,
+                      ),
                     ),
                   ),
                   if (contentImgList.isNotEmpty)

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flan/apis/answer_api.dart';
 import 'package:flan/apis/bookmark_api.dart';
 import 'package:flan/apis/question_api.dart';
@@ -5,9 +7,11 @@ import 'package:flan/core/core.dart';
 import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
 import 'package:flan/features/default/controller/default_controller.dart';
+import 'package:flan/features/main/controller/main_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 final profileControllerProvider =
     StateNotifierProvider<ProfileController, bool>((ref) {
@@ -88,6 +92,7 @@ class ProfileController extends StateNotifier<bool> {
     if (res == 200) {
       ref.invalidate(feedProivder(userSeq));
       ref.invalidate(bookmarkQuestionProivder(userSeq));
+      ref.invalidate(homeFeedProvider(userSeq));
       return true;
     } else {
       return false;
@@ -135,6 +140,7 @@ class ProfileController extends StateNotifier<bool> {
     if (res == 200) {
       ref.invalidate(feedProivder(user));
       ref.invalidate(bookmarkQuestionProivder(user));
+      ref.invalidate(homeFeedProvider(user));
       return true;
     } else {
       return false;
@@ -161,6 +167,8 @@ class ProfileController extends StateNotifier<bool> {
       (r) {
         if (r == 200) {
           ref.invalidate(feedProivder(user));
+          ref.invalidate(bookmarkQuestionProivder(user));
+          ref.invalidate(homeFeedProvider(user));
           context.pop();
         }
       },
@@ -186,6 +194,8 @@ class ProfileController extends StateNotifier<bool> {
       (r) {
         if (r == 200) {
           ref.invalidate(feedProivder(user));
+          ref.invalidate(bookmarkQuestionProivder(user));
+          ref.invalidate(homeFeedProvider(user));
           context.pop();
           context.pop();
         }
@@ -203,9 +213,44 @@ class ProfileController extends StateNotifier<bool> {
     if (res == 1) {
       // 본인 프로필에서 지우는거니까
       ref.invalidate(feedProivder(mySeq));
+      ref.invalidate(bookmarkQuestionProivder(mySeq));
+      ref.invalidate(homeFeedProvider(mySeq));
       if (context.mounted) {
         context.pop();
       }
+    }
+  }
+
+  void follow({required int from, required int to}) async {
+    final url = Uri.parse(
+        'http://topping.io:8855/API/users/follow/update/$to?from_user=$from');
+    final response = await http.put(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "accept": "application/json",
+      },
+    );
+    print(response.statusCode);
+  }
+
+  Future<bool> isFollow({required int my, required int other}) async {
+    final url =
+        Uri.parse('http://topping.io:8855/API/follow/log/$my?other_seq=$other');
+    final reqeust = await http.get(
+      url,
+      headers: {
+        "Content-Type": "application/json",
+        "accept": "application/json",
+      },
+    );
+    final decodeData = utf8.decode(reqeust.bodyBytes);
+    final response = jsonDecode(decodeData);
+
+    if (reqeust.statusCode == 200) {
+      return response == 1 ? true : false;
+    } else {
+      return false;
     }
   }
 }

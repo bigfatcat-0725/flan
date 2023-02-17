@@ -4,8 +4,10 @@ import 'package:flan/core/core.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
 import 'package:flan/features/profile/controller/profile_controller.dart';
 import 'package:flan/models/bookmark/bookmark_page_model.dart';
+import 'package:flan/models/bookmark/bookmark_question_model.dart';
 import 'package:flan/models/comment/comment_model.dart';
 import 'package:flan/models/feed/feed_model.dart';
+import 'package:flan/models/home_feed/home_feed_model.dart';
 import 'package:flan/models/page/page_model.dart';
 import 'package:flan/models/user/user_model.dart';
 import 'package:flan/theme/app_color.dart';
@@ -155,7 +157,7 @@ Future showDefaultDialog(context, text) {
             children: [
               Text(
                 text,
-                style: AppTextStyle.boldTextStyle.copyWith(
+                style: AppTextStyle.defaultTextStyle.copyWith(
                   fontSize: 13.sp,
                 ),
               ),
@@ -807,6 +809,282 @@ Future showMore(
                   GestureDetector(
                     onTap: () {
                       context.push('/ask',
+                          extra: {'question': data, 'type': 'edit'});
+                    },
+                    child: Container(
+                      width: 1.sw,
+                      height: 40.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white,
+                      ),
+                      child: Center(
+                        child: Text(
+                          '답변 수정하기',
+                          style: AppTextStyle.defaultTextStyle.copyWith(),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 5.h),
+                  GestureDetector(
+                    onTap: () {
+                      // 답변 삭제
+                      ref.read(profileControllerProvider.notifier).deleteAnswer(
+                            seq: data.questions!.answer![0].answers!.seq as int,
+                            mySeq: data.users!.seq as int,
+                            ref: ref,
+                            context: context,
+                          );
+                    },
+                    child: Container(
+                      width: 1.sw,
+                      height: 40.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white,
+                      ),
+                      child: Center(
+                        child: Text(
+                          '답변 삭제하기',
+                          style: AppTextStyle.defaultTextStyle.copyWith(
+                            color: AppColor.errorColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 20.w,
+            vertical: 30.h,
+          ),
+          insetPadding: EdgeInsets.symmetric(horizontal: 0.w),
+        );
+      });
+}
+
+Future showMoreBookmark(
+  BuildContext context, {
+  String type = 'default',
+  int myData = 0,
+  required BookmarkQuestionModel data,
+  required WidgetRef ref,
+}) {
+  return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return AlertDialog(
+          alignment: Alignment.bottomCenter,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(5),
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Column(
+                children: [
+                  if (type != 'default')
+                    Column(
+                      children: [
+                        if (myData == 0)
+                          Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {},
+                                child: Container(
+                                  width: 1.sw,
+                                  height: 40.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.white,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '차단',
+                                      style: AppTextStyle.defaultTextStyle
+                                          .copyWith(
+                                        color: AppColor.errorColor,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 5.h),
+                              GestureDetector(
+                                onTap: () {},
+                                child: Container(
+                                  width: 1.sw,
+                                  height: 40.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.white,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '신고',
+                                      style: AppTextStyle.defaultTextStyle
+                                          .copyWith(
+                                        color: AppColor.errorColor,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 5.h),
+                            ],
+                          ),
+                      ],
+                    ),
+                  GestureDetector(
+                    onTap: () {
+                      context.push('/ask_bookmark',
+                          extra: {'question': data, 'type': 'edit'});
+                    },
+                    child: Container(
+                      width: 1.sw,
+                      height: 40.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white,
+                      ),
+                      child: Center(
+                        child: Text(
+                          '답변 수정하기',
+                          style: AppTextStyle.defaultTextStyle.copyWith(),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 5.h),
+                  GestureDetector(
+                    onTap: () {
+                      // 답변 삭제
+                      ref.read(profileControllerProvider.notifier).deleteAnswer(
+                            seq: data.questions!.answer![0].answers!.seq as int,
+                            mySeq: data.users!.seq as int,
+                            ref: ref,
+                            context: context,
+                          );
+                    },
+                    child: Container(
+                      width: 1.sw,
+                      height: 40.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white,
+                      ),
+                      child: Center(
+                        child: Text(
+                          '답변 삭제하기',
+                          style: AppTextStyle.defaultTextStyle.copyWith(
+                            color: AppColor.errorColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 20.w,
+            vertical: 30.h,
+          ),
+          insetPadding: EdgeInsets.symmetric(horizontal: 0.w),
+        );
+      });
+}
+
+Future showMoreHomeCard(
+  BuildContext context, {
+  String type = 'default',
+  int myData = 0,
+  required HomeFeedModel data,
+  required WidgetRef ref,
+}) {
+  return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return AlertDialog(
+          alignment: Alignment.bottomCenter,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(5),
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Column(
+                children: [
+                  if (type != 'default')
+                    Column(
+                      children: [
+                        if (myData == 0)
+                          Column(
+                            children: [
+                              GestureDetector(
+                                onTap: () {},
+                                child: Container(
+                                  width: 1.sw,
+                                  height: 40.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.white,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '차단',
+                                      style: AppTextStyle.defaultTextStyle
+                                          .copyWith(
+                                        color: AppColor.errorColor,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 5.h),
+                              GestureDetector(
+                                onTap: () {},
+                                child: Container(
+                                  width: 1.sw,
+                                  height: 40.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.white,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '신고',
+                                      style: AppTextStyle.defaultTextStyle
+                                          .copyWith(
+                                        color: AppColor.errorColor,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 5.h),
+                            ],
+                          ),
+                      ],
+                    ),
+                  GestureDetector(
+                    onTap: () {
+                      context.push('/ask_home',
                           extra: {'question': data, 'type': 'edit'});
                     },
                     child: Container(

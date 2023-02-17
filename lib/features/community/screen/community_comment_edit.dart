@@ -44,69 +44,81 @@ class CommunityCommentEdit extends HookConsumerWidget {
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
       appBar: UIConstants.qaAppBar(context, '댓글수정'),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 10.h),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: 10.h,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            AssetsConstants.community,
-                            width: 17.5.w,
-                            height: 17.5.w,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 10.h),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: const [
+                BoxShadow(
+                  blurRadius: 2.5,
+                  color: Color(0xffcccccc),
+                ),
+              ],
+            ),
+            margin: EdgeInsets.symmetric(horizontal: 16.w),
+            padding: EdgeInsets.symmetric(
+              vertical: 10.h,
+              horizontal: 16.w,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          AssetsConstants.community,
+                          width: 17.5.w,
+                          height: 17.5.w,
+                          color: AppColor.primaryColor,
+                        ),
+                        SizedBox(width: 5.w),
+                        Text(
+                          page.pages!.private == 1
+                              ? page.users!.nickname.toString()
+                              : '익명',
+                          style: AppTextStyle.defaultTextStyle.copyWith(
+                            fontSize: 11.sp,
                             color: AppColor.primaryColor,
                           ),
-                          SizedBox(width: 5.w),
-                          Text(
-                            page.pages!.private == 1
-                                ? page.users!.nickname.toString()
-                                : '익명',
-                            style: AppTextStyle.defaultTextStyle.copyWith(
-                              fontSize: 11.sp,
-                              color: AppColor.primaryColor,
-                            ),
-                          ),
-                          SizedBox(width: 5.w),
-                          Text(
-                            page.pages!.remaining.toString(),
-                            style: AppTextStyle.hintStyle.copyWith(
-                              fontSize: 11.sp,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10.h),
-                      Text(
-                        page.pages!.title.toString(),
-                        style: AppTextStyle.boldTextStyle.copyWith(
-                          fontSize: 13.sp,
                         ),
+                        SizedBox(width: 5.w),
+                        Text(
+                          page.pages!.remaining.toString(),
+                          style: AppTextStyle.hintStyle.copyWith(
+                            fontSize: 11.sp,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10.h),
+                    Text(
+                      page.pages!.title.toString(),
+                      style: AppTextStyle.boldTextStyle.copyWith(
+                        fontSize: 13.sp,
                       ),
-                      SizedBox(height: 5.h),
-                      Text(
-                        page.pages!.content.toString(),
-                        style: AppTextStyle.defaultTextStyle,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                    SizedBox(height: 5.h),
+                    Text(
+                      page.pages!.content.toString(),
+                      style: AppTextStyle.defaultTextStyle,
+                    ),
+                  ],
+                ),
+              ],
             ),
-            SizedBox(height: 5.h),
-            Expanded(
+          ),
+          SizedBox(height: 10.h),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -169,80 +181,80 @@ class CommunityCommentEdit extends HookConsumerWidget {
                 ],
               ),
             ),
-            if (pictures.value.isEmpty)
-              Container()
-            else
-              CarouselSlider(
-                options: CarouselOptions(
-                  height: 150.h,
-                  enableInfiniteScroll: false,
-                  viewportFraction: 1,
-                  onPageChanged: (index, reason) {
-                    picturesCurIndex.value = index + 1;
-                  },
-                ),
-                items: pictures.value.map((i) {
-                  return Stack(
-                    children: [
-                      SizedBox(
-                        width: 1.sw,
-                        child: Image.file(
-                          i,
-                          fit: BoxFit.cover,
+          ),
+          if (pictures.value.isEmpty)
+            Container()
+          else
+            CarouselSlider(
+              options: CarouselOptions(
+                height: 150.h,
+                enableInfiniteScroll: false,
+                viewportFraction: 1,
+                onPageChanged: (index, reason) {
+                  picturesCurIndex.value = index + 1;
+                },
+              ),
+              items: pictures.value.map((i) {
+                return Stack(
+                  children: [
+                    SizedBox(
+                      width: 1.sw,
+                      child: Image.file(
+                        i,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned(
+                      top: 7.5.w,
+                      left: 7.5.w,
+                      child: Container(
+                        width: 40.w,
+                        height: 20.h,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 1.w,
+                            color: AppColor.primaryColor,
+                          ),
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                        child: Center(
+                          child: Text(
+                            '${picturesCurIndex.value} / ${pictures.value.length}',
+                            style: AppTextStyle.boldTextStyle.copyWith(
+                              color: AppColor.primaryColor,
+                              fontSize: 10.sp,
+                            ),
+                          ),
                         ),
                       ),
-                      Positioned(
-                        top: 7.5.w,
-                        left: 7.5.w,
-                        child: Container(
-                          width: 40.w,
-                          height: 20.h,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 1.w,
+                    ),
+                    Positioned(
+                      top: 7.5.w,
+                      right: 7.5.w,
+                      child: GestureDetector(
+                        onTap: () {
+                          pictures.value.removeAt(picturesCurIndex.value - 1);
+                          // 다시 담아줘야 state 변경함.
+                          pictures.value = [...pictures.value];
+                          picturesCurIndex.value = picturesCurIndex.value - 1;
+                        },
+                        child: SizedBox(
+                          width: 20.w,
+                          height: 20.w,
+                          child: FittedBox(
+                            child: SvgPicture.asset(
+                              AssetsConstants.clear,
                               color: AppColor.primaryColor,
                             ),
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                          child: Center(
-                            child: Text(
-                              '${picturesCurIndex.value} / ${pictures.value.length}',
-                              style: AppTextStyle.boldTextStyle.copyWith(
-                                color: AppColor.primaryColor,
-                                fontSize: 10.sp,
-                              ),
-                            ),
                           ),
                         ),
                       ),
-                      Positioned(
-                        top: 7.5.w,
-                        right: 7.5.w,
-                        child: GestureDetector(
-                          onTap: () {
-                            pictures.value.removeAt(picturesCurIndex.value - 1);
-                            // 다시 담아줘야 state 변경함.
-                            pictures.value = [...pictures.value];
-                            picturesCurIndex.value = picturesCurIndex.value - 1;
-                          },
-                          child: SizedBox(
-                            width: 20.w,
-                            height: 20.w,
-                            child: FittedBox(
-                              child: SvgPicture.asset(
-                                AssetsConstants.clear,
-                                color: AppColor.primaryColor,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                }).toList(),
-              ),
-          ],
-        ),
+                    ),
+                  ],
+                );
+              }).toList(),
+            ),
+        ],
       ),
       bottomNavigationBar: SizedBox(
         height: MediaQuery.of(context).padding.bottom + 50.h,

@@ -92,7 +92,7 @@ class HomeFeedCard extends HookConsumerWidget {
     return GestureDetector(
       onTap: () {
         if (type != 'detail') {
-          context.push('/bookmark_main_detail', extra: {'data': data});
+          context.push('/home_main_detail', extra: {'data': data});
         }
       },
       child: Container(
@@ -169,6 +169,10 @@ class HomeFeedCard extends HookConsumerWidget {
                                   Expanded(
                                     child: Text(
                                       questionContent,
+                                      maxLines: type != 'detail' ? 2 : 100,
+                                      overflow: type == 'detail'
+                                          ? null
+                                          : TextOverflow.ellipsis,
                                       style:
                                           AppTextStyle.boldTextStyle.copyWith(
                                         fontSize: 13.sp,
@@ -313,13 +317,13 @@ class HomeFeedCard extends HookConsumerWidget {
                       myCard.value
                           ? GestureDetector(
                               onTap: () {
-                                // showMore(
-                                //   context,
-                                //   type: 'not default',
-                                //   myData: isMyData,
-                                //   data: data,
-                                //   ref: ref,
-                                // );
+                                showMoreHomeCard(
+                                  context,
+                                  type: 'not default',
+                                  myData: isMyData,
+                                  data: data,
+                                  ref: ref,
+                                );
                               },
                               child: Icon(
                                 Icons.more_horiz,
@@ -332,136 +336,141 @@ class HomeFeedCard extends HookConsumerWidget {
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 55.w),
-                    child: Text(answerContent),
+                    child: Text(
+                      answerContent,
+                      maxLines: type != 'detail' ? 3 : 100,
+                      overflow: type == 'detail' ? null : TextOverflow.ellipsis,
+                    ),
                   ),
                 ],
               ),
             ),
             SizedBox(height: 10.h),
-            Container(
-              width: 1.sw,
-              height: 25.h,
-              color: Colors.white,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () async {
-                        final res = await ref
-                            .read(profileControllerProvider.notifier)
-                            .likeQuestion(
-                              questionSeq: data.questions!.seq as int,
-                              userSeq: userInfo!.userInfo!.seq as int,
-                              ref: ref,
-                            );
-                        if (res) {
-                          likeStatus.value = !likeStatus.value;
-                        }
-                      },
-                      child: Container(
-                        color: Colors.transparent,
+            if (type != 'detail')
+              Container(
+                width: 1.sw,
+                height: 25.h,
+                color: Colors.white,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () async {
+                          final res = await ref
+                              .read(profileControllerProvider.notifier)
+                              .likeQuestion(
+                                questionSeq: data.questions!.seq as int,
+                                userSeq: userInfo!.userInfo!.seq as int,
+                                ref: ref,
+                              );
+                          if (res) {
+                            likeStatus.value = !likeStatus.value;
+                          }
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          height: 25.h,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                likeStatus.value
+                                    ? AssetsConstants.heartActive
+                                    : AssetsConstants.heart,
+                                width: 12.5.w,
+                                height: 12.5.w,
+                                color: likeStatus.value
+                                    ? AppColor.primaryColor
+                                    : AppColor.greyColor,
+                              ),
+                              SizedBox(width: 7.5.w),
+                              Text(
+                                '$questinLikeCount',
+                                style: AppTextStyle.greyStyle.copyWith(
+                                  fontSize: 11.sp,
+                                  color: likeStatus.value
+                                      ? AppColor.primaryColor
+                                      : null,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () async {
+                          final res = await ref
+                              .read(profileControllerProvider.notifier)
+                              .questionBookmarking(
+                                question: data.questions!.seq as int,
+                                user: userInfo!.userInfo!.seq as int,
+                                ref: ref,
+                              );
+                          if (res) {
+                            saveStatus.value = !saveStatus.value;
+                          }
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          height: 25.h,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                saveStatus.value
+                                    ? AssetsConstants.saveActive
+                                    : AssetsConstants.save,
+                                width: 12.5.w,
+                                height: 12.5.w,
+                                color: saveStatus.value
+                                    ? AppColor.primaryColor
+                                    : AppColor.greyColor,
+                              ),
+                              SizedBox(width: 7.5.w),
+                              Text(
+                                '저장',
+                                style: AppTextStyle.greyStyle.copyWith(
+                                  fontSize: 11.sp,
+                                  color: saveStatus.value
+                                      ? AppColor.primaryColor
+                                      : null,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: SizedBox(
                         height: 25.h,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                              likeStatus.value
-                                  ? AssetsConstants.heartActive
-                                  : AssetsConstants.heart,
+                              AssetsConstants.share,
                               width: 12.5.w,
                               height: 12.5.w,
-                              color: likeStatus.value
-                                  ? AppColor.primaryColor
-                                  : AppColor.greyColor,
                             ),
                             SizedBox(width: 7.5.w),
                             Text(
-                              '$questinLikeCount',
+                              '공유',
                               style: AppTextStyle.greyStyle.copyWith(
                                 fontSize: 11.sp,
-                                color: likeStatus.value
-                                    ? AppColor.primaryColor
-                                    : null,
                               ),
                             )
                           ],
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () async {
-                        final res = await ref
-                            .read(profileControllerProvider.notifier)
-                            .questionBookmarking(
-                              question: data.questions!.seq as int,
-                              user: userInfo!.userInfo!.seq as int,
-                              ref: ref,
-                            );
-                        if (res) {
-                          saveStatus.value = !saveStatus.value;
-                        }
-                      },
-                      child: Container(
-                        color: Colors.transparent,
-                        height: 25.h,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              saveStatus.value
-                                  ? AssetsConstants.saveActive
-                                  : AssetsConstants.save,
-                              width: 12.5.w,
-                              height: 12.5.w,
-                              color: saveStatus.value
-                                  ? AppColor.primaryColor
-                                  : AppColor.greyColor,
-                            ),
-                            SizedBox(width: 7.5.w),
-                            Text(
-                              '저장',
-                              style: AppTextStyle.greyStyle.copyWith(
-                                fontSize: 11.sp,
-                                color: saveStatus.value
-                                    ? AppColor.primaryColor
-                                    : null,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: SizedBox(
-                      height: 25.h,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            AssetsConstants.share,
-                            width: 12.5.w,
-                            height: 12.5.w,
-                          ),
-                          SizedBox(width: 7.5.w),
-                          Text(
-                            '공유',
-                            style: AppTextStyle.greyStyle.copyWith(
-                              fontSize: 11.sp,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
             SizedBox(height: 5.h),
           ],
         ),

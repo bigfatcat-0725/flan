@@ -21,7 +21,10 @@ import 'package:flan/features/drawer/widget/setting_bell.dart';
 import 'package:flan/features/drawer/widget/setting_language.dart';
 import 'package:flan/features/drawer/widget/setting_theme.dart';
 import 'package:flan/features/main/screen/main_detail_screen.dart';
+import 'package:flan/features/main/widget/main_detail_home.dart';
 import 'package:flan/features/qa/screen/ask_screen.dart';
+import 'package:flan/features/qa/screen/ask_screen_bookmark.dart';
+import 'package:flan/features/qa/screen/ask_screen_home_card.dart';
 import 'package:flan/features/qa/screen/bookmark_edit_page_screen.dart';
 import 'package:flan/features/qa/screen/edit_page_screen.dart';
 import 'package:flan/features/qa/screen/question_screen.dart';
@@ -58,6 +61,17 @@ final GoRouter router = GoRouter(
           },
         ),
         GoRoute(
+          path: 'home_main_detail',
+          pageBuilder: (context, state) {
+            final object = state.extra as Map<String, dynamic>;
+
+            return NoTransitionPage(
+                child: MainDetailHome(
+              data: object['data'],
+            ));
+          },
+        ),
+        GoRoute(
           path: 'bookmark_main_detail',
           pageBuilder: (context, state) {
             final object = state.extra as Map<String, dynamic>;
@@ -85,6 +99,30 @@ final GoRouter router = GoRouter(
             final object = state.extra as Map<String, dynamic>;
             return NoTransitionPage(
               child: AskScreen(
+                type: object['type'],
+                question: object['question'],
+              ),
+            );
+          },
+        ),
+        GoRoute(
+          path: 'ask_home',
+          pageBuilder: (context, state) {
+            final object = state.extra as Map<String, dynamic>;
+            return NoTransitionPage(
+              child: AskScreenHomeCard(
+                type: object['type'],
+                question: object['question'],
+              ),
+            );
+          },
+        ),
+        GoRoute(
+          path: 'ask_bookmark',
+          pageBuilder: (context, state) {
+            final object = state.extra as Map<String, dynamic>;
+            return NoTransitionPage(
+              child: AskScreenBookmark(
                 type: object['type'],
                 question: object['question'],
               ),

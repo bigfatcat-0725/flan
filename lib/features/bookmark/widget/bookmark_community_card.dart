@@ -151,6 +151,8 @@ class BookmarkCommunityCard extends HookConsumerWidget {
                         SizedBox(height: 10.h),
                         Text(
                           item.pages!.title.toString(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: AppTextStyle.boldTextStyle.copyWith(
                             fontSize: 13.sp,
                           ),
@@ -162,6 +164,8 @@ class BookmarkCommunityCard extends HookConsumerWidget {
                           children: [
                             Expanded(
                               child: Text(
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                                 item.pages!.content.toString(),
                               ),
                             ),

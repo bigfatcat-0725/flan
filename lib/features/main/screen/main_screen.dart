@@ -1,4 +1,5 @@
 import 'package:flan/core/providers.dart';
+import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/community/widget/community_card.dart';
 import 'package:flan/features/main/controller/main_controller.dart';
 import 'package:flan/features/main/widget/main_card.dart';
@@ -17,24 +18,13 @@ class MainScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final homeTapController = useTabController(initialLength: 4);
     final isMounted = useIsMounted();
     final currentTap = ref.watch(bottomNavProvier);
-
-    useEffect(() {
-      // 일단 refresh 걸어놓기.
-      if (isMounted() && currentTap == 0) {
-        // ref.invalidate(hotPageProvider('d'));
-        // ref.invalidate(hotPageProvider('w'));
-        // ref.invalidate(hotPageProvider('m'));
-        // ref.invalidate(hotPageProvider('y'));
-      }
-      return null;
-    }, []);
+    final userInfo = ref.watch(userInfoProvier);
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
-      body: ref.watch(homeFeedProvider(3)).when(
+      body: ref.watch(homeFeedProvider(userInfo!.userInfo!.seq as int)).when(
             data: (data) {
               return Container(
                 width: 1.sw,

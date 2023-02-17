@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flan/constants/constants.dart';
 import 'package:flan/core/core.dart';
+import 'package:flan/features/auth/controller/auth_controller.dart';
+import 'package:flan/features/profile/controller/profile_controller.dart';
 import 'package:flan/models/user/user_model.dart';
 import 'package:flan/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,20 @@ class RecommendCard extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isFollow = useState(false);
+
+    final currentUser = ref.watch(userInfoProvier);
+
+    useEffect(() {
+      if (context.mounted) {
+        Future.microtask(() async {
+          isFollow.value = await ref
+              .read(profileControllerProvider.notifier)
+              .isFollow(
+                  my: currentUser!.userInfo!.seq as int,
+                  other: userInfo.seq as int);
+        });
+      }
+    });
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 5.h),
@@ -91,6 +107,12 @@ class RecommendCard extends HookConsumerWidget {
           ),
           GestureDetector(
             onTap: () {
+              final currentUser = ref.watch(userInfoProvier);
+              ref.read(profileControllerProvider.notifier).follow(
+                    from: currentUser!.userInfo!.seq as int,
+                    to: userInfo.seq as int,
+                  );
+
               isFollow.value = !isFollow.value;
             },
             child: Container(

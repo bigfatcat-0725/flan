@@ -40,7 +40,18 @@ class CommunityDetailScreen extends HookConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 10.h),
-          Padding(
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: const [
+                BoxShadow(
+                  blurRadius: 2.5,
+                  color: Color(0xffcccccc),
+                ),
+              ],
+            ),
+            margin: EdgeInsets.symmetric(horizontal: 16.w),
             padding: EdgeInsets.symmetric(
               vertical: 10.h,
             ),
@@ -98,7 +109,7 @@ class CommunityDetailScreen extends HookConsumerWidget {
               ],
             ),
           ),
-          SizedBox(height: 5.h),
+          SizedBox(height: 10.h),
           ref.watch(commentProvider(page.pages!.seq as int)).when(
                 data: (data) {
                   return data.isEmpty
