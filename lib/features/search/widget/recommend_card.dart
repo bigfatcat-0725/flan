@@ -95,7 +95,7 @@ class RecommendCard extends HookConsumerWidget {
             },
             child: Container(
               width: 80.w,
-              height: 30.h,
+              height: 25.h,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100),
                 color: isFollow.value ? Colors.white : AppColor.primaryColor,

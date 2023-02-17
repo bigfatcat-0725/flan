@@ -2,12 +2,14 @@ import 'package:animations/animations.dart';
 import 'package:flan/constants/constants.dart';
 import 'package:flan/core/providers.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
-import 'package:flan/features/default/controller/default_controller.dart';
+import 'package:flan/features/community/screen/community_screen.dart';
+import 'package:flan/features/main/screen/main_screen.dart';
+import 'package:flan/features/profile/screen/profile_screen.dart';
+import 'package:flan/features/search/screen/search_screen.dart';
 import 'package:flan/main.dart';
 import 'package:flan/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -40,6 +42,13 @@ class DefaultScreen extends HookConsumerWidget {
     )..load();
     //
 
+    List<Widget> bottomTabBarPages = [
+      bottomNav == 0 ? const MainScreen() : Container(),
+      bottomNav == 1 ? const CommunityScreen() : Container(),
+      bottomNav == 2 ? const SearchScreen() : Container(),
+      bottomNav == 3 ? const ProfileScreen() : Container(),
+    ];
+
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
       appBar: UIConstants.appBar(
@@ -63,19 +72,19 @@ class DefaultScreen extends HookConsumerWidget {
           },
           child: Column(
             children: [
-              Expanded(
-                child: IndexedStack(
-                  index: bottomNav,
-                  key: ValueKey<int>(bottomNav),
-                  children: UIConstants.bottomTabBarPages,
-                ),
-              ),
               Container(
                 width: AdSize.fullBanner.width.toDouble(),
                 height: AdSize.fullBanner.height.toDouble(),
                 color: AppColor.hintColor.withOpacity(0.1),
                 child: AdWidget(
                   ad: banner,
+                ),
+              ),
+              Expanded(
+                child: IndexedStack(
+                  index: bottomNav,
+                  key: ValueKey<int>(bottomNav),
+                  children: bottomTabBarPages,
                 ),
               ),
             ],

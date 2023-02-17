@@ -1,4 +1,5 @@
 import 'package:flan/constants/ui_constants.dart';
+import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/theme/app_color.dart';
 import 'package:flan/theme/app_text_theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,28 +16,30 @@ class SettingBell extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bell0 = useState(false);
-    final bell1 = useState(false);
-    final bell2 = useState(false);
-    final bell3 = useState(false);
-    final bell4 = useState(false);
-    final bell5 = useState(false);
-
-    final bellBoolList = [bell0, bell1, bell2, bell3, bell4, bell5];
+    final newN = useState(false);
+    final newQ = useState(false);
+    final newA = useState(false);
+    final newC = useState(false);
+    final bellBoolList = [newN, newQ, newA, newC];
     final bellList = [
-      '새 질문 알림',
+      '공지사항 알림',
+      '질문 알림',
       '답변 알림',
-      '커뮤니티 댓글 알림',
-      '커뮤니티 대댓글 알림',
-      '팔로우 알림',
-      '공지사항 알림'
+      '댓글 알림',
     ];
+    final userInfo = ref.watch(userInfoProvier);
+
+    useEffect(() {
+      if (context.mounted) {}
+      return null;
+    });
 
     return Scaffold(
       appBar: UIConstants.qaAppBar(context, '알림 설정'),
       backgroundColor: AppColor.scaffoldBackgroundColor,
       body: Column(
         children: [
+          SizedBox(height: 10.h),
           Expanded(
             child: ListView.separated(
               itemBuilder: (BuildContext context, int index) {
@@ -70,7 +73,7 @@ class SettingBell extends HookConsumerWidget {
                         Expanded(
                           child: Text(
                             bellList[index],
-                            style: AppTextStyle.boldTextStyle.copyWith(),
+                            style: AppTextStyle.defaultTextStyle.copyWith(),
                           ),
                         ),
                         SizedBox(width: 10.w),

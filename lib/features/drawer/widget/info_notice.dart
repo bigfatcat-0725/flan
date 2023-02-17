@@ -45,7 +45,7 @@ class InfoNotice extends HookConsumerWidget {
                   title: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         // 알림 세부 기획 필요.
@@ -56,7 +56,7 @@ class InfoNotice extends HookConsumerWidget {
                           child: Row(
                             children: [
                               Text(
-                                '2023.02.0${index + 1} 공지사항',
+                                '2023.02.20 FLAN OPEN',
                                 style: AppTextStyle.defaultTextStyle.copyWith(),
                               ),
                               SizedBox(width: 5.w),
@@ -69,11 +69,11 @@ class InfoNotice extends HookConsumerWidget {
                             ],
                           ),
                         ),
-                        SizedBox(width: 10.w),
-                        Text(
-                          '방금 전',
-                          style: AppTextStyle.hintStyle,
-                        ),
+                        // SizedBox(width: 10.w),
+                        // Text(
+                        //   '방금 전',
+                        //   style: AppTextStyle.hintStyle,
+                        // ),
                       ],
                     ),
                   ),
@@ -82,7 +82,7 @@ class InfoNotice extends HookConsumerWidget {
               separatorBuilder: (context, index) {
                 return Container();
               },
-              itemCount: 5,
+              itemCount: 1,
             ),
           ),
         ],

@@ -18,6 +18,7 @@ class CategoryScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final categoryList = useState(<CategoryModel>[]);
     final currentCategory = ref.watch(currentCategoryProvier);
+    final allPageCnt = useState(0);
 
     useEffect(() {
       if (context.mounted) {
@@ -25,6 +26,12 @@ class CategoryScreen extends HookConsumerWidget {
           final res =
               await ref.read(categoryControllerProvider.notifier).getCategory();
           categoryList.value = res;
+
+          for (final category in categoryList.value) {
+            allPageCnt.value += category.pageCnt!;
+          }
+
+          print(allPageCnt.value);
         });
       }
       return null;
@@ -86,8 +93,8 @@ class CategoryScreen extends HookConsumerWidget {
                         ),
                         SizedBox(width: 10.w),
                         Text(
-                          categoryList.value[index].pageCnt == null
-                              ? 0.toString()
+                          categoryList.value[index].title == '전체'
+                              ? allPageCnt.value.toString()
                               : categoryList.value[index].pageCnt.toString(),
                           style: AppTextStyle.greyStyle,
                         ),

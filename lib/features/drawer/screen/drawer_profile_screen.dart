@@ -28,6 +28,10 @@ class DrawerProfileScreen extends HookConsumerWidget {
     final profilePic = useState('http://topping.io:8855${userInfo.photo!}');
     final selectPic = useState(false);
 
+    final search = useState(false);
+    final private = useState(false);
+    final recommend = useState(false);
+
     void photoChange(file) {
       ref.read(drawerControllerProvider.notifier).changePhoto(
             userModel: userModel,
@@ -36,6 +40,15 @@ class DrawerProfileScreen extends HookConsumerWidget {
             context: context,
           );
     }
+
+    useEffect(() {
+      if (context.mounted) {
+        search.value = private.value = userInfo.nameSearch == 1 ? true : false;
+        recommend.value = userInfo.proposal == 1 ? true : false;
+        private.value = userInfo.unknownQ == 1 ? true : false;
+      }
+      return null;
+    }, []);
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
@@ -317,7 +330,7 @@ class DrawerProfileScreen extends HookConsumerWidget {
                   ),
                   CupertinoSwitch(
                     activeColor: AppColor.primaryColor,
-                    value: true,
+                    value: search.value,
                     onChanged: (value) {},
                   ),
                 ],
@@ -331,7 +344,7 @@ class DrawerProfileScreen extends HookConsumerWidget {
                   ),
                   CupertinoSwitch(
                     activeColor: AppColor.primaryColor,
-                    value: true,
+                    value: private.value,
                     onChanged: (value) {},
                   ),
                 ],
@@ -345,7 +358,7 @@ class DrawerProfileScreen extends HookConsumerWidget {
                   ),
                   CupertinoSwitch(
                     activeColor: AppColor.primaryColor,
-                    value: true,
+                    value: recommend.value,
                     onChanged: (value) {},
                   ),
                 ],

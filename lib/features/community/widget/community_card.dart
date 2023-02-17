@@ -64,7 +64,7 @@ class CommunityCard extends HookConsumerWidget {
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: 16.w,
-        vertical: 8.h,
+        vertical: 4.h,
       ),
       child: Column(
         children: [

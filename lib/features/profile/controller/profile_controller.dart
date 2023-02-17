@@ -87,6 +87,7 @@ class ProfileController extends StateNotifier<bool> {
         questionSeq: questionSeq, userSeq: userSeq);
     if (res == 200) {
       ref.invalidate(feedProivder(userSeq));
+      ref.invalidate(bookmarkQuestionProivder(userSeq));
       return true;
     } else {
       return false;
@@ -133,7 +134,7 @@ class ProfileController extends StateNotifier<bool> {
         await _bookmarkAPI.questionBookmarking(user: user, question: question);
     if (res == 200) {
       ref.invalidate(feedProivder(user));
-      ref.invalidate(bookmarkQuestionProivder);
+      ref.invalidate(bookmarkQuestionProivder(user));
       return true;
     } else {
       return false;

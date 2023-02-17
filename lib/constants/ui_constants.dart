@@ -47,7 +47,7 @@ class UIConstants {
                 alignment: Alignment.centerLeft,
                 child: SvgPicture.asset(
                   AssetsConstants.fontLogo,
-                  height: 16.5.h,
+                  height: 13.5.h,
                   color: AppColor.primaryColor,
                 ),
               ),
@@ -143,7 +143,7 @@ class UIConstants {
                             },
                             child: Icon(
                               Icons.menu,
-                              size: 25.h,
+                              size: 20.h,
                               color: AppColor.primaryColor,
                             ),
                           );
@@ -164,8 +164,8 @@ class UIConstants {
                       },
                       child: SvgPicture.asset(
                         AssetsConstants.bell,
-                        width: 25.h,
-                        height: 25.h,
+                        width: 22.5.h,
+                        height: 22.5.h,
                         color: AppColor.primaryColor,
                       ),
                     ),
@@ -238,6 +238,7 @@ class UIConstants {
   static Drawer appDrawer(BuildContext context, {required UserModel userInfo}) {
     return Drawer(
       child: ListView(
+        physics: const ClampingScrollPhysics(),
         padding: EdgeInsets.zero,
         children: [
           SizedBox(
@@ -438,11 +439,4 @@ class UIConstants {
       ),
     );
   }
-
-  static const List<Widget> bottomTabBarPages = [
-    MainScreen(),
-    CommunityScreen(),
-    SearchScreen(),
-    ProfileScreen(),
-  ];
 }

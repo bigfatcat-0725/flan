@@ -1,4 +1,5 @@
 import 'package:flan/constants/constants.dart';
+import 'package:flan/core/core.dart';
 import 'package:flan/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,11 +23,23 @@ class DrawerInfoScreen extends HookConsumerWidget {
               onTap: () {
                 // 상담사 프로필로 이동
                 // 질문을 이용 **
+                context.pop();
+                context.pop();
+                ref.read(feedSeqProvider.notifier).onChange(3);
               },
               contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
-              title: Text(
-                '1:1 문의',
-                style: AppTextStyle.defaultTextStyle,
+              title: Row(
+                children: [
+                  Text(
+                    '1:1 문의',
+                    style: AppTextStyle.defaultTextStyle,
+                  ),
+                  SizedBox(width: 10.w),
+                  Text(
+                    '관리자 프로필로 이동합니다.',
+                    style: AppTextStyle.hintStyle,
+                  ),
+                ],
               ),
               trailing: Icon(
                 Icons.arrow_forward_ios_rounded,

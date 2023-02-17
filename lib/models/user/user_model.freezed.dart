@@ -212,25 +212,36 @@ UserInfo _$UserInfoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$UserInfo {
   String? get email => throw _privateConstructorUsedError;
-  String? get nickname => throw _privateConstructorUsedError;
-  String? get phoneNumber => throw _privateConstructorUsedError;
-  String? get memo => throw _privateConstructorUsedError;
-  String? get snsId => throw _privateConstructorUsedError;
-  String? get status => throw _privateConstructorUsedError;
-  String? get rememberToken => throw _privateConstructorUsedError;
-  int? get seq => throw _privateConstructorUsedError;
-  String? get auth => throw _privateConstructorUsedError;
-  DateTime? get createdAt => throw _privateConstructorUsedError;
-  dynamic? get deletedAt => throw _privateConstructorUsedError;
-  String? get password => throw _privateConstructorUsedError;
-  String? get photo => throw _privateConstructorUsedError;
-  dynamic? get address => throw _privateConstructorUsedError;
-  int? get followCnt => throw _privateConstructorUsedError;
-  String? get snsType => throw _privateConstructorUsedError;
-  dynamic? get emailVerifiedAt => throw _privateConstructorUsedError;
+  int? get proposal => throw _privateConstructorUsedError;
+  int? get followingCnt => throw _privateConstructorUsedError;
   int? get userLevel => throw _privateConstructorUsedError;
-  dynamic? get updatedAt => throw _privateConstructorUsedError;
-  DateTime? get lastLogin => throw _privateConstructorUsedError;
+  String? get password => throw _privateConstructorUsedError;
+  int? get noticeAlram => throw _privateConstructorUsedError;
+  String? get snsId => throw _privateConstructorUsedError;
+  int? get point => throw _privateConstructorUsedError;
+  String? get nickname => throw _privateConstructorUsedError;
+  int? get questionAlram => throw _privateConstructorUsedError;
+  String? get snsType => throw _privateConstructorUsedError;
+  String? get auth => throw _privateConstructorUsedError;
+  String? get photo => throw _privateConstructorUsedError;
+  int? get answerAlram => throw _privateConstructorUsedError;
+  String? get status => throw _privateConstructorUsedError;
+  String? get createdAt => throw _privateConstructorUsedError;
+  String? get phoneNumber => throw _privateConstructorUsedError;
+  int? get commentAlram => throw _privateConstructorUsedError;
+  dynamic? get statusMemo => throw _privateConstructorUsedError;
+  String? get updatedAt => throw _privateConstructorUsedError;
+  String? get rememberToken => throw _privateConstructorUsedError;
+  String? get address => throw _privateConstructorUsedError;
+  int? get pCommentAlram => throw _privateConstructorUsedError;
+  int? get nameSearch => throw _privateConstructorUsedError;
+  dynamic? get deletedAt => throw _privateConstructorUsedError;
+  String? get memo => throw _privateConstructorUsedError;
+  dynamic? get emailVerifiedAt => throw _privateConstructorUsedError;
+  int? get seq => throw _privateConstructorUsedError;
+  int? get unknownQ => throw _privateConstructorUsedError;
+  String? get lastLogin => throw _privateConstructorUsedError;
+  int? get followCnt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -245,25 +256,36 @@ abstract class $UserInfoCopyWith<$Res> {
   @useResult
   $Res call(
       {String? email,
-      String? nickname,
-      String? phoneNumber,
-      String? memo,
-      String? snsId,
-      String? status,
-      String? rememberToken,
-      int? seq,
-      String? auth,
-      DateTime? createdAt,
-      dynamic? deletedAt,
-      String? password,
-      String? photo,
-      dynamic? address,
-      int? followCnt,
-      String? snsType,
-      dynamic? emailVerifiedAt,
+      int? proposal,
+      int? followingCnt,
       int? userLevel,
-      dynamic? updatedAt,
-      DateTime? lastLogin});
+      String? password,
+      int? noticeAlram,
+      String? snsId,
+      int? point,
+      String? nickname,
+      int? questionAlram,
+      String? snsType,
+      String? auth,
+      String? photo,
+      int? answerAlram,
+      String? status,
+      String? createdAt,
+      String? phoneNumber,
+      int? commentAlram,
+      dynamic? statusMemo,
+      String? updatedAt,
+      String? rememberToken,
+      String? address,
+      int? pCommentAlram,
+      int? nameSearch,
+      dynamic? deletedAt,
+      String? memo,
+      dynamic? emailVerifiedAt,
+      int? seq,
+      int? unknownQ,
+      String? lastLogin,
+      int? followCnt});
 }
 
 /// @nodoc
@@ -280,107 +302,162 @@ class _$UserInfoCopyWithImpl<$Res, $Val extends UserInfo>
   @override
   $Res call({
     Object? email = freezed,
-    Object? nickname = freezed,
-    Object? phoneNumber = freezed,
-    Object? memo = freezed,
-    Object? snsId = freezed,
-    Object? status = freezed,
-    Object? rememberToken = freezed,
-    Object? seq = freezed,
-    Object? auth = freezed,
-    Object? createdAt = freezed,
-    Object? deletedAt = freezed,
-    Object? password = freezed,
-    Object? photo = freezed,
-    Object? address = freezed,
-    Object? followCnt = freezed,
-    Object? snsType = freezed,
-    Object? emailVerifiedAt = freezed,
+    Object? proposal = freezed,
+    Object? followingCnt = freezed,
     Object? userLevel = freezed,
+    Object? password = freezed,
+    Object? noticeAlram = freezed,
+    Object? snsId = freezed,
+    Object? point = freezed,
+    Object? nickname = freezed,
+    Object? questionAlram = freezed,
+    Object? snsType = freezed,
+    Object? auth = freezed,
+    Object? photo = freezed,
+    Object? answerAlram = freezed,
+    Object? status = freezed,
+    Object? createdAt = freezed,
+    Object? phoneNumber = freezed,
+    Object? commentAlram = freezed,
+    Object? statusMemo = freezed,
     Object? updatedAt = freezed,
+    Object? rememberToken = freezed,
+    Object? address = freezed,
+    Object? pCommentAlram = freezed,
+    Object? nameSearch = freezed,
+    Object? deletedAt = freezed,
+    Object? memo = freezed,
+    Object? emailVerifiedAt = freezed,
+    Object? seq = freezed,
+    Object? unknownQ = freezed,
     Object? lastLogin = freezed,
+    Object? followCnt = freezed,
   }) {
     return _then(_value.copyWith(
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      nickname: freezed == nickname
-          ? _value.nickname
-          : nickname // ignore: cast_nullable_to_non_nullable
-              as String?,
-      phoneNumber: freezed == phoneNumber
-          ? _value.phoneNumber
-          : phoneNumber // ignore: cast_nullable_to_non_nullable
-              as String?,
-      memo: freezed == memo
-          ? _value.memo
-          : memo // ignore: cast_nullable_to_non_nullable
-              as String?,
-      snsId: freezed == snsId
-          ? _value.snsId
-          : snsId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      status: freezed == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String?,
-      rememberToken: freezed == rememberToken
-          ? _value.rememberToken
-          : rememberToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      seq: freezed == seq
-          ? _value.seq
-          : seq // ignore: cast_nullable_to_non_nullable
+      proposal: freezed == proposal
+          ? _value.proposal
+          : proposal // ignore: cast_nullable_to_non_nullable
               as int?,
-      auth: freezed == auth
-          ? _value.auth
-          : auth // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      deletedAt: freezed == deletedAt
-          ? _value.deletedAt
-          : deletedAt // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+      followingCnt: freezed == followingCnt
+          ? _value.followingCnt
+          : followingCnt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      userLevel: freezed == userLevel
+          ? _value.userLevel
+          : userLevel // ignore: cast_nullable_to_non_nullable
+              as int?,
       password: freezed == password
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String?,
-      photo: freezed == photo
-          ? _value.photo
-          : photo // ignore: cast_nullable_to_non_nullable
+      noticeAlram: freezed == noticeAlram
+          ? _value.noticeAlram
+          : noticeAlram // ignore: cast_nullable_to_non_nullable
+              as int?,
+      snsId: freezed == snsId
+          ? _value.snsId
+          : snsId // ignore: cast_nullable_to_non_nullable
               as String?,
-      address: freezed == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
-      followCnt: freezed == followCnt
-          ? _value.followCnt
-          : followCnt // ignore: cast_nullable_to_non_nullable
+      point: freezed == point
+          ? _value.point
+          : point // ignore: cast_nullable_to_non_nullable
+              as int?,
+      nickname: freezed == nickname
+          ? _value.nickname
+          : nickname // ignore: cast_nullable_to_non_nullable
+              as String?,
+      questionAlram: freezed == questionAlram
+          ? _value.questionAlram
+          : questionAlram // ignore: cast_nullable_to_non_nullable
               as int?,
       snsType: freezed == snsType
           ? _value.snsType
           : snsType // ignore: cast_nullable_to_non_nullable
               as String?,
+      auth: freezed == auth
+          ? _value.auth
+          : auth // ignore: cast_nullable_to_non_nullable
+              as String?,
+      photo: freezed == photo
+          ? _value.photo
+          : photo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      answerAlram: freezed == answerAlram
+          ? _value.answerAlram
+          : answerAlram // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phoneNumber: freezed == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
+      commentAlram: freezed == commentAlram
+          ? _value.commentAlram
+          : commentAlram // ignore: cast_nullable_to_non_nullable
+              as int?,
+      statusMemo: freezed == statusMemo
+          ? _value.statusMemo
+          : statusMemo // ignore: cast_nullable_to_non_nullable
+              as dynamic?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      rememberToken: freezed == rememberToken
+          ? _value.rememberToken
+          : rememberToken // ignore: cast_nullable_to_non_nullable
+              as String?,
+      address: freezed == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String?,
+      pCommentAlram: freezed == pCommentAlram
+          ? _value.pCommentAlram
+          : pCommentAlram // ignore: cast_nullable_to_non_nullable
+              as int?,
+      nameSearch: freezed == nameSearch
+          ? _value.nameSearch
+          : nameSearch // ignore: cast_nullable_to_non_nullable
+              as int?,
+      deletedAt: freezed == deletedAt
+          ? _value.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
+              as dynamic?,
+      memo: freezed == memo
+          ? _value.memo
+          : memo // ignore: cast_nullable_to_non_nullable
+              as String?,
       emailVerifiedAt: freezed == emailVerifiedAt
           ? _value.emailVerifiedAt
           : emailVerifiedAt // ignore: cast_nullable_to_non_nullable
               as dynamic?,
-      userLevel: freezed == userLevel
-          ? _value.userLevel
-          : userLevel // ignore: cast_nullable_to_non_nullable
+      seq: freezed == seq
+          ? _value.seq
+          : seq // ignore: cast_nullable_to_non_nullable
               as int?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+      unknownQ: freezed == unknownQ
+          ? _value.unknownQ
+          : unknownQ // ignore: cast_nullable_to_non_nullable
+              as int?,
       lastLogin: freezed == lastLogin
           ? _value.lastLogin
           : lastLogin // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
+      followCnt: freezed == followCnt
+          ? _value.followCnt
+          : followCnt // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -394,25 +471,36 @@ abstract class _$$_UserInfoCopyWith<$Res> implements $UserInfoCopyWith<$Res> {
   @useResult
   $Res call(
       {String? email,
-      String? nickname,
-      String? phoneNumber,
-      String? memo,
-      String? snsId,
-      String? status,
-      String? rememberToken,
-      int? seq,
-      String? auth,
-      DateTime? createdAt,
-      dynamic? deletedAt,
-      String? password,
-      String? photo,
-      dynamic? address,
-      int? followCnt,
-      String? snsType,
-      dynamic? emailVerifiedAt,
+      int? proposal,
+      int? followingCnt,
       int? userLevel,
-      dynamic? updatedAt,
-      DateTime? lastLogin});
+      String? password,
+      int? noticeAlram,
+      String? snsId,
+      int? point,
+      String? nickname,
+      int? questionAlram,
+      String? snsType,
+      String? auth,
+      String? photo,
+      int? answerAlram,
+      String? status,
+      String? createdAt,
+      String? phoneNumber,
+      int? commentAlram,
+      dynamic? statusMemo,
+      String? updatedAt,
+      String? rememberToken,
+      String? address,
+      int? pCommentAlram,
+      int? nameSearch,
+      dynamic? deletedAt,
+      String? memo,
+      dynamic? emailVerifiedAt,
+      int? seq,
+      int? unknownQ,
+      String? lastLogin,
+      int? followCnt});
 }
 
 /// @nodoc
@@ -427,107 +515,162 @@ class __$$_UserInfoCopyWithImpl<$Res>
   @override
   $Res call({
     Object? email = freezed,
-    Object? nickname = freezed,
-    Object? phoneNumber = freezed,
-    Object? memo = freezed,
-    Object? snsId = freezed,
-    Object? status = freezed,
-    Object? rememberToken = freezed,
-    Object? seq = freezed,
-    Object? auth = freezed,
-    Object? createdAt = freezed,
-    Object? deletedAt = freezed,
-    Object? password = freezed,
-    Object? photo = freezed,
-    Object? address = freezed,
-    Object? followCnt = freezed,
-    Object? snsType = freezed,
-    Object? emailVerifiedAt = freezed,
+    Object? proposal = freezed,
+    Object? followingCnt = freezed,
     Object? userLevel = freezed,
+    Object? password = freezed,
+    Object? noticeAlram = freezed,
+    Object? snsId = freezed,
+    Object? point = freezed,
+    Object? nickname = freezed,
+    Object? questionAlram = freezed,
+    Object? snsType = freezed,
+    Object? auth = freezed,
+    Object? photo = freezed,
+    Object? answerAlram = freezed,
+    Object? status = freezed,
+    Object? createdAt = freezed,
+    Object? phoneNumber = freezed,
+    Object? commentAlram = freezed,
+    Object? statusMemo = freezed,
     Object? updatedAt = freezed,
+    Object? rememberToken = freezed,
+    Object? address = freezed,
+    Object? pCommentAlram = freezed,
+    Object? nameSearch = freezed,
+    Object? deletedAt = freezed,
+    Object? memo = freezed,
+    Object? emailVerifiedAt = freezed,
+    Object? seq = freezed,
+    Object? unknownQ = freezed,
     Object? lastLogin = freezed,
+    Object? followCnt = freezed,
   }) {
     return _then(_$_UserInfo(
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
-      nickname: freezed == nickname
-          ? _value.nickname
-          : nickname // ignore: cast_nullable_to_non_nullable
-              as String?,
-      phoneNumber: freezed == phoneNumber
-          ? _value.phoneNumber
-          : phoneNumber // ignore: cast_nullable_to_non_nullable
-              as String?,
-      memo: freezed == memo
-          ? _value.memo
-          : memo // ignore: cast_nullable_to_non_nullable
-              as String?,
-      snsId: freezed == snsId
-          ? _value.snsId
-          : snsId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      status: freezed == status
-          ? _value.status
-          : status // ignore: cast_nullable_to_non_nullable
-              as String?,
-      rememberToken: freezed == rememberToken
-          ? _value.rememberToken
-          : rememberToken // ignore: cast_nullable_to_non_nullable
-              as String?,
-      seq: freezed == seq
-          ? _value.seq
-          : seq // ignore: cast_nullable_to_non_nullable
+      proposal: freezed == proposal
+          ? _value.proposal
+          : proposal // ignore: cast_nullable_to_non_nullable
               as int?,
-      auth: freezed == auth
-          ? _value.auth
-          : auth // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      deletedAt: freezed == deletedAt
-          ? _value.deletedAt
-          : deletedAt // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+      followingCnt: freezed == followingCnt
+          ? _value.followingCnt
+          : followingCnt // ignore: cast_nullable_to_non_nullable
+              as int?,
+      userLevel: freezed == userLevel
+          ? _value.userLevel
+          : userLevel // ignore: cast_nullable_to_non_nullable
+              as int?,
       password: freezed == password
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
               as String?,
-      photo: freezed == photo
-          ? _value.photo
-          : photo // ignore: cast_nullable_to_non_nullable
+      noticeAlram: freezed == noticeAlram
+          ? _value.noticeAlram
+          : noticeAlram // ignore: cast_nullable_to_non_nullable
+              as int?,
+      snsId: freezed == snsId
+          ? _value.snsId
+          : snsId // ignore: cast_nullable_to_non_nullable
               as String?,
-      address: freezed == address
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
-      followCnt: freezed == followCnt
-          ? _value.followCnt
-          : followCnt // ignore: cast_nullable_to_non_nullable
+      point: freezed == point
+          ? _value.point
+          : point // ignore: cast_nullable_to_non_nullable
+              as int?,
+      nickname: freezed == nickname
+          ? _value.nickname
+          : nickname // ignore: cast_nullable_to_non_nullable
+              as String?,
+      questionAlram: freezed == questionAlram
+          ? _value.questionAlram
+          : questionAlram // ignore: cast_nullable_to_non_nullable
               as int?,
       snsType: freezed == snsType
           ? _value.snsType
           : snsType // ignore: cast_nullable_to_non_nullable
               as String?,
+      auth: freezed == auth
+          ? _value.auth
+          : auth // ignore: cast_nullable_to_non_nullable
+              as String?,
+      photo: freezed == photo
+          ? _value.photo
+          : photo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      answerAlram: freezed == answerAlram
+          ? _value.answerAlram
+          : answerAlram // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: freezed == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phoneNumber: freezed == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
+              as String?,
+      commentAlram: freezed == commentAlram
+          ? _value.commentAlram
+          : commentAlram // ignore: cast_nullable_to_non_nullable
+              as int?,
+      statusMemo: freezed == statusMemo
+          ? _value.statusMemo
+          : statusMemo // ignore: cast_nullable_to_non_nullable
+              as dynamic?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as String?,
+      rememberToken: freezed == rememberToken
+          ? _value.rememberToken
+          : rememberToken // ignore: cast_nullable_to_non_nullable
+              as String?,
+      address: freezed == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String?,
+      pCommentAlram: freezed == pCommentAlram
+          ? _value.pCommentAlram
+          : pCommentAlram // ignore: cast_nullable_to_non_nullable
+              as int?,
+      nameSearch: freezed == nameSearch
+          ? _value.nameSearch
+          : nameSearch // ignore: cast_nullable_to_non_nullable
+              as int?,
+      deletedAt: freezed == deletedAt
+          ? _value.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
+              as dynamic?,
+      memo: freezed == memo
+          ? _value.memo
+          : memo // ignore: cast_nullable_to_non_nullable
+              as String?,
       emailVerifiedAt: freezed == emailVerifiedAt
           ? _value.emailVerifiedAt
           : emailVerifiedAt // ignore: cast_nullable_to_non_nullable
               as dynamic?,
-      userLevel: freezed == userLevel
-          ? _value.userLevel
-          : userLevel // ignore: cast_nullable_to_non_nullable
+      seq: freezed == seq
+          ? _value.seq
+          : seq // ignore: cast_nullable_to_non_nullable
               as int?,
-      updatedAt: freezed == updatedAt
-          ? _value.updatedAt
-          : updatedAt // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+      unknownQ: freezed == unknownQ
+          ? _value.unknownQ
+          : unknownQ // ignore: cast_nullable_to_non_nullable
+              as int?,
       lastLogin: freezed == lastLogin
           ? _value.lastLogin
           : lastLogin // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as String?,
+      followCnt: freezed == followCnt
+          ? _value.followCnt
+          : followCnt // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -538,25 +681,36 @@ class __$$_UserInfoCopyWithImpl<$Res>
 class _$_UserInfo implements _UserInfo {
   const _$_UserInfo(
       {this.email,
-      this.nickname,
-      this.phoneNumber,
-      this.memo,
-      this.snsId,
-      this.status,
-      this.rememberToken,
-      this.seq,
-      this.auth,
-      this.createdAt,
-      this.deletedAt,
-      this.password,
-      this.photo,
-      this.address,
-      this.followCnt,
-      this.snsType,
-      this.emailVerifiedAt,
+      this.proposal,
+      this.followingCnt,
       this.userLevel,
+      this.password,
+      this.noticeAlram,
+      this.snsId,
+      this.point,
+      this.nickname,
+      this.questionAlram,
+      this.snsType,
+      this.auth,
+      this.photo,
+      this.answerAlram,
+      this.status,
+      this.createdAt,
+      this.phoneNumber,
+      this.commentAlram,
+      this.statusMemo,
       this.updatedAt,
-      this.lastLogin});
+      this.rememberToken,
+      this.address,
+      this.pCommentAlram,
+      this.nameSearch,
+      this.deletedAt,
+      this.memo,
+      this.emailVerifiedAt,
+      this.seq,
+      this.unknownQ,
+      this.lastLogin,
+      this.followCnt});
 
   factory _$_UserInfo.fromJson(Map<String, dynamic> json) =>
       _$$_UserInfoFromJson(json);
@@ -564,47 +718,69 @@ class _$_UserInfo implements _UserInfo {
   @override
   final String? email;
   @override
-  final String? nickname;
+  final int? proposal;
   @override
-  final String? phoneNumber;
-  @override
-  final String? memo;
-  @override
-  final String? snsId;
-  @override
-  final String? status;
-  @override
-  final String? rememberToken;
-  @override
-  final int? seq;
-  @override
-  final String? auth;
-  @override
-  final DateTime? createdAt;
-  @override
-  final dynamic? deletedAt;
-  @override
-  final String? password;
-  @override
-  final String? photo;
-  @override
-  final dynamic? address;
-  @override
-  final int? followCnt;
-  @override
-  final String? snsType;
-  @override
-  final dynamic? emailVerifiedAt;
+  final int? followingCnt;
   @override
   final int? userLevel;
   @override
-  final dynamic? updatedAt;
+  final String? password;
   @override
-  final DateTime? lastLogin;
+  final int? noticeAlram;
+  @override
+  final String? snsId;
+  @override
+  final int? point;
+  @override
+  final String? nickname;
+  @override
+  final int? questionAlram;
+  @override
+  final String? snsType;
+  @override
+  final String? auth;
+  @override
+  final String? photo;
+  @override
+  final int? answerAlram;
+  @override
+  final String? status;
+  @override
+  final String? createdAt;
+  @override
+  final String? phoneNumber;
+  @override
+  final int? commentAlram;
+  @override
+  final dynamic? statusMemo;
+  @override
+  final String? updatedAt;
+  @override
+  final String? rememberToken;
+  @override
+  final String? address;
+  @override
+  final int? pCommentAlram;
+  @override
+  final int? nameSearch;
+  @override
+  final dynamic? deletedAt;
+  @override
+  final String? memo;
+  @override
+  final dynamic? emailVerifiedAt;
+  @override
+  final int? seq;
+  @override
+  final int? unknownQ;
+  @override
+  final String? lastLogin;
+  @override
+  final int? followCnt;
 
   @override
   String toString() {
-    return 'UserInfo(email: $email, nickname: $nickname, phoneNumber: $phoneNumber, memo: $memo, snsId: $snsId, status: $status, rememberToken: $rememberToken, seq: $seq, auth: $auth, createdAt: $createdAt, deletedAt: $deletedAt, password: $password, photo: $photo, address: $address, followCnt: $followCnt, snsType: $snsType, emailVerifiedAt: $emailVerifiedAt, userLevel: $userLevel, updatedAt: $updatedAt, lastLogin: $lastLogin)';
+    return 'UserInfo(email: $email, proposal: $proposal, followingCnt: $followingCnt, userLevel: $userLevel, password: $password, noticeAlram: $noticeAlram, snsId: $snsId, point: $point, nickname: $nickname, questionAlram: $questionAlram, snsType: $snsType, auth: $auth, photo: $photo, answerAlram: $answerAlram, status: $status, createdAt: $createdAt, phoneNumber: $phoneNumber, commentAlram: $commentAlram, statusMemo: $statusMemo, updatedAt: $updatedAt, rememberToken: $rememberToken, address: $address, pCommentAlram: $pCommentAlram, nameSearch: $nameSearch, deletedAt: $deletedAt, memo: $memo, emailVerifiedAt: $emailVerifiedAt, seq: $seq, unknownQ: $unknownQ, lastLogin: $lastLogin, followCnt: $followCnt)';
   }
 
   @override
@@ -613,34 +789,56 @@ class _$_UserInfo implements _UserInfo {
         (other.runtimeType == runtimeType &&
             other is _$_UserInfo &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.nickname, nickname) ||
-                other.nickname == nickname) &&
-            (identical(other.phoneNumber, phoneNumber) ||
-                other.phoneNumber == phoneNumber) &&
-            (identical(other.memo, memo) || other.memo == memo) &&
-            (identical(other.snsId, snsId) || other.snsId == snsId) &&
-            (identical(other.status, status) || other.status == status) &&
-            (identical(other.rememberToken, rememberToken) ||
-                other.rememberToken == rememberToken) &&
-            (identical(other.seq, seq) || other.seq == seq) &&
-            (identical(other.auth, auth) || other.auth == auth) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            const DeepCollectionEquality().equals(other.deletedAt, deletedAt) &&
-            (identical(other.password, password) ||
-                other.password == password) &&
-            (identical(other.photo, photo) || other.photo == photo) &&
-            const DeepCollectionEquality().equals(other.address, address) &&
-            (identical(other.followCnt, followCnt) ||
-                other.followCnt == followCnt) &&
-            (identical(other.snsType, snsType) || other.snsType == snsType) &&
-            const DeepCollectionEquality()
-                .equals(other.emailVerifiedAt, emailVerifiedAt) &&
+            (identical(other.proposal, proposal) ||
+                other.proposal == proposal) &&
+            (identical(other.followingCnt, followingCnt) ||
+                other.followingCnt == followingCnt) &&
             (identical(other.userLevel, userLevel) ||
                 other.userLevel == userLevel) &&
-            const DeepCollectionEquality().equals(other.updatedAt, updatedAt) &&
+            (identical(other.password, password) ||
+                other.password == password) &&
+            (identical(other.noticeAlram, noticeAlram) ||
+                other.noticeAlram == noticeAlram) &&
+            (identical(other.snsId, snsId) || other.snsId == snsId) &&
+            (identical(other.point, point) || other.point == point) &&
+            (identical(other.nickname, nickname) ||
+                other.nickname == nickname) &&
+            (identical(other.questionAlram, questionAlram) ||
+                other.questionAlram == questionAlram) &&
+            (identical(other.snsType, snsType) || other.snsType == snsType) &&
+            (identical(other.auth, auth) || other.auth == auth) &&
+            (identical(other.photo, photo) || other.photo == photo) &&
+            (identical(other.answerAlram, answerAlram) ||
+                other.answerAlram == answerAlram) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                other.phoneNumber == phoneNumber) &&
+            (identical(other.commentAlram, commentAlram) ||
+                other.commentAlram == commentAlram) &&
+            const DeepCollectionEquality()
+                .equals(other.statusMemo, statusMemo) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt) &&
+            (identical(other.rememberToken, rememberToken) ||
+                other.rememberToken == rememberToken) &&
+            (identical(other.address, address) || other.address == address) &&
+            (identical(other.pCommentAlram, pCommentAlram) ||
+                other.pCommentAlram == pCommentAlram) &&
+            (identical(other.nameSearch, nameSearch) ||
+                other.nameSearch == nameSearch) &&
+            const DeepCollectionEquality().equals(other.deletedAt, deletedAt) &&
+            (identical(other.memo, memo) || other.memo == memo) &&
+            const DeepCollectionEquality()
+                .equals(other.emailVerifiedAt, emailVerifiedAt) &&
+            (identical(other.seq, seq) || other.seq == seq) &&
+            (identical(other.unknownQ, unknownQ) ||
+                other.unknownQ == unknownQ) &&
             (identical(other.lastLogin, lastLogin) ||
-                other.lastLogin == lastLogin));
+                other.lastLogin == lastLogin) &&
+            (identical(other.followCnt, followCnt) ||
+                other.followCnt == followCnt));
   }
 
   @JsonKey(ignore: true)
@@ -648,25 +846,36 @@ class _$_UserInfo implements _UserInfo {
   int get hashCode => Object.hashAll([
         runtimeType,
         email,
-        nickname,
-        phoneNumber,
-        memo,
-        snsId,
-        status,
-        rememberToken,
-        seq,
-        auth,
-        createdAt,
-        const DeepCollectionEquality().hash(deletedAt),
-        password,
-        photo,
-        const DeepCollectionEquality().hash(address),
-        followCnt,
-        snsType,
-        const DeepCollectionEquality().hash(emailVerifiedAt),
+        proposal,
+        followingCnt,
         userLevel,
-        const DeepCollectionEquality().hash(updatedAt),
-        lastLogin
+        password,
+        noticeAlram,
+        snsId,
+        point,
+        nickname,
+        questionAlram,
+        snsType,
+        auth,
+        photo,
+        answerAlram,
+        status,
+        createdAt,
+        phoneNumber,
+        commentAlram,
+        const DeepCollectionEquality().hash(statusMemo),
+        updatedAt,
+        rememberToken,
+        address,
+        pCommentAlram,
+        nameSearch,
+        const DeepCollectionEquality().hash(deletedAt),
+        memo,
+        const DeepCollectionEquality().hash(emailVerifiedAt),
+        seq,
+        unknownQ,
+        lastLogin,
+        followCnt
       ]);
 
   @JsonKey(ignore: true)
@@ -686,68 +895,101 @@ class _$_UserInfo implements _UserInfo {
 abstract class _UserInfo implements UserInfo {
   const factory _UserInfo(
       {final String? email,
-      final String? nickname,
-      final String? phoneNumber,
-      final String? memo,
-      final String? snsId,
-      final String? status,
-      final String? rememberToken,
-      final int? seq,
-      final String? auth,
-      final DateTime? createdAt,
-      final dynamic? deletedAt,
-      final String? password,
-      final String? photo,
-      final dynamic? address,
-      final int? followCnt,
-      final String? snsType,
-      final dynamic? emailVerifiedAt,
+      final int? proposal,
+      final int? followingCnt,
       final int? userLevel,
-      final dynamic? updatedAt,
-      final DateTime? lastLogin}) = _$_UserInfo;
+      final String? password,
+      final int? noticeAlram,
+      final String? snsId,
+      final int? point,
+      final String? nickname,
+      final int? questionAlram,
+      final String? snsType,
+      final String? auth,
+      final String? photo,
+      final int? answerAlram,
+      final String? status,
+      final String? createdAt,
+      final String? phoneNumber,
+      final int? commentAlram,
+      final dynamic? statusMemo,
+      final String? updatedAt,
+      final String? rememberToken,
+      final String? address,
+      final int? pCommentAlram,
+      final int? nameSearch,
+      final dynamic? deletedAt,
+      final String? memo,
+      final dynamic? emailVerifiedAt,
+      final int? seq,
+      final int? unknownQ,
+      final String? lastLogin,
+      final int? followCnt}) = _$_UserInfo;
 
   factory _UserInfo.fromJson(Map<String, dynamic> json) = _$_UserInfo.fromJson;
 
   @override
   String? get email;
   @override
-  String? get nickname;
+  int? get proposal;
   @override
-  String? get phoneNumber;
-  @override
-  String? get memo;
-  @override
-  String? get snsId;
-  @override
-  String? get status;
-  @override
-  String? get rememberToken;
-  @override
-  int? get seq;
-  @override
-  String? get auth;
-  @override
-  DateTime? get createdAt;
-  @override
-  dynamic? get deletedAt;
-  @override
-  String? get password;
-  @override
-  String? get photo;
-  @override
-  dynamic? get address;
-  @override
-  int? get followCnt;
-  @override
-  String? get snsType;
-  @override
-  dynamic? get emailVerifiedAt;
+  int? get followingCnt;
   @override
   int? get userLevel;
   @override
-  dynamic? get updatedAt;
+  String? get password;
   @override
-  DateTime? get lastLogin;
+  int? get noticeAlram;
+  @override
+  String? get snsId;
+  @override
+  int? get point;
+  @override
+  String? get nickname;
+  @override
+  int? get questionAlram;
+  @override
+  String? get snsType;
+  @override
+  String? get auth;
+  @override
+  String? get photo;
+  @override
+  int? get answerAlram;
+  @override
+  String? get status;
+  @override
+  String? get createdAt;
+  @override
+  String? get phoneNumber;
+  @override
+  int? get commentAlram;
+  @override
+  dynamic? get statusMemo;
+  @override
+  String? get updatedAt;
+  @override
+  String? get rememberToken;
+  @override
+  String? get address;
+  @override
+  int? get pCommentAlram;
+  @override
+  int? get nameSearch;
+  @override
+  dynamic? get deletedAt;
+  @override
+  String? get memo;
+  @override
+  dynamic? get emailVerifiedAt;
+  @override
+  int? get seq;
+  @override
+  int? get unknownQ;
+  @override
+  String? get lastLogin;
+  @override
+  int? get followCnt;
   @override
   @JsonKey(ignore: true)
   _$$_UserInfoCopyWith<_$_UserInfo> get copyWith =>

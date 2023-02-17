@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flan/constants/constants.dart';
+import 'package:flan/core/core.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
 import 'package:flan/features/profile/controller/profile_controller.dart';
 import 'package:flan/models/bookmark/bookmark_question_model.dart';
+import 'package:flan/models/feed/feed_model.dart';
 import 'package:flan/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -30,6 +32,19 @@ class BookmarkFeedCard extends HookConsumerWidget {
 
     // 본인
     final userInfo = ref.watch(userInfoProvier.notifier).state;
+
+    // data 정리
+    final String private = data.questions!.private as String;
+    final String questionName = data.users!.nickname as String;
+    final String questionContent = data.questions!.question as String;
+    final int questinLikeCount = data.questions!.likes as int;
+    final String answerProfileImg =
+        data.questions!.answer![0].users!.photo as String;
+    final String answerName =
+        data.questions!.answer![0].users!.nickname as String;
+    final String ago = data.questions!.answer![0].answers!.remaining as String;
+    final String answerContent =
+        data.questions!.answer![0].answers!.reply as String;
 
     // 좋아요 && 북마크 확인
     useEffect(() {
@@ -62,22 +77,38 @@ class BookmarkFeedCard extends HookConsumerWidget {
       }
       return null;
     }, [data]);
-
+    // 저장
     // seq 본인 확인
-    // final int isMyData =
-    //     data.questions!.answer![0].answers!.userSeq == userInfo?.userInfo!.seq
-    //         ? 1
-    //         : 0;
+    final int isMyData =
+        data.questions!.answer![0].answers!.userSeq == userInfo?.userInfo!.seq
+            ? 1
+            : 0;
 
     // 게시물 이미지
-    final List<String> contentImgList = data.questions!.photo ?? [];
+    // 임시로 1
+    final List<String> contentImgList = data.questions!.photo ?? ['1'];
 
     return GestureDetector(
       onTap: () {
-        context.push('/bookmark_main_detail', extra: {'data': data});
+        if (type != 'detail') {
+          context.push('/bookmark_main_detail', extra: {'data': data});
+        }
       },
       child: Container(
-        color: AppColor.scaffoldBackgroundColor,
+        margin: EdgeInsets.symmetric(
+          horizontal: 16.w,
+          vertical: 10.h,
+        ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: const [
+            BoxShadow(
+              blurRadius: 2.5,
+              color: Color(0xffcccccc),
+            ),
+          ],
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -119,9 +150,7 @@ class BookmarkFeedCard extends HookConsumerWidget {
                                   ),
                                   SizedBox(width: 5.w),
                                   Text(
-                                    data.questions!.private == '1'
-                                        ? data.users!.nickname.toString()
-                                        : '익명',
+                                    private == '1' ? questionName : '익명',
                                     style:
                                         AppTextStyle.defaultTextStyle.copyWith(
                                       fontSize: 11.sp,
@@ -138,7 +167,7 @@ class BookmarkFeedCard extends HookConsumerWidget {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      data.questions!.question.toString(),
+                                      questionContent,
                                       style:
                                           AppTextStyle.boldTextStyle.copyWith(
                                         fontSize: 13.sp,
@@ -230,41 +259,49 @@ class BookmarkFeedCard extends HookConsumerWidget {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Container(
-                            width: 45.w,
-                            height: 45.w,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: data.questions!.answer![0].users!.photo != ''
-                                ? ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          'http://topping.io:8855${data.questions!.answer![0].users!.photo}',
-                                      placeholder: (context, text) {
-                                        return SvgPicture.asset(
-                                          AssetsConstants.noImg,
-                                        );
-                                      },
-                                      fit: BoxFit.cover,
+                          GestureDetector(
+                            onTap: () {
+                              // 혹시나 피드가 생겨서 다른 사람의 답변한 새질문 등을 사용하는 곳이 온다면..
+                              ref.read(feedSeqProvider.notifier).onChange(
+                                  data.questions!.answer![0].users!.seq as int);
+                              ref.read(bottomNavProvier.notifier).onChange(3);
+                            },
+                            child: Container(
+                              width: 45.w,
+                              height: 45.w,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: answerProfileImg != ''
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(100),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            'http://topping.io:8855$answerProfileImg',
+                                        placeholder: (context, text) {
+                                          return SvgPicture.asset(
+                                            AssetsConstants.noImg,
+                                          );
+                                        },
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                  : SvgPicture.asset(
+                                      AssetsConstants.noImg,
                                     ),
-                                  )
-                                : SvgPicture.asset(
-                                    AssetsConstants.noImg,
-                                  ),
+                            ),
                           ),
                           SizedBox(width: 10.w),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '${data.questions!.answer![0].users!.nickname}',
+                                answerName,
                                 style: AppTextStyle.boldTextStyle,
                               ),
                               SizedBox(height: 2.5.h),
                               Text(
-                                '${data.questions!.answer![0].answers!.remaining}',
+                                ago,
                                 style: AppTextStyle.hintStyle
                                     .copyWith(fontSize: 11.sp),
                               ),
@@ -275,10 +312,13 @@ class BookmarkFeedCard extends HookConsumerWidget {
                       myCard.value
                           ? GestureDetector(
                               onTap: () {
-                                // showMore(context,
-                                //     type: 'not default',
-                                //     myData: isMyData,
-                                //     data: data);
+                                // showMore(
+                                //   context,
+                                //   type: 'not default',
+                                //   myData: isMyData,
+                                //   data: data,
+                                //   ref: ref,
+                                // );
                               },
                               child: Icon(
                                 Icons.more_horiz,
@@ -291,16 +331,16 @@ class BookmarkFeedCard extends HookConsumerWidget {
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 55.w),
-                    child: Text('${data.questions!.answer![0].answers!.reply}'),
+                    child: Text(answerContent),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 15.h),
+            SizedBox(height: 10.h),
             Container(
               width: 1.sw,
-              height: 30.h,
-              color: const Color(0xffefefef),
+              height: 25.h,
+              color: Colors.white,
               child: Row(
                 children: [
                   Expanded(
@@ -319,7 +359,7 @@ class BookmarkFeedCard extends HookConsumerWidget {
                       },
                       child: Container(
                         color: Colors.transparent,
-                        height: 30.h,
+                        height: 25.h,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -336,7 +376,7 @@ class BookmarkFeedCard extends HookConsumerWidget {
                             ),
                             SizedBox(width: 7.5.w),
                             Text(
-                              '${data.questions!.likes}',
+                              '$questinLikeCount',
                               style: AppTextStyle.greyStyle.copyWith(
                                 fontSize: 11.sp,
                                 color: likeStatus.value
@@ -365,7 +405,7 @@ class BookmarkFeedCard extends HookConsumerWidget {
                       },
                       child: Container(
                         color: Colors.transparent,
-                        height: 30.h,
+                        height: 25.h,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -397,7 +437,7 @@ class BookmarkFeedCard extends HookConsumerWidget {
                   ),
                   Expanded(
                     child: SizedBox(
-                      height: 30.h,
+                      height: 25.h,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -421,6 +461,7 @@ class BookmarkFeedCard extends HookConsumerWidget {
                 ],
               ),
             ),
+            SizedBox(height: 5.h),
           ],
         ),
       ),

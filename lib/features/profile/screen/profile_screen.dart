@@ -58,10 +58,11 @@ class ProfileScreen extends HookConsumerWidget {
 
               return Column(
                 children: [
+                  SizedBox(height: 8.w),
                   Container(
                     margin: EdgeInsets.symmetric(
                       horizontal: 16.w,
-                      vertical: 8.h,
+                      vertical: 8.w,
                     ),
                     padding: EdgeInsets.symmetric(
                       vertical: 16.w,
@@ -197,7 +198,7 @@ class ProfileScreen extends HookConsumerWidget {
                             ],
                           ),
                         ),
-                        SizedBox(height: 10.h),
+                        SizedBox(height: 8.h),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
                           child: Row(
@@ -360,7 +361,7 @@ class ProfileScreen extends HookConsumerWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 5.h),
+                  SizedBox(height: 4.h),
                   Expanded(
                     child: Container(
                       margin: EdgeInsets.symmetric(horizontal: 16.w),

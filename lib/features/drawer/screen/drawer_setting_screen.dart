@@ -13,11 +13,11 @@ class DrawerSettingScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final settingList = ['테마 설정', '알림 설정', '언어 설정', '비밀번호 변경', '로그아웃'];
+    final settingList = ['알림 설정', '비밀번호 변경', '로그아웃'];
     final settingGoList = [
-      '/drawer_setting/theme',
+      // '/drawer_setting/theme',
       '/drawer_setting/bell',
-      '/drawer_setting/language',
+      // '/drawer_setting/language',
       '/drawer_setting/theme',
       '/login',
     ];
@@ -27,6 +27,7 @@ class DrawerSettingScreen extends HookConsumerWidget {
       appBar: UIConstants.qaAppBar(context, '설정'),
       body: Column(
         children: [
+          SizedBox(height: 10.h),
           Expanded(
             child: ListView.separated(
               itemBuilder: (BuildContext context, int index) {
