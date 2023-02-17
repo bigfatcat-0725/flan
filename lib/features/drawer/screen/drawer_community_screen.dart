@@ -18,7 +18,7 @@ class DrawerCommunityScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tabController = useTabController(initialLength: 2);
+    final tabController = useTabController(initialLength: 1);
     final writtenPage = useState([]);
     final writtenComment = useState([]);
     final userInfo = ref.watch(userInfoProvier);
@@ -52,9 +52,6 @@ class DrawerCommunityScreen extends HookConsumerWidget {
                     Tab(
                       text: '내가 쓴 글',
                     ),
-                    Tab(
-                      text: '내가 쓴 댓글',
-                    ),
                   ],
                 ),
                 SizedBox(height: 10.h),
@@ -68,20 +65,6 @@ class DrawerCommunityScreen extends HookConsumerWidget {
                         itemBuilder: (context, index) {
                           return DrawerCommunityCard(
                             item: writtenPage.value[index],
-                          );
-                        },
-                      ),
-                      ListView.builder(
-                        // physics: const ClampingScrollPhysics(),
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 16.w,
-                              vertical: 4.h,
-                            ),
-                            // child: const DetailCommentCard(comment: null,),
-                            child: Container(),
                           );
                         },
                       ),

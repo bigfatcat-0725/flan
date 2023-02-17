@@ -260,7 +260,7 @@ class UIConstants {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '관리자',
+                        '${userInfo.userInfo!.nickname}',
                         style: AppTextStyle.boldTextStyle.copyWith(
                           color: Colors.white,
                           fontSize: 15.sp,

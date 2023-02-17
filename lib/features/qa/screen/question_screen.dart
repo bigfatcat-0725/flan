@@ -131,27 +131,26 @@ class QuestionScreen extends HookConsumerWidget {
                       ),
                     ],
                   ),
+                  SizedBox(height: 5.h),
                   Wrap(
                     spacing: 2.5.w,
-                    runSpacing: 5.w,
                     children: List.generate(
                       tagList.value.length,
-                      (index) => Container(
-                        width: 60.w,
-                        height: 25.h,
-                        padding: EdgeInsets.all(5.w),
-                        decoration: BoxDecoration(
-                          color: AppColor.primaryColor,
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        child: Center(
-                          child: Text(
-                            '#${tagList.value[index]}',
-                            style: AppTextStyle.defaultTextStyle.copyWith(
-                              color: Colors.white,
-                            ),
+                      (index) => Chip(
+                        onDeleted: () {
+                          tagList.value.removeAt(index);
+                          tagList.value = [...tagList.value];
+                        },
+                        deleteIconColor: Colors.white,
+                        label: Text(
+                          tagList.value[index],
+                          style: AppTextStyle.defaultTextStyle.copyWith(
+                            color: Colors.white,
                           ),
                         ),
+                        backgroundColor: AppColor.primaryColor,
+                        elevation: 0,
+                        padding: const EdgeInsets.all(8.0),
                       ),
                     ),
                   ),
