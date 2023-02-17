@@ -361,7 +361,6 @@ class ProfileScreen extends HookConsumerWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 4.h),
                   Expanded(
                     child: Container(
                       margin: EdgeInsets.symmetric(horizontal: 16.w),

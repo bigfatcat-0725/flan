@@ -6,6 +6,7 @@ import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
 import 'package:flan/features/profile/controller/profile_controller.dart';
 import 'package:flan/models/bookmark/bookmark_question_model.dart';
 import 'package:flan/models/feed/feed_model.dart';
+import 'package:flan/models/home_feed/home_feed_model.dart';
 import 'package:flan/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -14,10 +15,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class BookmarkFeedCard extends HookConsumerWidget {
+class HomeFeedCard extends HookConsumerWidget {
   final String type;
-  final BookmarkQuestionModel data;
-  const BookmarkFeedCard({
+  final HomeFeedModel data;
+  const HomeFeedCard({
     super.key,
     required this.data,
     this.type = 'default',

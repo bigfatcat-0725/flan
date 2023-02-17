@@ -1,5 +1,6 @@
 import 'package:flan/apis/auth_api.dart';
 import 'package:flan/core/core.dart';
+import 'package:flan/features/auth/widget/sign_error.dart';
 import 'package:flan/features/auth/widget/sign_success.dart';
 import 'package:flan/models/user/user_model.dart';
 import 'package:flutter/material.dart';
@@ -78,12 +79,31 @@ class AuthController extends StateNotifier<bool> {
     res.fold(
       (l) => null,
       (r) {
+        print(r);
         if (r == 200) {
           showDialog(
             context: context,
             barrierDismissible: true,
             builder: (BuildContext context) {
               return const SignSuccess();
+            },
+          );
+        }
+        if (r == 201) {
+          showDialog(
+            context: context,
+            barrierDismissible: true,
+            builder: (BuildContext context) {
+              return SignError(error: r);
+            },
+          );
+        }
+        if (r == 202) {
+          showDialog(
+            context: context,
+            barrierDismissible: true,
+            builder: (BuildContext context) {
+              return SignError(error: r);
             },
           );
         }

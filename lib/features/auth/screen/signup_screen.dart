@@ -1,6 +1,8 @@
 import 'package:flan/constants/constants.dart';
+import 'package:flan/constants/reg_exp_constans.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -27,6 +29,9 @@ class SignUpScreen extends HookConsumerWidget {
     final nameController = ref.watch(signNameControllerProvider);
     final emailController = ref.watch(signEmailControllerProvider);
     final pwController = ref.watch(signPwControllerProvider);
+
+    final errorText1 = useState('');
+    final errorText2 = useState('');
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
@@ -91,6 +96,17 @@ class SignUpScreen extends HookConsumerWidget {
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: TextField(
               controller: emailController,
+              onChanged: (value) {
+                if (value == '') {
+                  errorText1.value = '';
+                } else {
+                  if (!RegExpConstants.email.hasMatch(value)) {
+                    errorText1.value = '이메일 형식이 아닙니다.';
+                  } else {
+                    errorText1.value = '';
+                  }
+                }
+              },
               cursorColor: AppColor.greyColor,
               style: AppTextStyle.defaultTextStyle,
               decoration: InputDecoration(
@@ -116,13 +132,39 @@ class SignUpScreen extends HookConsumerWidget {
               ),
             ),
           ),
+          if (errorText1.value != '')
+            Padding(
+              padding: EdgeInsets.only(top: 5.h, left: 16.w),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  errorText1.value,
+                  style: AppTextStyle.defaultTextStyle.copyWith(
+                    color: AppColor.errorColor,
+                    fontSize: 11.sp,
+                  ),
+                ),
+              ),
+            ),
           SizedBox(height: 10.h),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: TextField(
               controller: pwController,
+              onChanged: (value) {
+                if (value == '') {
+                  errorText2.value = '';
+                } else {
+                  if (!RegExpConstants.passwordRegExp1.hasMatch(value)) {
+                    errorText2.value = '문자 + 숫자 8자리 이상이 아닙니다.';
+                  } else {
+                    errorText2.value = '';
+                  }
+                }
+              },
               cursorColor: AppColor.greyColor,
               style: AppTextStyle.defaultTextStyle,
+              obscureText: true,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
@@ -146,16 +188,33 @@ class SignUpScreen extends HookConsumerWidget {
               ),
             ),
           ),
+          if (errorText2.value != '')
+            Padding(
+              padding: EdgeInsets.only(top: 5.h, left: 16.w),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  errorText2.value,
+                  style: AppTextStyle.defaultTextStyle.copyWith(
+                    color: AppColor.errorColor,
+                    fontSize: 11.sp,
+                  ),
+                ),
+              ),
+            ),
           SizedBox(height: 20.h),
           GestureDetector(
             onTap: () {
-              ref.read(authControllerProvider.notifier).sign(
-                    nickname: nameController.text,
-                    email: emailController.text,
-                    password: pwController.text,
-                    context: context,
-                    ref: ref,
-                  );
+              if (errorText1.value == '' && errorText2.value == '') {
+                ref.read(authControllerProvider.notifier).sign(
+                      nickname: nameController.text,
+                      email: emailController.text,
+                      password: pwController.text,
+                      context: context,
+                      ref: ref,
+                    );
+                print(1);
+              }
             },
             child: Container(
               width: 1.sw,

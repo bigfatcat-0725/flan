@@ -67,10 +67,15 @@ class AuthAPI {
         ..fields['p_comment_alram'] = 1.toString();
 
       final response = await request.send();
-
-      print(request.fields);
-      print(response.statusCode);
-      return right(response.statusCode);
+      var code = response.statusCode;
+      final body = await response.stream.bytesToString();
+      if (jsonDecode(body) == "email duplicate") {
+        code = 201;
+      }
+      if (jsonDecode(body) == "name duplicate") {
+        code = 202;
+      }
+      return right(code);
     } catch (e, stackTrace) {
       return left(
         Failure(e.toString(), stackTrace),

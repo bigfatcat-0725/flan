@@ -1,4 +1,5 @@
 import 'package:flan/constants/assets_constants.dart';
+import 'package:flan/constants/reg_exp_constans.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/auth/widget/find_pw_alert.dart';
 import 'package:flan/features/default/controller/default_controller.dart';
@@ -20,6 +21,9 @@ class LoginScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final idController = useTextEditingController();
     final pwController = useTextEditingController();
+
+    final errorText1 = useState('');
+    final errorText2 = useState('');
 
     // 자동로그인
     void autoLogin() async {
@@ -94,6 +98,17 @@ class LoginScreen extends HookConsumerWidget {
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: TextField(
                 controller: idController,
+                onChanged: (value) {
+                  if (value == '') {
+                    errorText1.value = '';
+                  } else {
+                    if (!RegExpConstants.email.hasMatch(value)) {
+                      errorText1.value = '이메일 형식이 아닙니다.';
+                    } else {
+                      errorText1.value = '';
+                    }
+                  }
+                },
                 cursorColor: AppColor.greyColor,
                 style: AppTextStyle.defaultTextStyle,
                 decoration: InputDecoration(
@@ -119,11 +134,36 @@ class LoginScreen extends HookConsumerWidget {
                 ),
               ),
             ),
+            if (errorText1.value != '')
+              Padding(
+                padding: EdgeInsets.only(top: 5.h, left: 16.w),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    errorText1.value,
+                    style: AppTextStyle.defaultTextStyle.copyWith(
+                      color: AppColor.errorColor,
+                      fontSize: 11.sp,
+                    ),
+                  ),
+                ),
+              ),
             SizedBox(height: 10.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: TextField(
                 controller: pwController,
+                onChanged: (value) {
+                  if (value == '') {
+                    errorText2.value = '';
+                  } else {
+                    if (!RegExpConstants.passwordRegExp1.hasMatch(value)) {
+                      errorText2.value = '문자 + 숫자 8자리 이상이 아닙니다.';
+                    } else {
+                      errorText2.value = '';
+                    }
+                  }
+                },
                 obscureText: true,
                 cursorColor: AppColor.greyColor,
                 style: AppTextStyle.defaultTextStyle,
@@ -150,6 +190,20 @@ class LoginScreen extends HookConsumerWidget {
                 ),
               ),
             ),
+            if (errorText2.value != '')
+              Padding(
+                padding: EdgeInsets.only(top: 5.h, left: 16.w),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    errorText2.value,
+                    style: AppTextStyle.defaultTextStyle.copyWith(
+                      color: AppColor.errorColor,
+                      fontSize: 11.sp,
+                    ),
+                  ),
+                ),
+              ),
             SizedBox(height: 5.h),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 15.w),
@@ -177,13 +231,15 @@ class LoginScreen extends HookConsumerWidget {
             SizedBox(height: 20.h),
             GestureDetector(
               onTap: () async {
-                ref.read(authControllerProvider.notifier).login(
-                      email: idController.text,
-                      password: pwController.text,
-                      fcmToken: 'test',
-                      ref: ref,
-                      context: context,
-                    );
+                if (errorText1.value == '' && errorText2.value == '') {
+                  ref.read(authControllerProvider.notifier).login(
+                        email: idController.text,
+                        password: pwController.text,
+                        fcmToken: 'test',
+                        ref: ref,
+                        context: context,
+                      );
+                }
               },
               child: Container(
                 width: 1.sw,
