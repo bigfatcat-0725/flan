@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flan/core/failure.dart';
 import 'package:flan/core/type_defs.dart';
@@ -22,7 +23,8 @@ class CommentAPI {
     return response;
   }
 
-  FutureEither<int> postComment({
+  FutureEither<int> postComment(
+    List<File> imgList, {
     required int user,
     required int page,
     required String reply,
@@ -34,6 +36,12 @@ class CommentAPI {
         ..fields['user_seq'] = user.toString()
         ..fields['page_seq'] = page.toString()
         ..fields['reply'] = reply.toString();
+      if (imgList.isNotEmpty) {
+        for (var file in imgList) {
+          request.files
+              .add(await http.MultipartFile.fromPath('img', file.path));
+        }
+      }
 
       final response = await request.send();
       // print(response.statusCode);
@@ -45,7 +53,8 @@ class CommentAPI {
     }
   }
 
-  FutureEither<int> editComment({
+  FutureEither<int> editComment(
+    List<File> imgList, {
     required int user,
     required int commentSeq,
     required String reply,
@@ -55,6 +64,13 @@ class CommentAPI {
 
       final request = http.MultipartRequest("PUT", url)
         ..fields['reply'] = reply.toString();
+
+      if (imgList.isNotEmpty) {
+        for (var file in imgList) {
+          request.files
+              .add(await http.MultipartFile.fromPath('img', file.path));
+        }
+      }
 
       final response = await request.send();
 

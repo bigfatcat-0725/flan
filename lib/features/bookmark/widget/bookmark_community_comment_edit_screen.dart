@@ -303,6 +303,7 @@ class BookmarkCommunityCommentEdit extends HookConsumerWidget {
                         ref
                             .read(communityControllerProvider.notifier)
                             .editComment(
+                              pictures.value,
                               user: userInfo.userInfo!.seq as int,
                               commentSeq: comment.comment!.seq as int,
                               pageSeq: page.pages!.seq as int,

@@ -309,7 +309,7 @@ class HomeFeedCard extends HookConsumerWidget {
                           ),
                         ],
                       ),
-                      myCard.value
+                      type != 'detail'
                           ? GestureDetector(
                               onTap: () {
                                 showMoreHomeCard(

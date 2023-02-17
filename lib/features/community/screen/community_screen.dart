@@ -60,14 +60,10 @@ class CommunityScreen extends HookConsumerWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            if (currentCategory == '전체') {
-                              context.push('/category');
-                            } else {
-                              context.push('/question', extra: {
-                                'type': 'community',
-                                'toSeq': currentCategorySeq,
-                              });
-                            }
+                            context.push('/question', extra: {
+                              'type': 'community',
+                              'toSeq': currentCategorySeq,
+                            });
                           },
                           child: Container(
                             width: 100.w,
@@ -78,7 +74,7 @@ class CommunityScreen extends HookConsumerWidget {
                             ),
                             child: Center(
                               child: Text(
-                                currentCategorySeq == 0 ? '카테고리 선택' : '질문하기',
+                                '글쓰기',
                                 style: AppTextStyle.defaultTextStyle.copyWith(
                                   fontSize: 11.sp,
                                   color: Colors.white,

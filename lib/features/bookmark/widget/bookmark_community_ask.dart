@@ -292,6 +292,7 @@ class BookmarkCommunityAskScreen extends HookConsumerWidget {
                         ref
                             .read(communityControllerProvider.notifier)
                             .postBookmarkComment(
+                              pictures.value,
                               user: userInfo.userInfo!.seq as int,
                               page: page.pages!.seq as int,
                               reply: questionTextController.text,

@@ -30,6 +30,10 @@ class DetailCommentCard extends HookConsumerWidget {
     final userStatus = useState(1);
     final userInfo = ref.watch(userInfoProvier);
 
+    final List<String> contentImgList = comment.comment!.photo != ""
+        ? comment.comment!.photo.toString().split(',')
+        : [];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -129,6 +133,32 @@ class DetailCommentCard extends HookConsumerWidget {
           ),
         ),
         SizedBox(height: 10.h),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: List.generate(
+                contentImgList.length,
+                (index) => Container(
+                      width: 200.w,
+                      height: 140.h,
+                      margin: EdgeInsets.only(
+                        bottom: 10.h,
+                        right: contentImgList[contentImgList.length - 1] ==
+                                contentImgList[index]
+                            ? 0.w
+                            : 10.w,
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              'http://topping.io:8855${contentImgList[index]}',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )),
+          ),
+        ),
       ],
     );
   }

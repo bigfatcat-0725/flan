@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flan/constants/constants.dart';
@@ -314,6 +315,7 @@ class CommunityCommentEdit extends HookConsumerWidget {
                         ref
                             .read(communityControllerProvider.notifier)
                             .editComment(
+                              pictures.value,
                               user: userInfo.userInfo!.seq as int,
                               commentSeq: comment.comment!.seq as int,
                               pageSeq: page.pages!.seq as int,

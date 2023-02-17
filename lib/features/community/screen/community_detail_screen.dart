@@ -12,6 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class CommunityDetailScreen extends HookConsumerWidget {
   final PageModel page;
@@ -22,8 +23,6 @@ class CommunityDetailScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final communityContoller = ref.watch(communityControllerProvider.notifier);
-
     useEffect(() {
       Future.microtask(
           () => ref.invalidate(commentProvider(page.pages!.seq as int)));
@@ -32,6 +31,9 @@ class CommunityDetailScreen extends HookConsumerWidget {
 
     // 전에서 가져오는게 아니라
     // 새로 api 하나만 들고오는 걸로 바꿔야 함.
+
+    final List<String> contentImgList =
+        page.pages!.photo != "" ? page.pages!.photo.toString().split(',') : [];
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
@@ -106,6 +108,37 @@ class CommunityDetailScreen extends HookConsumerWidget {
                     ],
                   ),
                 ),
+                if (contentImgList.isNotEmpty)
+                  Container(
+                    margin: EdgeInsets.only(top: 10.h),
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: List.generate(
+                            contentImgList.length,
+                            (index) => Container(
+                                  width: 200.w,
+                                  height: 140.h,
+                                  margin: EdgeInsets.only(
+                                    right: contentImgList[
+                                                contentImgList.length - 1] ==
+                                            contentImgList[index]
+                                        ? 0.w
+                                        : 10.w,
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                          'http://topping.io:8855${contentImgList[index]}',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                )),
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flan/constants/constants.dart';
 import 'package:flan/core/core.dart';
@@ -283,6 +284,7 @@ class EditPageScreen extends HookConsumerWidget {
                       onTap: () {
                         // page
                         ref.read(communityControllerProvider.notifier).editPage(
+                              pictures.value,
                               page: page.pages!.seq as int,
                               theme: toSeq,
                               title: titleTextController.text,

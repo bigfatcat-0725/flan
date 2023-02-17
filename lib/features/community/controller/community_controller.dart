@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flan/apis/comment_api.dart';
 import 'package:flan/apis/page_api.dart';
 import 'package:flan/core/core.dart';
@@ -50,7 +52,8 @@ class CommunityController extends StateNotifier<bool> {
     return commentList;
   }
 
-  void postComment({
+  void postComment(
+    List<File> imgList, {
     required int user,
     required int page,
     required String reply,
@@ -60,6 +63,7 @@ class CommunityController extends StateNotifier<bool> {
   }) async {
     state = true;
     final res = await _commentAPI.postComment(
+      imgList,
       user: user,
       page: page,
       reply: reply,
@@ -90,7 +94,8 @@ class CommunityController extends StateNotifier<bool> {
     );
   }
 
-  void editComment({
+  void editComment(
+    List<File> imgList, {
     required int user,
     required int commentSeq,
     required int pageSeq,
@@ -98,7 +103,7 @@ class CommunityController extends StateNotifier<bool> {
     required WidgetRef ref,
     required BuildContext context,
   }) async {
-    final res = await _commentAPI.editComment(
+    final res = await _commentAPI.editComment(imgList,
         user: user, commentSeq: commentSeq, reply: reply);
     res.fold(
       (l) => null,
@@ -111,7 +116,8 @@ class CommunityController extends StateNotifier<bool> {
     );
   }
 
-  void postBookmarkComment({
+  void postBookmarkComment(
+    List<File> imgList, {
     required int user,
     required int page,
     required String reply,
@@ -121,6 +127,7 @@ class CommunityController extends StateNotifier<bool> {
   }) async {
     state = true;
     final res = await _commentAPI.postComment(
+      imgList,
       user: user,
       page: page,
       reply: reply,
@@ -153,9 +160,10 @@ class CommunityController extends StateNotifier<bool> {
     return pageList;
   }
 
-  void postPage({
+  void postPage(
+    List<File> imgList, {
     required int user,
-    required int theme,
+    required String tag,
     required String title,
     required String content,
     required String private,
@@ -164,8 +172,9 @@ class CommunityController extends StateNotifier<bool> {
   }) async {
     state = true;
     final res = await _pageAPI.postPage(
+      imgList,
       user: user,
-      theme: theme,
+      tag: tag,
       title: title,
       content: content,
       private: private,
@@ -188,7 +197,8 @@ class CommunityController extends StateNotifier<bool> {
     );
   }
 
-  void editPage({
+  void editPage(
+    List<File> imgList, {
     required int page,
     required int theme,
     required String title,
@@ -199,6 +209,7 @@ class CommunityController extends StateNotifier<bool> {
   }) async {
     state = true;
     final res = await _pageAPI.editPage(
+      imgList,
       page: page,
       theme: theme,
       title: title,

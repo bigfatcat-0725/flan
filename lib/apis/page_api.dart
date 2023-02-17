@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flan/core/failure.dart';
 import 'package:flan/core/type_defs.dart';
 import 'package:fpdart/fpdart.dart';
@@ -44,9 +45,10 @@ class PageAPI {
     return request.statusCode;
   }
 
-  FutureEither<int> postPage({
+  FutureEither<int> postPage(
+    List<File> imgList, {
     required int user,
-    required int theme,
+    required String tag,
     required String title,
     required String content,
     required String private,
@@ -57,11 +59,18 @@ class PageAPI {
 
       final request = http.MultipartRequest("POST", url)
         ..fields['user_seq'] = user.toString()
-        ..fields['theme_seq'] = theme.toString()
+        ..fields['tag'] = tag.toString()
         ..fields['title'] = title.toString()
         ..fields['content'] = content.toString()
         ..fields['private'] = private.toString()
         ..fields['status'] = '1'.toString();
+
+      if (imgList.isNotEmpty) {
+        for (var file in imgList) {
+          request.files
+              .add(await http.MultipartFile.fromPath('imgs', file.path));
+        }
+      }
 
       final response = await request.send();
       return right(response.statusCode);
@@ -72,7 +81,8 @@ class PageAPI {
     }
   }
 
-  FutureEither<int> editPage({
+  FutureEither<int> editPage(
+    List<File> imgList, {
     required int page,
     required int theme,
     required String title,
@@ -89,6 +99,13 @@ class PageAPI {
         ..fields['content'] = content.toString()
         ..fields['private'] = private.toString()
         ..fields['status'] = '1'.toString();
+
+      if (imgList.isNotEmpty) {
+        for (var file in imgList) {
+          request.files
+              .add(await http.MultipartFile.fromPath('imgs', file.path));
+        }
+      }
 
       final response = await request.send();
       return right(response.statusCode);

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flan/constants/constants.dart';
 import 'package:flan/core/core.dart';
@@ -277,8 +278,9 @@ class QuestionScreen extends HookConsumerWidget {
                           ref
                               .read(communityControllerProvider.notifier)
                               .postPage(
+                                pictures.value,
                                 user: userInfo!.userInfo!.seq as int,
-                                theme: toSeq,
+                                tag: '테스트',
                                 title: titleTextController.text,
                                 content: questionTextController.text,
                                 private: privateCheck.value ? "0" : "1",

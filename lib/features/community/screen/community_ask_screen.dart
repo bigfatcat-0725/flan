@@ -303,6 +303,7 @@ class CommunityAskScreen extends HookConsumerWidget {
                         ref
                             .read(communityControllerProvider.notifier)
                             .postComment(
+                              pictures.value,
                               user: userInfo.userInfo!.seq as int,
                               page: page.pages!.seq as int,
                               reply: questionTextController.text,

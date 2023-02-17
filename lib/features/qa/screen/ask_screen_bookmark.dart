@@ -53,7 +53,9 @@ class AskScreenBookmark extends HookConsumerWidget {
     });
 
     // 게시물 이미지
-    final List<String> contentImgList = question.questions!.photo ?? [];
+    final List<String> contentImgList = question.questions!.photo != null
+        ? question.questions!.photo.split(',')
+        : [];
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,

@@ -309,24 +309,23 @@ class BookmarkFeedCard extends HookConsumerWidget {
                           ),
                         ],
                       ),
-                      myCard.value
-                          ? GestureDetector(
-                              onTap: () {
-                                showMoreBookmark(
-                                  context,
-                                  type: 'not default',
-                                  myData: isMyData,
-                                  data: data,
-                                  ref: ref,
-                                );
-                              },
-                              child: Icon(
-                                Icons.more_horiz,
-                                size: 20.w,
-                                color: AppColor.primaryColor,
-                              ),
-                            )
-                          : Container(),
+                      if (type != 'detail')
+                        GestureDetector(
+                          onTap: () {
+                            showMoreBookmark(
+                              context,
+                              type: 'not default',
+                              myData: isMyData,
+                              data: data,
+                              ref: ref,
+                            );
+                          },
+                          child: Icon(
+                            Icons.more_horiz,
+                            size: 20.w,
+                            color: AppColor.primaryColor,
+                          ),
+                        ),
                     ],
                   ),
                   Row(
