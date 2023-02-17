@@ -264,8 +264,10 @@ class QuestionScreen extends HookConsumerWidget {
                                   .removeAt(picturesCurIndex.value - 1);
                               // 다시 담아줘야 state 변경함.
                               pictures.value = [...pictures.value];
-                              picturesCurIndex.value =
-                                  picturesCurIndex.value - 1;
+                              if (picturesCurIndex.value != 1) {
+                                picturesCurIndex.value =
+                                    picturesCurIndex.value - 1;
+                              }
                             },
                             child: SizedBox(
                               width: 20.w,
@@ -302,8 +304,13 @@ class QuestionScreen extends HookConsumerWidget {
                       onTap: () async {
                         final image = await pickCamera();
                         if (image != null) {
-                          pictures.value.add(image);
-                          pictures.value = [...pictures.value];
+                          if (pictures.value.length < 3) {
+                            pictures.value.add(image);
+                          }
+                          if (pictures.value.length > 3) {
+                            pictures.value.add(image);
+                            pictures.value = [...pictures.value.sublist(0, 3)];
+                          }
                         }
                       },
                       child: SvgPicture.asset(
@@ -318,8 +325,12 @@ class QuestionScreen extends HookConsumerWidget {
                       onTap: () async {
                         final images = await pickImages();
                         if (images.isNotEmpty) {
-                          // 계속 추가
-                          pictures.value = [...pictures.value, ...images];
+                          if (pictures.value.length < 3) {
+                            pictures.value = [...pictures.value, ...images];
+                          }
+                          if (pictures.value.length > 3) {
+                            pictures.value = [...pictures.value.sublist(0, 3)];
+                          }
                         }
                       },
                       child: SvgPicture.asset(
