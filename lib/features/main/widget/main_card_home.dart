@@ -509,7 +509,7 @@ class HomeFeedCard extends HookConsumerWidget {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
-                          showDefaultDialog(context, '준비중입니다.');
+                          showDefaultDialog(context, '서비스 준비중입니다.');
                         },
                         child: Container(
                           color: Colors.transparent,

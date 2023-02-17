@@ -160,7 +160,8 @@ class UIConstants {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        context.go('/bell');
+                        showDefaultDialog(context, '서비스 준비중입니다.');
+                        // context.go('/bell');
                       },
                       child: SvgPicture.asset(
                         AssetsConstants.bell,

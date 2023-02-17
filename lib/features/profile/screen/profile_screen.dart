@@ -4,8 +4,10 @@ import 'package:flan/core/core.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/default/controller/default_controller.dart';
 import 'package:flan/features/main/widget/main_card.dart';
+import 'package:flan/features/profile/controller/profile_controller.dart';
 import 'package:flan/features/profile/widget/profile_card_new.dart';
 import 'package:flan/features/profile/widget/profile_card_reject.dart';
+import 'package:flan/features/search/controller/search_controller.dart';
 import 'package:flan/models/feed/feed_model.dart';
 import 'package:flan/models/user/user_model.dart';
 import 'package:flan/theme/theme.dart';
@@ -40,6 +42,19 @@ class ProfileScreen extends HookConsumerWidget {
         feedSeq == 0 ? userInfo!.userInfo!.seq as int : feedSeq;
 
     final feedVisible = useState(true);
+
+    useEffect(() {
+      if (context.mounted) {
+        Future.microtask(() async {
+          // 팔로우 여부
+          isFollow.value =
+              await ref.read(profileControllerProvider.notifier).isFollow(
+                    my: userInfo!.userInfo!.seq as int,
+                    other: feedSeq,
+                  );
+        });
+      }
+    });
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
@@ -128,7 +143,7 @@ class ProfileScreen extends HookConsumerWidget {
                                           Column(
                                             children: [
                                               Text(
-                                                '${data.myData!.followCnt}',
+                                                '${data.follower!.length}',
                                                 style: AppTextStyle
                                                     .boldTextStyle
                                                     .copyWith(
@@ -149,7 +164,7 @@ class ProfileScreen extends HookConsumerWidget {
                                           Column(
                                             children: [
                                               Text(
-                                                '${data.myData!.followingCnt}',
+                                                '${data.following!.length}',
                                                 style: AppTextStyle
                                                     .boldTextStyle
                                                     .copyWith(
@@ -283,9 +298,7 @@ class ProfileScreen extends HookConsumerWidget {
                                                   .defaultTextStyle
                                                   .copyWith(
                                                 fontSize: 11.sp,
-                                                color: isFollow.value
-                                                    ? AppColor.primaryColor
-                                                    : Colors.white,
+                                                color: AppColor.primaryColor,
                                               ),
                                             ),
                                           ),
@@ -293,7 +306,20 @@ class ProfileScreen extends HookConsumerWidget {
                                       )
                                     : GestureDetector(
                                         onTap: () {
+                                          ref
+                                              .read(profileControllerProvider
+                                                  .notifier)
+                                              .follow(
+                                                from: userInfo.userInfo!.seq
+                                                    as int,
+                                                to: feedSeq,
+                                              );
+
                                           isFollow.value = !isFollow.value;
+
+                                          ref.invalidate(
+                                              feedProivder(feedSeqLogic));
+                                          print(feedSeqLogic);
                                         },
                                         child: Container(
                                           height: 25.h,
