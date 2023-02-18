@@ -210,10 +210,10 @@ class SignUpScreen extends HookConsumerWidget {
                       nickname: nameController.text,
                       email: emailController.text,
                       password: pwController.text,
+                      type: 'zalo',
                       context: context,
                       ref: ref,
                     );
-                print(1);
               }
             },
             child: Container(

@@ -34,8 +34,6 @@ class AuthController extends StateNotifier<bool> {
     required BuildContext context,
     required WidgetRef ref,
   }) async {
-    state = true;
-
     // 자동로그인
     final settingBox = Hive.box('settingBox');
     settingBox.put('id', email);
@@ -47,7 +45,6 @@ class AuthController extends StateNotifier<bool> {
       password: password,
       fcmToken: 'test',
     );
-    state = false;
     res.fold(
       (l) {
         // loginShowSnackBar(context, l.message);
@@ -75,6 +72,7 @@ class AuthController extends StateNotifier<bool> {
     required String password,
     required BuildContext context,
     required WidgetRef ref,
+    required String type,
   }) async {
     state = true;
     final res = await _authAPI.sign(nickname, email, password);
@@ -92,7 +90,7 @@ class AuthController extends StateNotifier<bool> {
             },
           );
         }
-        if (r == 201) {
+        if (r == 201 && type == 'default') {
           showDialog(
             context: context,
             barrierDismissible: true,
@@ -100,6 +98,16 @@ class AuthController extends StateNotifier<bool> {
               return SignError(error: r);
             },
           );
+        }
+        if (r == 201 && type == 'zalo') {
+          print('login 해주기');
+          ref.read(authControllerProvider.notifier).login(
+                email: email,
+                password: password,
+                fcmToken: 'test',
+                context: context,
+                ref: ref,
+              );
         }
         if (r == 202) {
           showDialog(

@@ -69,6 +69,7 @@ class AuthAPI {
       final response = await request.send();
       var code = response.statusCode;
       final body = await response.stream.bytesToString();
+      print(body);
       if (jsonDecode(body) == "email duplicate") {
         code = 201;
       }

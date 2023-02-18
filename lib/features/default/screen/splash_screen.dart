@@ -22,14 +22,18 @@ class SplashScreen extends HookConsumerWidget {
       final id = settingBox.get('id');
       final pw = settingBox.get('pw');
 
-      if (id != null && pw != null) {
-        ref.read(authControllerProvider.notifier).login(
-              email: id,
-              password: pw,
-              fcmToken: 'test',
-              context: context,
-              ref: ref,
-            );
+      if (id != null &&
+          pw != null &&
+          (id.toString().split('@')[1] != 'zalo.com')) {
+        if (context.mounted) {
+          ref.read(authControllerProvider.notifier).login(
+                email: id,
+                password: pw,
+                fcmToken: 'test',
+                context: context,
+                ref: ref,
+              );
+        }
       } else {
         if (context.mounted) {
           context.go('/login');
@@ -38,11 +42,13 @@ class SplashScreen extends HookConsumerWidget {
     }
 
     useEffect(() {
-      Future.microtask(() async {
-        await Future.delayed(const Duration(seconds: 2));
-        autoLogin();
-      });
-      return null;
+      if (context.mounted) {
+        Future.microtask(() async {
+          await Future.delayed(const Duration(seconds: 2));
+          autoLogin();
+        });
+        return null;
+      }
     });
 
     return Scaffold(

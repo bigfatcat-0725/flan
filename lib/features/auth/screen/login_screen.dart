@@ -287,6 +287,19 @@ class LoginScreen extends HookConsumerWidget {
                       accessToken: data!['data']['accessToken'],
                     );
                     print(userData);
+                    if (userData!['isSuccess']) {
+                      if (context.mounted) {
+                        ref.read(authControllerProvider.notifier).sign(
+                              nickname: userData['data']['name'],
+                              email: '${userData['data']['name']}@zalo.com',
+                              password: 'flanzalo1234',
+                              type: 'zalo',
+                              context: context,
+                              ref: ref,
+                            );
+                        print('zalo 회원가입');
+                      }
+                    }
                   },
                   child: Container(
                     width: 45.w,
