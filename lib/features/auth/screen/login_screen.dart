@@ -279,8 +279,6 @@ class LoginScreen extends HookConsumerWidget {
               children: [
                 GestureDetector(
                   onTap: () async {
-                    String? key = await ZaloFlutter.getHashKeyAndroid();
-                    print(key);
                     var data = await ZaloFlutter.login();
                     print(data);
                     var userData = await ZaloFlutter.getUserProfile(

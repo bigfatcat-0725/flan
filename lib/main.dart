@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flan/firebase_options.dart';
 import 'package:flan/router/router.dart';
@@ -9,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:zalo_flutter/zalo_flutter.dart';
 
 // admob
 const Map<String, String> unitID = kReleaseMode
@@ -47,11 +50,19 @@ class Logger extends ProviderObserver {
   }
 }
 
+Future<void> _initZaloFlutter() async {
+  if (Platform.isAndroid) {
+    final hashKey = await ZaloFlutter.getHashKeyAndroid();
+    print('HashKey: $hashKey');
+  }
+}
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  _initZaloFlutter();
   MobileAds.instance.initialize();
   // Default Setting 불러오기
   await Hive.initFlutter();
