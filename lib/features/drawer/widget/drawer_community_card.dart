@@ -44,12 +44,14 @@ class DrawerCommunityCard extends HookConsumerWidget {
                 seq: item.seq as int,
               );
 
-          if (context.mounted && status == 1) {
+          if (context.mounted && isLike.hasListeners && status == 1) {
             isLike.value = true;
           } else {
             isLike.value = false;
           }
-          if (context.mounted && bookmarkStatus == 1) {
+          if (context.mounted &&
+              saveStatus.hasListeners &&
+              bookmarkStatus == 1) {
             saveStatus.value = true;
           } else {
             saveStatus.value = false;

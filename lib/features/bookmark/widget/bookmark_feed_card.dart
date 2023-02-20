@@ -26,10 +26,8 @@ class BookmarkFeedCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isMounted = useIsMounted();
     final likeStatus = useState(false);
     final saveStatus = useState(false);
-    final myCard = useState(true);
 
     // 본인
     final userInfo = ref.watch(userInfoProvier.notifier).state;
@@ -64,12 +62,14 @@ class BookmarkFeedCard extends HookConsumerWidget {
                 seq: data.questions!.seq as int,
               );
 
-          if (context.mounted && status == 1) {
+          if (context.mounted && likeStatus.hasListeners && status == 1) {
             likeStatus.value = true;
           } else {
             likeStatus.value = false;
           }
-          if (context.mounted && bookmarkStatus > 0) {
+          if (context.mounted &&
+              saveStatus.hasListeners &&
+              bookmarkStatus > 0) {
             saveStatus.value = true;
           } else {
             saveStatus.value = false;

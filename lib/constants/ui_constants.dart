@@ -2,10 +2,6 @@ import 'package:flan/constants/assets_constants.dart';
 import 'package:flan/core/providers.dart';
 import 'package:flan/core/util.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
-import 'package:flan/features/community/screen/community_screen.dart';
-import 'package:flan/features/main/screen/main_screen.dart';
-import 'package:flan/features/profile/screen/profile_screen.dart';
-import 'package:flan/features/search/screen/search_screen.dart';
 import 'package:flan/models/user/user_model.dart';
 import 'package:flan/theme/app_color.dart';
 import 'package:flan/theme/app_text_theme.dart';
@@ -26,7 +22,6 @@ class UIConstants {
   }) {
     final userInfo = ref.watch(userInfoProvier);
     final feedSeq = ref.watch(feedSeqProvider);
-    final feedName = ref.watch(feedNameProvider);
 
     return AppBar(
       toolbarHeight: 25.h,
@@ -311,7 +306,7 @@ class UIConstants {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    '내 플랑',
+                                    '포인트',
                                     style:
                                         AppTextStyle.defaultTextStyle.copyWith(
                                       fontSize: 12.sp,
@@ -348,7 +343,7 @@ class UIConstants {
                               ),
                               child: Center(
                                 child: Text(
-                                  '플랑 충전',
+                                  '포인트 충전',
                                   style: AppTextStyle.defaultTextStyle.copyWith(
                                     color: Colors.white,
                                   ),
