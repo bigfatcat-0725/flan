@@ -69,7 +69,7 @@ class ProfileCardReject extends HookConsumerWidget {
                       ),
                       SizedBox(width: 5.w),
                       Text(
-                        private == '1' ? questionName : 'vô danh',
+                        private == '1' ? questionName : '익명',
                         style: AppTextStyle.defaultTextStyle.copyWith(
                           fontSize: 11.sp,
                           color: AppColor.primaryColor,

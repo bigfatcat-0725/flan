@@ -22,9 +22,7 @@ class SplashScreen extends HookConsumerWidget {
       final id = settingBox.get('id');
       final pw = settingBox.get('pw');
 
-      if (id != null &&
-          pw != null &&
-          (id.toString().split('@')[1] != 'zalo.com')) {
+      if (id != null && pw != null) {
         if (context.mounted) {
           ref.read(authControllerProvider.notifier).login(
                 email: id,

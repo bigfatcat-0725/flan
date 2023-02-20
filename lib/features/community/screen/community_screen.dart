@@ -74,7 +74,7 @@ class CommunityScreen extends HookConsumerWidget {
                             ),
                             child: Center(
                               child: Text(
-                                'viết',
+                                '글쓰기',
                                 style: AppTextStyle.defaultTextStyle.copyWith(
                                   fontSize: 11.sp,
                                   color: Colors.white,
