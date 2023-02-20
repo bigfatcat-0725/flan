@@ -46,7 +46,7 @@ final currentCategoryProvier =
 });
 
 class CurrentCategory extends StateNotifier<String> {
-  CurrentCategory() : super('toàn bộ');
+  CurrentCategory() : super('전체');
   void onChange(String title) => state = title;
 }
 

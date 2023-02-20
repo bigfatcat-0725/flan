@@ -63,7 +63,11 @@ class CommunityCard extends HookConsumerWidget {
     // 위 item 을 인식하게 함으로써 완성.
 
     final List<String> contentImgList =
-        item.pages!.photo != "" ? item.pages!.photo.toString().split(',') : [];
+        (item.pages!.photo != "" && item.pages!.photo != null)
+            ? item.pages!.photo.toString().split(',')
+            : [];
+
+    final tagList = item.pages!.tag!.split(',');
 
     return Container(
       margin: EdgeInsets.symmetric(
@@ -228,7 +232,24 @@ class CommunityCard extends HookConsumerWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 10.h),
+                  SizedBox(height: 5.h),
+                  Padding(
+                    padding: EdgeInsets.only(left: 16.w),
+                    child: Row(
+                      children: List.generate(
+                        tagList.length,
+                        (index) {
+                          return tagList[index] == ''
+                              ? Container()
+                              : Text(
+                                  '#${tagList[index]}',
+                                  style: AppTextStyle.hintStyle,
+                                );
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 5.h),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
                     decoration: BoxDecoration(

@@ -52,7 +52,7 @@ class UIConstants {
                 ),
               ),
             ),
-            if (index == 1)
+            if (index == 999)
               Expanded(
                 child: GestureDetector(
                   onTap: () {

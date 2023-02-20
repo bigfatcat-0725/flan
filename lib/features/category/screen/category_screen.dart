@@ -1,11 +1,19 @@
+import 'package:flan/constants/assets_constants.dart';
 import 'package:flan/constants/constants.dart';
 import 'package:flan/core/core.dart';
+import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/category/controller/category_controller.dart';
-import 'package:flan/models/category/category_model.dart';
-import 'package:flan/theme/theme.dart';
+import 'package:flan/features/community/controller/community_controller.dart';
+import 'package:flan/features/community/widget/community_card.dart';
+import 'package:flan/features/search/controller/search_controller.dart';
+import 'package:flan/models/page/page_model.dart';
+import 'package:flan/theme/app_color.dart';
+import 'package:flan/theme/app_text_theme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -16,98 +24,105 @@ class CategoryScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categoryList = useState(<CategoryModel>[]);
     final currentCategory = ref.watch(currentCategoryProvier);
-    final allPageCnt = useState(0);
+
+    final page = useState(<PageModel>[]);
 
     useEffect(() {
-      if (context.mounted) {
+      final currentTap = ref.watch(bottomNavProvier);
+
+      if (context.mounted && currentTap == 1) {
         Future.microtask(() async {
-          final res =
-              await ref.read(categoryControllerProvider.notifier).getCategory();
-          categoryList.value = res;
-
-          for (final category in categoryList.value) {
-            allPageCnt.value += category.pageCnt!;
-          }
-
-          print(allPageCnt.value);
+          page.value = await ref
+              .watch(communityControllerProvider.notifier)
+              .getThemePage(currentCategory);
         });
       }
       return null;
-    }, [categoryList]);
+    }, []);
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
-      appBar: UIConstants.qaAppBar(context, 'tag'),
+      appBar: UIConstants.qaAppBar(context, '#$currentCategory'),
       body: Column(
         children: [
-          SizedBox(height: 10.h),
-          Expanded(
-            child: ListView.separated(
-              itemCount: categoryList.value.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  onTap: () {
-                    // 전역으로 카테고리 유지
-                    ref
-                        .read(currentCategoryProvier.notifier)
-                        .onChange(categoryList.value[index].title!);
-                    ref
-                        .read(currentCategorySeqProvier.notifier)
-                        .onChange(categoryList.value[index].seq!);
-                    context.pop();
-                  },
-                  tileColor: currentCategory == categoryList.value[index].title
-                      ? Colors.white
-                      : null,
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: 2.5.h,
-                  ),
-                  shape: Border(
-                    bottom: BorderSide(
-                      width: 0.25.w,
-                      color: AppColor.hintColor,
-                    ),
-                    top: index == 0
-                        ? BorderSide(
-                            width: 0.25.w,
-                            color: AppColor.hintColor,
-                          )
-                        : const BorderSide(
-                            width: 0,
-                            color: Colors.transparent,
-                          ),
-                  ),
-                  title: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: Row(
+          ref.watch(themePageProvider(currentCategory)).when(
+                data: (pageList) {
+                  return Expanded(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        SizedBox(height: 10.h),
+                        // Padding(
+                        //   padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        //   child: Row(
+                        //     children: [
+                        //       GestureDetector(
+                        //         onTap: () {
+                        //           filter.value = 0;
+                        //         },
+                        //         child: Text(
+                        //           '최신순',
+                        //           style: filter.value == 0
+                        //               ? AppTextStyle.boldTextStyle.copyWith(
+                        //                   color: AppColor.primaryColor,
+                        //                   fontSize: 13.sp,
+                        //                 )
+                        //               : AppTextStyle.hintStyle.copyWith(
+                        //                   fontSize: 13.sp,
+                        //                 ),
+                        //         ),
+                        //       ),
+                        //       Text(
+                        //         ' | ',
+                        //         style: AppTextStyle.hintStyle.copyWith(
+                        //           fontSize: 13.sp,
+                        //         ),
+                        //       ),
+                        //       GestureDetector(
+                        //         onTap: () {
+                        //           filter.value = 1;
+                        //         },
+                        //         child: Text(
+                        //           '인기순',
+                        //           style: filter.value == 1
+                        //               ? AppTextStyle.boldTextStyle.copyWith(
+                        //                   color: AppColor.primaryColor,
+                        //                   fontSize: 13.sp,
+                        //                 )
+                        //               : AppTextStyle.hintStyle.copyWith(
+                        //                   fontSize: 13.sp,
+                        //                 ),
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        // SizedBox(height: 5.h),
                         Expanded(
-                          child: Text(
-                            categoryList.value[index].title.toString(),
-                            style: AppTextStyle.boldTextStyle.copyWith(),
+                          child: ListView.builder(
+                            itemCount: pageList.length,
+                            itemBuilder: (context, index) {
+                              final item = pageList[index];
+
+                              return CommunityCard(
+                                // key: UniqueKey(),
+                                item: item,
+                              );
+                            },
                           ),
-                        ),
-                        SizedBox(width: 10.w),
-                        Text(
-                          categoryList.value[index].title == 'toàn bộ'
-                              ? allPageCnt.value.toString()
-                              : categoryList.value[index].pageCnt.toString(),
-                          style: AppTextStyle.greyStyle,
                         ),
                       ],
                     ),
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return Container();
-              },
-            ),
-          ),
+                  );
+                },
+                error: (error, stackTrace) => Center(
+                  child: Text(error.toString()),
+                ),
+                loading: () => const Center(
+                  child: CupertinoActivityIndicator(),
+                ),
+              )
         ],
       ),
     );

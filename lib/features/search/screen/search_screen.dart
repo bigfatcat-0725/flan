@@ -175,7 +175,6 @@ class SearchScreen extends HookConsumerWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 10.w),
               ],
             ),
           ),

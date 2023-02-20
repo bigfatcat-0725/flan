@@ -75,7 +75,7 @@ class CommunityController extends StateNotifier<bool> {
         if (r == 200) {
           final current = ref.watch(currentCategoryProvier);
 
-          if (current == 'toàn bộ') {
+          if (current == '전체') {
             ref.invalidate(pageProvider);
           } else {
             ref.invalidate(themePageProvider(current));
@@ -186,7 +186,7 @@ class CommunityController extends StateNotifier<bool> {
         if (r == 200) {
           final current = ref.watch(currentCategoryProvier);
 
-          if (current == 'toàn bộ') {
+          if (current == '전체') {
             ref.invalidate(pageProvider);
           } else {
             ref.invalidate(themePageProvider(current));
@@ -227,7 +227,7 @@ class CommunityController extends StateNotifier<bool> {
         if (r == 200) {
           final current = ref.watch(currentCategoryProvier);
 
-          if (current == 'toàn bộ') {
+          if (current == '전체') {
             ref.invalidate(pageProvider);
           } else {
             ref.invalidate(themePageProvider(current));
@@ -250,7 +250,7 @@ class CommunityController extends StateNotifier<bool> {
     if (res == 200) {
       final current = ref.watch(currentCategoryProvier);
 
-      if (current == 'toàn bộ') {
+      if (current == '전체') {
         ref.invalidate(pageProvider);
       } else {
         ref.invalidate(themePageProvider(current));
@@ -285,7 +285,7 @@ class CommunityController extends StateNotifier<bool> {
     );
     final current = ref.watch(currentCategoryProvier);
 
-    if (current == 'toàn bộ') {
+    if (current == '전체') {
       ref.invalidate(pageProvider);
     } else {
       ref.invalidate(themePageProvider(current));
@@ -306,7 +306,7 @@ class CommunityController extends StateNotifier<bool> {
     if (res == 1) {
       final current = ref.watch(currentCategoryProvier);
 
-      if (current == 'toàn bộ') {
+      if (current == '전체') {
         ref.invalidate(pageProvider);
       } else {
         ref.invalidate(themePageProvider(current));

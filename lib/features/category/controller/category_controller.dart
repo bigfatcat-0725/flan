@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flan/apis/category_api.dart';
 import 'package:flan/models/category/category_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 final categoryControllerProvider =
     StateNotifierProvider<CategoryController, bool>((ref) {
@@ -12,6 +15,11 @@ final categoryControllerProvider =
 final categoryProivder = FutureProvider.autoDispose((ref) {
   final categoryController = ref.watch(categoryControllerProvider.notifier);
   return categoryController.getCategory();
+});
+
+final hotCategoryProivder = FutureProvider.autoDispose((ref) {
+  final categoryController = ref.watch(categoryControllerProvider.notifier);
+  return categoryController.getHotCategory();
 });
 
 class CategoryController extends StateNotifier<bool> {
@@ -35,8 +43,8 @@ class CategoryController extends StateNotifier<bool> {
     var all = CategoryModel(
       tag: null,
       likeCnt: null,
-      title: 'toàn bộ',
-      detail: 'toàn bộ',
+      title: '전체',
+      detail: '전체',
       pageCnt: allCnt,
       createdAt: null,
       seq: 0,
@@ -44,5 +52,20 @@ class CategoryController extends StateNotifier<bool> {
     );
 
     return [all, ...data];
+  }
+
+  Future<List> getHotCategory() async {
+    final url = Uri.parse('http://topping.io:8855/API/category/many_page/list');
+    final data = await http.get(url, headers: {
+      "accept": "application/json",
+    });
+    final decodeData = utf8.decode(data.bodyBytes);
+    final response = jsonDecode(decodeData);
+
+    final res = response
+        .map((e) => CategoryModel.fromJson(e as Map<String, dynamic>))
+        .toList();
+
+    return res;
   }
 }
