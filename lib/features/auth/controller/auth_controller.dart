@@ -40,11 +40,15 @@ class AuthController extends StateNotifier<bool> {
     settingBox.put('pw', password);
     //
 
+    final fcm = ref.watch(fcmTokenProvider);
+
     final res = await _authAPI.login(
       email: email,
       password: password,
-      fcmToken: 'test',
+      fcmToken: fcm ?? '',
     );
+
+    print('login fcm : $fcm');
     res.fold(
       (l) {
         // loginShowSnackBar(context, l.message);
@@ -75,6 +79,7 @@ class AuthController extends StateNotifier<bool> {
     required String type,
   }) async {
     state = true;
+    final fcm = ref.watch(fcmTokenProvider);
     final res = await _authAPI.sign(nickname, email, password);
     state = false;
     res.fold(
@@ -103,7 +108,7 @@ class AuthController extends StateNotifier<bool> {
           ref.read(authControllerProvider.notifier).login(
                 email: email,
                 password: password,
-                fcmToken: 'test',
+                fcmToken: fcm,
                 context: context,
                 ref: ref,
               );

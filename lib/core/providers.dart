@@ -11,6 +11,15 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+final fcmTokenProvider = StateNotifierProvider<FcmToken, String>((ref) {
+  return FcmToken();
+});
+
+class FcmToken extends StateNotifier<String> {
+  FcmToken() : super('');
+  void onChange(String name) => state = name;
+}
+
 final bottomNavProvier = StateNotifierProvider<BottomNav, int>((ref) {
   return BottomNav();
 });

@@ -36,304 +36,308 @@ class SignUpScreen extends HookConsumerWidget {
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
       appBar: UIConstants.qaAppBar(context, '회원가입'),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            AssetsConstants.fontLogo,
-            height: 30.h,
-            color: AppColor.primaryColor,
-          ),
-          SizedBox(height: 20.h),
-          Text(
-            'FLAN 에 오신 것을 환영합니다.',
-            textAlign: TextAlign.center,
-            style: AppTextStyle.defaultTextStyle.copyWith(
-              fontSize: 13.sp,
-            ),
-          ),
-          SizedBox(height: 2.5.h),
-          Text(
-            '간편 회원가입을 하고 익명 질문을 주고받아 보세요.',
-            textAlign: TextAlign.center,
-            style: AppTextStyle.defaultTextStyle.copyWith(
-              fontSize: 13.sp,
-            ),
-          ),
-          SizedBox(height: 25.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: TextField(
-              controller: nameController,
-              cursorColor: AppColor.greyColor,
-              style: AppTextStyle.defaultTextStyle,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 1.w,
-                    color: AppColor.hintColor.withOpacity(0.5),
-                  ),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    width: 1.w,
-                    color: AppColor.hintColor,
-                  ),
-                ),
-                hintText: '닉네임을 입력하세요.',
-                hintStyle: AppTextStyle.hintStyle,
-                contentPadding: EdgeInsets.all(15.w),
-              ),
-            ),
-          ),
-          SizedBox(height: 10.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: TextField(
-              controller: emailController,
-              onChanged: (value) {
-                if (value == '') {
-                  errorText1.value = '';
-                } else {
-                  if (!RegExpConstants.email.hasMatch(value)) {
-                    errorText1.value = '이메일 형식이 아닙니다.';
-                  } else {
-                    errorText1.value = '';
-                  }
-                }
-              },
-              cursorColor: AppColor.greyColor,
-              style: AppTextStyle.defaultTextStyle,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 1.w,
-                    color: AppColor.hintColor.withOpacity(0.5),
-                  ),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    width: 1.w,
-                    color: AppColor.hintColor,
-                  ),
-                ),
-                hintText: '이메일을 입력하세요.',
-                hintStyle: AppTextStyle.hintStyle,
-                contentPadding: EdgeInsets.all(15.w),
-              ),
-            ),
-          ),
-          if (errorText1.value != '')
-            Padding(
-              padding: EdgeInsets.only(top: 5.h, left: 16.w),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  errorText1.value,
-                  style: AppTextStyle.defaultTextStyle.copyWith(
-                    color: AppColor.errorColor,
-                    fontSize: 11.sp,
-                  ),
-                ),
-              ),
-            ),
-          SizedBox(height: 10.h),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: TextField(
-              controller: pwController,
-              onChanged: (value) {
-                if (value == '') {
-                  errorText2.value = '';
-                } else {
-                  if (!RegExpConstants.passwordRegExp1.hasMatch(value)) {
-                    errorText2.value = '문자 + 숫자 8자리 이상이 아닙니다.';
-                  } else {
-                    errorText2.value = '';
-                  }
-                }
-              },
-              cursorColor: AppColor.greyColor,
-              style: AppTextStyle.defaultTextStyle,
-              obscureText: true,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    width: 1.w,
-                    color: AppColor.hintColor.withOpacity(0.5),
-                  ),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: BorderSide(
-                    width: 1.w,
-                    color: AppColor.hintColor,
-                  ),
-                ),
-                hintText: '비밀번호를 입력하세요.',
-                hintStyle: AppTextStyle.hintStyle,
-                contentPadding: EdgeInsets.all(15.w),
-              ),
-            ),
-          ),
-          if (errorText2.value != '')
-            Padding(
-              padding: EdgeInsets.only(top: 5.h, left: 16.w),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  errorText2.value,
-                  style: AppTextStyle.defaultTextStyle.copyWith(
-                    color: AppColor.errorColor,
-                    fontSize: 11.sp,
-                  ),
-                ),
-              ),
-            ),
-          SizedBox(height: 20.h),
-          GestureDetector(
-            onTap: () {
-              if (errorText1.value == '' && errorText2.value == '') {
-                ref.read(authControllerProvider.notifier).sign(
-                      nickname: nameController.text,
-                      email: emailController.text,
-                      password: pwController.text,
-                      type: 'zalo',
-                      context: context,
-                      ref: ref,
-                    );
-              }
-            },
-            child: Container(
-              width: 1.sw,
-              height: 40.h,
-              margin: EdgeInsets.symmetric(horizontal: 15.w),
-              decoration: BoxDecoration(
-                color: AppColor.primaryColor,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Center(
-                child: Text(
-                  '회원가입',
-                  style: AppTextStyle.defaultTextStyle.copyWith(
-                    color: Colors.white,
-                    fontSize: 13.sp,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 20.h),
-          Row(
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              SvgPicture.asset(
+                AssetsConstants.fontLogo,
+                height: 30.h,
+                color: AppColor.primaryColor,
+              ),
+              SizedBox(height: 20.h),
               Text(
-                'FLAN 의 계정이 있다면 ?',
+                'FLAN 에 오신 것을 환영합니다.',
+                textAlign: TextAlign.center,
                 style: AppTextStyle.defaultTextStyle.copyWith(
                   fontSize: 13.sp,
                 ),
               ),
+              SizedBox(height: 2.5.h),
+              Text(
+                '간편 회원가입을 하고 익명 질문을 주고받아 보세요.',
+                textAlign: TextAlign.center,
+                style: AppTextStyle.defaultTextStyle.copyWith(
+                  fontSize: 13.sp,
+                ),
+              ),
+              SizedBox(height: 25.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: TextField(
+                  controller: nameController,
+                  cursorColor: AppColor.greyColor,
+                  style: AppTextStyle.defaultTextStyle,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 1.w,
+                        color: AppColor.hintColor.withOpacity(0.5),
+                      ),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide(
+                        width: 1.w,
+                        color: AppColor.hintColor,
+                      ),
+                    ),
+                    hintText: '닉네임을 입력하세요.',
+                    hintStyle: AppTextStyle.hintStyle,
+                    contentPadding: EdgeInsets.all(15.w),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: TextField(
+                  controller: emailController,
+                  onChanged: (value) {
+                    if (value == '') {
+                      errorText1.value = '';
+                    } else {
+                      if (!RegExpConstants.email.hasMatch(value)) {
+                        errorText1.value = '이메일 형식이 아닙니다.';
+                      } else {
+                        errorText1.value = '';
+                      }
+                    }
+                  },
+                  cursorColor: AppColor.greyColor,
+                  style: AppTextStyle.defaultTextStyle,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 1.w,
+                        color: AppColor.hintColor.withOpacity(0.5),
+                      ),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide(
+                        width: 1.w,
+                        color: AppColor.hintColor,
+                      ),
+                    ),
+                    hintText: '이메일을 입력하세요.',
+                    hintStyle: AppTextStyle.hintStyle,
+                    contentPadding: EdgeInsets.all(15.w),
+                  ),
+                ),
+              ),
+              if (errorText1.value != '')
+                Padding(
+                  padding: EdgeInsets.only(top: 5.h, left: 16.w),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      errorText1.value,
+                      style: AppTextStyle.defaultTextStyle.copyWith(
+                        color: AppColor.errorColor,
+                        fontSize: 11.sp,
+                      ),
+                    ),
+                  ),
+                ),
+              SizedBox(height: 10.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: TextField(
+                  controller: pwController,
+                  onChanged: (value) {
+                    if (value == '') {
+                      errorText2.value = '';
+                    } else {
+                      if (!RegExpConstants.passwordRegExp1.hasMatch(value)) {
+                        errorText2.value = '문자 + 숫자 8자리 이상이 아닙니다.';
+                      } else {
+                        errorText2.value = '';
+                      }
+                    }
+                  },
+                  cursorColor: AppColor.greyColor,
+                  style: AppTextStyle.defaultTextStyle,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 1.w,
+                        color: AppColor.hintColor.withOpacity(0.5),
+                      ),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: BorderSide(
+                        width: 1.w,
+                        color: AppColor.hintColor,
+                      ),
+                    ),
+                    hintText: '비밀번호를 입력하세요.',
+                    hintStyle: AppTextStyle.hintStyle,
+                    contentPadding: EdgeInsets.all(15.w),
+                  ),
+                ),
+              ),
+              if (errorText2.value != '')
+                Padding(
+                  padding: EdgeInsets.only(top: 5.h, left: 16.w),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      errorText2.value,
+                      style: AppTextStyle.defaultTextStyle.copyWith(
+                        color: AppColor.errorColor,
+                        fontSize: 11.sp,
+                      ),
+                    ),
+                  ),
+                ),
+              SizedBox(height: 20.h),
               GestureDetector(
                 onTap: () {
-                  context.go('/login');
+                  if (errorText1.value == '' && errorText2.value == '') {
+                    ref.read(authControllerProvider.notifier).sign(
+                          nickname: nameController.text,
+                          email: emailController.text,
+                          password: pwController.text,
+                          type: 'zalo',
+                          context: context,
+                          ref: ref,
+                        );
+                  }
                 },
                 child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 5.w),
-                  child: Text(
-                    '로그인',
-                    style: AppTextStyle.boldTextStyle.copyWith(
-                      fontSize: 13.sp,
-                      color: AppColor.primaryColor,
-                      decoration: TextDecoration.underline,
+                  width: 1.sw,
+                  height: 40.h,
+                  margin: EdgeInsets.symmetric(horizontal: 15.w),
+                  decoration: BoxDecoration(
+                    color: AppColor.primaryColor,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '회원가입',
+                      style: AppTextStyle.defaultTextStyle.copyWith(
+                        color: Colors.white,
+                        fontSize: 13.sp,
+                      ),
                     ),
                   ),
                 ),
               ),
-              Text(
-                '하세요.',
-                style: AppTextStyle.defaultTextStyle.copyWith(
-                  fontSize: 13.sp,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 40.h),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+              SizedBox(height: 20.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    '가입하면 FLAN 의 ',
+                    'FLAN 의 계정이 있다면 ?',
                     style: AppTextStyle.defaultTextStyle.copyWith(
                       fontSize: 13.sp,
                     ),
                   ),
                   GestureDetector(
                     onTap: () {
-                      // 약관
+                      context.go('/login');
                     },
-                    child: Text(
-                      '약관',
-                      style: AppTextStyle.boldTextStyle.copyWith(
-                        fontSize: 13.sp,
-                        decoration: TextDecoration.underline,
-                        color: AppColor.primaryColor,
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 5.w),
+                      child: Text(
+                        '로그인',
+                        style: AppTextStyle.boldTextStyle.copyWith(
+                          fontSize: 13.sp,
+                          color: AppColor.primaryColor,
+                          decoration: TextDecoration.underline,
+                        ),
                       ),
                     ),
                   ),
                   Text(
-                    ' 및 ',
-                    style: AppTextStyle.defaultTextStyle.copyWith(
-                      fontSize: 13.sp,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      // 약관
-                    },
-                    child: Text(
-                      '개인정보취급방침',
-                      style: AppTextStyle.boldTextStyle.copyWith(
-                        fontSize: 13.sp,
-                        decoration: TextDecoration.underline,
-                        color: AppColor.primaryColor,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    '에',
+                    '하세요.',
                     style: AppTextStyle.defaultTextStyle.copyWith(
                       fontSize: 13.sp,
                     ),
                   ),
                 ],
               ),
-              Text(
-                '동의하게 됩니다.',
-                style: AppTextStyle.defaultTextStyle.copyWith(
-                  fontSize: 13.sp,
-                ),
+              SizedBox(height: 40.h),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '가입하면 FLAN 의 ',
+                        style: AppTextStyle.defaultTextStyle.copyWith(
+                          fontSize: 13.sp,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          // 약관
+                        },
+                        child: Text(
+                          '약관',
+                          style: AppTextStyle.boldTextStyle.copyWith(
+                            fontSize: 13.sp,
+                            decoration: TextDecoration.underline,
+                            color: AppColor.primaryColor,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        ' 및 ',
+                        style: AppTextStyle.defaultTextStyle.copyWith(
+                          fontSize: 13.sp,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          // 약관
+                        },
+                        child: Text(
+                          '개인정보취급방침',
+                          style: AppTextStyle.boldTextStyle.copyWith(
+                            fontSize: 13.sp,
+                            decoration: TextDecoration.underline,
+                            color: AppColor.primaryColor,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        '에',
+                        style: AppTextStyle.defaultTextStyle.copyWith(
+                          fontSize: 13.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    '동의하게 됩니다.',
+                    style: AppTextStyle.defaultTextStyle.copyWith(
+                      fontSize: 13.sp,
+                    ),
+                  ),
+                ],
               ),
+              SizedBox(height: 80.h),
             ],
           ),
-          SizedBox(height: 80.h),
-        ],
+        ),
       ),
     );
   }
