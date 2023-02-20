@@ -35,7 +35,7 @@ class CommunityScreen extends HookConsumerWidget {
     useEffect(() {
       final currentTap = ref.watch(bottomNavProvier);
 
-      if (currentTap == 1 && context.mounted) {
+      if (context.mounted && currentTap == 1) {
         Future.microtask(() async {
           page.value = await ref
               .watch(communityControllerProvider.notifier)

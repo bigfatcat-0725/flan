@@ -119,24 +119,33 @@ class BookmarkCommunityDetail extends HookConsumerWidget {
                               child: Row(
                                 children: List.generate(
                                     contentImgList.length,
-                                    (index) => Container(
-                                          width: 1.sw,
-                                          height: 140.h,
-                                          margin: EdgeInsets.only(
-                                            right: contentImgList[
-                                                        contentImgList.length -
-                                                            1] ==
-                                                    contentImgList[index]
-                                                ? 0.w
-                                                : 10.w,
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: CachedNetworkImage(
-                                              imageUrl:
-                                                  'http://topping.io:8855${contentImgList[index]}',
-                                              fit: BoxFit.cover,
+                                    (index) => GestureDetector(
+                                          onTap: () {
+                                            context.push('/photo', extra: {
+                                              'img':
+                                                  'http://topping.io:8855${contentImgList[index]}'
+                                            });
+                                          },
+                                          child: Container(
+                                            width: 1.sw,
+                                            height: 140.h,
+                                            margin: EdgeInsets.only(
+                                              right: contentImgList[
+                                                          contentImgList
+                                                                  .length -
+                                                              1] ==
+                                                      contentImgList[index]
+                                                  ? 0.w
+                                                  : 10.w,
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: CachedNetworkImage(
+                                                imageUrl:
+                                                    'http://topping.io:8855${contentImgList[index]}',
+                                                fit: BoxFit.cover,
+                                              ),
                                             ),
                                           ),
                                         )),

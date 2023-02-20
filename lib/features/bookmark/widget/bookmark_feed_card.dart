@@ -50,7 +50,7 @@ class BookmarkFeedCard extends HookConsumerWidget {
     // 좋아요 && 북마크 확인
     useEffect(() {
       // mount 상황이 아니라면 불러오지 않는다. 예기치 않는 오류 해결.
-      if (isMounted()) {
+      if (context.mounted) {
         Future.microtask(() async {
           final status =
               await ref.read(profileControllerProvider.notifier).isLikeQuestion(
@@ -64,12 +64,12 @@ class BookmarkFeedCard extends HookConsumerWidget {
                 seq: data.questions!.seq as int,
               );
 
-          if (likeStatus.hasListeners && status == 1) {
+          if (context.mounted && status == 1) {
             likeStatus.value = true;
           } else {
             likeStatus.value = false;
           }
-          if (saveStatus.hasListeners && bookmarkStatus > 0) {
+          if (context.mounted && bookmarkStatus > 0) {
             saveStatus.value = true;
           } else {
             saveStatus.value = false;
@@ -396,14 +396,22 @@ class BookmarkFeedCard extends HookConsumerWidget {
                   ),
                   child: Stack(
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(5.w),
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              'http://topping.io:8855${data.questions!.answer![0].answers!.photo}',
-                          width: 1.sw,
-                          height: 150.h,
-                          fit: BoxFit.cover,
+                      GestureDetector(
+                        onTap: () {
+                          context.push('/photo', extra: {
+                            'img':
+                                'http://topping.io:8855${data.questions!.answer![0].answers!.photo}'
+                          });
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(5.w),
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                'http://topping.io:8855${data.questions!.answer![0].answers!.photo}',
+                            width: 1.sw,
+                            height: 150.h,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ],

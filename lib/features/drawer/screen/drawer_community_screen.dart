@@ -6,6 +6,7 @@ import 'package:flan/features/drawer/controller/drawer_controller.dart';
 import 'package:flan/features/drawer/widget/drawer_community_card.dart';
 import 'package:flan/models/page/page_model.dart';
 import 'package:flan/theme/theme.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,20 +19,8 @@ class DrawerCommunityScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tabController = useTabController(initialLength: 1);
-    final writtenPage = useState([]);
+    final tabController = useTabController(initialLength: 2);
     final userInfo = ref.watch(userInfoProvier);
-
-    useEffect(() {
-      if (context.mounted) {
-        Future.microtask(() async {
-          writtenPage.value = await ref
-              .watch(drawerControllerProvider.notifier)
-              .writtenPage(userInfo!.userInfo!.seq as int);
-        });
-      }
-      return null;
-    }, []);
 
     return Scaffold(
       appBar: UIConstants.qaAppBar(context, '커뮤니티 관리'),
@@ -51,6 +40,9 @@ class DrawerCommunityScreen extends HookConsumerWidget {
                     Tab(
                       text: '내가 쓴 글',
                     ),
+                    Tab(
+                      text: '내가 쓴 댓글',
+                    ),
                   ],
                 ),
                 SizedBox(height: 10.h),
@@ -58,13 +50,31 @@ class DrawerCommunityScreen extends HookConsumerWidget {
                   child: TabBarView(
                     controller: tabController,
                     children: [
+                      ref
+                          .watch(
+                              writtenProvider(userInfo!.userInfo!.seq as int))
+                          .when(
+                            data: (data) {
+                              return ListView.builder(
+                                itemCount: data.length,
+                                itemBuilder: (context, index) {
+                                  return DrawerCommunityCard(
+                                    item: data[index],
+                                  );
+                                },
+                              );
+                            },
+                            error: (error, stackTrace) => Center(
+                              child: Text(error.toString()),
+                            ),
+                            loading: () => const Center(
+                              child: CupertinoActivityIndicator(),
+                            ),
+                          ),
                       ListView.builder(
-                        // physics: const ClampingScrollPhysics(),
-                        itemCount: writtenPage.value.length,
+                        itemCount: 0,
                         itemBuilder: (context, index) {
-                          return DrawerCommunityCard(
-                            item: writtenPage.value[index],
-                          );
+                          return Container();
                         },
                       ),
                     ],

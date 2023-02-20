@@ -207,7 +207,7 @@ class UIConstants {
                     AssetsConstants.back,
                     width: 15.h,
                     height: 15.h,
-                    color: AppColor.primaryColor,
+                    color: AppColor.textColor,
                   ),
                 ),
               ),
@@ -221,7 +221,7 @@ class UIConstants {
                   title,
                   style: AppTextStyle.boldTextStyle.copyWith(
                     fontSize: 15.sp,
-                    color: AppColor.primaryColor,
+                    color: AppColor.textColor,
                   ),
                 ),
               ),

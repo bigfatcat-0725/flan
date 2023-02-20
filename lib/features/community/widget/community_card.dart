@@ -47,12 +47,12 @@ class CommunityCard extends HookConsumerWidget {
                 seq: item.pages!.seq as int,
               );
 
-          if (status == 1) {
+          if (context.mounted && status == 1) {
             isLike.value = true;
           } else {
             isLike.value = false;
           }
-          if (bookmarkStatus == 1) {
+          if (context.mounted && bookmarkStatus == 1) {
             saveStatus.value = true;
           } else {
             saveStatus.value = false;

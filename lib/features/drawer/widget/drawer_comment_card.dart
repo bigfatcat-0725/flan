@@ -14,10 +14,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class DetailCommentCard extends HookConsumerWidget {
+class DrawerCommentCard extends HookConsumerWidget {
   final CommentModel comment;
-  final PageModel page;
-  const DetailCommentCard({
+  final Pages page;
+  const DrawerCommentCard({
     required this.comment,
     required this.page,
     Key? key,
@@ -111,13 +111,13 @@ class DetailCommentCard extends HookConsumerWidget {
                 final myData =
                     userInfo!.userInfo!.seq == comment.users!.seq ? 1 : 0;
 
-                commentMore(
-                  context,
-                  page: page,
-                  comment: comment,
-                  myData: myData,
-                  ref: ref,
-                );
+                // commentMore(
+                //   context,
+                //   page: page,
+                //   comment: comment,
+                //   myData: myData,
+                //   ref: ref,
+                // );
               },
               child: Icon(
                 Icons.more_horiz,

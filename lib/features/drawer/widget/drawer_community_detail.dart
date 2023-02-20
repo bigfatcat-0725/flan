@@ -1,8 +1,9 @@
 import 'package:flan/constants/assets_constants.dart';
 import 'package:flan/constants/ui_constants.dart';
 import 'package:flan/core/providers.dart';
+import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
-import 'package:flan/features/community/widget/detail_comment_card.dart';
+import 'package:flan/features/drawer/widget/drawer_comment_card.dart';
 import 'package:flan/models/page/page_model.dart';
 import 'package:flan/theme/app_color.dart';
 import 'package:flan/theme/app_text_theme.dart';
@@ -15,19 +16,21 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class CommunityDetailScreen extends HookConsumerWidget {
-  final PageModel page;
-  const CommunityDetailScreen({
+class DrawerCommunityDetail extends HookConsumerWidget {
+  final Pages page;
+  const DrawerCommunityDetail({
     required this.page,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userInfo = ref.watch(userInfoProvier);
+
     useEffect(() {
       if (context.mounted) {
         Future.microtask(
-            () => ref.invalidate(commentProvider(page.pages!.seq as int)));
+            () => ref.invalidate(commentProvider(page.seq as int)));
       }
 
       return null;
@@ -37,8 +40,8 @@ class CommunityDetailScreen extends HookConsumerWidget {
     // 새로 api 하나만 들고오는 걸로 바꿔야 함.
 
     final List<String> contentImgList =
-        page.pages!.photo != "" ? page.pages!.photo.toString().split(',') : [];
-    final tagList = page.pages!.tag!.split(',');
+        page.photo != "" ? page.photo.toString().split(',') : [];
+    final tagList = page.tag!.split(',');
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
@@ -81,9 +84,7 @@ class CommunityDetailScreen extends HookConsumerWidget {
                           ),
                           SizedBox(width: 5.w),
                           Text(
-                            page.pages!.private == 1
-                                ? page.users!.nickname.toString()
-                                : '익명',
+                            userInfo!.userInfo!.nickname.toString(),
                             style: AppTextStyle.defaultTextStyle.copyWith(
                               fontSize: 11.sp,
                               color: AppColor.primaryColor,
@@ -91,7 +92,7 @@ class CommunityDetailScreen extends HookConsumerWidget {
                           ),
                           SizedBox(width: 5.w),
                           Text(
-                            page.pages!.remaining.toString(),
+                            page.remaining.toString(),
                             style: AppTextStyle.hintStyle.copyWith(
                               fontSize: 11.sp,
                             ),
@@ -100,14 +101,14 @@ class CommunityDetailScreen extends HookConsumerWidget {
                       ),
                       SizedBox(height: 10.h),
                       Text(
-                        page.pages!.title.toString(),
+                        page.title.toString(),
                         style: AppTextStyle.boldTextStyle.copyWith(
                           fontSize: 13.sp,
                         ),
                       ),
                       SizedBox(height: 5.h),
                       Text(
-                        page.pages!.content.toString(),
+                        page.content.toString(),
                         style: AppTextStyle.defaultTextStyle,
                       ),
                     ],
@@ -183,7 +184,7 @@ class CommunityDetailScreen extends HookConsumerWidget {
             ),
           ),
           SizedBox(height: 10.h),
-          ref.watch(commentProvider(page.pages!.seq as int)).when(
+          ref.watch(commentProvider(page.seq as int)).when(
                 data: (data) {
                   return data.isEmpty
                       ? Padding(
@@ -205,7 +206,7 @@ class CommunityDetailScreen extends HookConsumerWidget {
                                     return Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 16.w),
-                                      child: DetailCommentCard(
+                                      child: DrawerCommentCard(
                                           page: page, comment: comment),
                                     );
                                   },

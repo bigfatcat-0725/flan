@@ -1,3 +1,4 @@
+import 'package:flan/common/photo_screen.dart';
 import 'package:flan/features/auth/screen/login_screen.dart';
 import 'package:flan/features/auth/screen/signup_screen.dart';
 import 'package:flan/features/bell/screen/bell_screen.dart';
@@ -55,6 +56,17 @@ final GoRouter router = GoRouter(
       pageBuilder: (context, state) =>
           const NoTransitionPage(child: DefaultScreen()),
       routes: ([
+        GoRoute(
+          path: 'photo',
+          pageBuilder: (context, state) {
+            final object = state.extra as Map<String, dynamic>;
+
+            return NoTransitionPage(
+                child: PhotoScreen(
+              img: object['img'],
+            ));
+          },
+        ),
         GoRoute(
           path: 'main_detail',
           pageBuilder: (context, state) {

@@ -63,12 +63,12 @@ class HomeFeedCard extends HookConsumerWidget {
                 seq: data.questions!.seq as int,
               );
 
-          if (likeStatus.hasListeners && status == 1) {
+          if (context.mounted && status == 1) {
             likeStatus.value = true;
           } else {
             likeStatus.value = false;
           }
-          if (saveStatus.hasListeners && bookmarkStatus > 0) {
+          if (context.mounted && bookmarkStatus > 0) {
             saveStatus.value = true;
           } else {
             saveStatus.value = false;
@@ -230,23 +230,32 @@ class HomeFeedCard extends HookConsumerWidget {
                         child: Row(
                           children: List.generate(
                               contentImgList.length,
-                              (index) => Container(
-                                    width: 1.sw,
-                                    height: 140.h,
-                                    margin: EdgeInsets.only(
-                                      bottom: 10.h,
-                                      right: contentImgList[
-                                                  contentImgList.length - 1] ==
-                                              contentImgList[index]
-                                          ? 0.w
-                                          : 10.w,
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: CachedNetworkImage(
-                                        imageUrl:
-                                            'http://topping.io:8855${contentImgList[index]}',
-                                        fit: BoxFit.cover,
+                              (index) => GestureDetector(
+                                    onTap: () {
+                                      context.push('/photo', extra: {
+                                        'img':
+                                            'http://topping.io:8855${contentImgList[index]}'
+                                      });
+                                    },
+                                    child: Container(
+                                      width: 1.sw,
+                                      height: 140.h,
+                                      margin: EdgeInsets.only(
+                                        bottom: 10.h,
+                                        right: contentImgList[
+                                                    contentImgList.length -
+                                                        1] ==
+                                                contentImgList[index]
+                                            ? 0.w
+                                            : 10.w,
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: CachedNetworkImage(
+                                          imageUrl:
+                                              'http://topping.io:8855${contentImgList[index]}',
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
                                   )),
@@ -394,14 +403,22 @@ class HomeFeedCard extends HookConsumerWidget {
                   ),
                   child: Stack(
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(5.w),
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              'http://topping.io:8855${data.questions!.answer![0].answers!.photo}',
-                          width: 1.sw,
-                          height: 150.h,
-                          fit: BoxFit.cover,
+                      GestureDetector(
+                        onTap: () {
+                          context.push('/photo', extra: {
+                            'img':
+                                'http://topping.io:8855${data.questions!.answer![0].answers!.photo}'
+                          });
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(5.w),
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                'http://topping.io:8855${data.questions!.answer![0].answers!.photo}',
+                            width: 1.sw,
+                            height: 150.h,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ],

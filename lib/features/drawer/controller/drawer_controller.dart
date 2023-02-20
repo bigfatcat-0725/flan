@@ -19,6 +19,11 @@ final drawerControllerProvider =
   );
 });
 
+final writtenProvider = FutureProvider.autoDispose.family((ref, int seq) {
+  final communityContoller = ref.watch(drawerControllerProvider.notifier);
+  return communityContoller.writtenPage(seq);
+});
+
 class DrawerController extends StateNotifier<bool> {
   final UserAPI _userAPI;
   DrawerController({

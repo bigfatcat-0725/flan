@@ -1,10 +1,10 @@
+import 'dart:convert';
+
 import 'package:flan/apis/feed_api.dart';
 import 'package:flan/apis/page_api.dart';
-import 'package:flan/models/bookmark/bookmark_question_model.dart';
-import 'package:flan/models/feed/feed_model.dart';
-import 'package:flan/models/home_feed/home_feed_model.dart';
 import 'package:flan/models/page/page_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 final mainControllerProvider =
     StateNotifierProvider<MainController, bool>((ref) {
@@ -45,5 +45,25 @@ class MainController extends StateNotifier<bool> {
   Future<List> getHomeFeed(int seq) async {
     final res = await _feedAPI.getHomeFeed(seq);
     return res;
+  }
+
+  getFeedDetail(int seq) async {
+    final url = Uri.parse('http://topping.io:8855/API/questions/one/$seq');
+    final res = await http.get(url, headers: {
+      "Content-Type": "application/json",
+      "accept": "application/json",
+    });
+    final decodeData = utf8.decode(res.bodyBytes);
+    final response = jsonDecode(decodeData);
+  }
+
+  getFeedAnswerDetail(int seq) async {
+    final url = Uri.parse('http://topping.io:8855/API/questions/one/$seq');
+    final res = await http.get(url, headers: {
+      "Content-Type": "application/json",
+      "accept": "application/json",
+    });
+    final decodeData = utf8.decode(res.bodyBytes);
+    final response = jsonDecode(decodeData);
   }
 }
