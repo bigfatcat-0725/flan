@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flan/apis/comment_api.dart';
@@ -13,6 +14,7 @@ import 'package:flan/models/page/page_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 final communityControllerProvider =
     StateNotifierProvider<CommunityController, bool>((ref) {
@@ -31,10 +33,18 @@ final themePageProvider = FutureProvider.family((ref, String tag) {
   final communityContoller = ref.watch(communityControllerProvider.notifier);
   return communityContoller.getThemePage(tag);
 });
+final onePageProvider = FutureProvider.family((ref, int seq) {
+  final communityContoller = ref.watch(communityControllerProvider.notifier);
+  return communityContoller.getPageOne(seq);
+});
 
 final commentProvider = FutureProvider.family((ref, int seq) {
   final communityContoller = ref.watch(communityControllerProvider.notifier);
   return communityContoller.getComment(seq);
+});
+final commentMyProvider = FutureProvider.family((ref, int seq) {
+  final communityContoller = ref.watch(communityControllerProvider.notifier);
+  return communityContoller.getMyComment(seq);
 });
 
 class CommunityController extends StateNotifier<bool> {
@@ -50,6 +60,14 @@ class CommunityController extends StateNotifier<bool> {
   Future<List<CommentModel>> getComment(int seq) async {
     final res = await _commentAPI.getComment(seq);
     final commentList = res.map((e) => CommentModel.fromJson(e)).toList();
+    return commentList;
+  }
+
+  Future<List<Comment>> getMyComment(int seq) async {
+    final res = await _commentAPI.getMyComment(seq);
+
+    final commentList = res.map((e) => Comment.fromJson(e)).toList();
+
     return commentList;
   }
 
@@ -177,11 +195,52 @@ class CommunityController extends StateNotifier<bool> {
     );
   }
 
+  void writtenComment(
+    List<File> imgList, {
+    required int user,
+    required int page,
+    required String reply,
+    required BuildContext context,
+    required WidgetRef ref,
+  }) async {
+    state = true;
+    final res = await _commentAPI.postComment(
+      imgList,
+      user: user,
+      page: page,
+      reply: reply,
+    );
+    state = false;
+    res.fold(
+      (l) => null,
+      (r) {
+        if (r == 200) {
+          ref.invalidate(writtenProvider(user));
+          ref.invalidate(commentProvider(page));
+
+          context.pushReplacement('/written_detail', extra: {
+            'page': page,
+          });
+        }
+      },
+    );
+  }
+
   Future<List<PageModel>> getAllPage() async {
     List<PageModel> pageList = [];
     final res = await _pageAPI.getAllPage();
     pageList = [...res.map((e) => PageModel.fromJson(e)).toList()];
     return pageList;
+  }
+
+  Future<PageModel> getPageOne(seq) async {
+    final url = Uri.parse('http://topping.io:8855/API/pages/pages_one/$seq');
+    final data = await http.get(url, headers: {
+      "accept": "application/json",
+    });
+    final decodeData = utf8.decode(data.bodyBytes);
+    final response = PageModel.fromJson(jsonDecode(decodeData));
+    return response;
   }
 
   Future<List<PageModel>> getThemePage(String tag) async {
@@ -350,7 +409,7 @@ class CommunityController extends StateNotifier<bool> {
 
   void deleteCommentDrawer({
     required int seq,
-    required Pages page,
+    required int page,
     required WidgetRef ref,
     required BuildContext context,
   }) async {
@@ -364,7 +423,7 @@ class CommunityController extends StateNotifier<bool> {
       } else {
         ref.invalidate(themePageProvider(current));
       }
-      ref.invalidate(commentProvider(page.seq as int));
+      ref.invalidate(commentProvider(page));
       ref.invalidate(writtenProvider(userInfo!.userInfo!.seq as int));
 
       if (context.mounted) {

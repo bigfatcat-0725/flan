@@ -185,7 +185,7 @@ class DrawerCommunityDetail extends HookConsumerWidget {
             ),
           ),
           SizedBox(height: 10.h),
-          ref.watch(commentProvider(page.seq as int)).when(
+          ref.watch(commentMyProvider(page.seq as int)).when(
                 data: (data) {
                   return data.isEmpty
                       ? Padding(
@@ -208,7 +208,8 @@ class DrawerCommunityDetail extends HookConsumerWidget {
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 16.w),
                                       child: DrawerCommentCard(
-                                          page: page, comment: comment),
+                                          page: page.seq as int,
+                                          comment: comment),
                                     );
                                   },
                                 ),

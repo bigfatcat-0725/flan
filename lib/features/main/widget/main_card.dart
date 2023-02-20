@@ -61,12 +61,14 @@ class MainCard extends HookConsumerWidget {
                 seq: data.questions!.seq as int,
               );
 
-          if (context.mounted && status == 1) {
+          if (context.mounted && likeStatus.hasListeners && status == 1) {
             likeStatus.value = true;
           } else {
             likeStatus.value = false;
           }
-          if (context.mounted && bookmarkStatus > 0) {
+          if (context.mounted &&
+              saveStatus.hasListeners &&
+              bookmarkStatus > 0) {
             saveStatus.value = true;
           } else {
             saveStatus.value = false;

@@ -8,10 +8,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class DrawerCommentCard extends HookConsumerWidget {
-  final Comment comment;
+class WrittenCommentCard extends HookConsumerWidget {
+  final CommentModel comment;
   final int page;
-  const DrawerCommentCard({
+  const WrittenCommentCard({
     required this.comment,
     required this.page,
     Key? key,
@@ -20,8 +20,8 @@ class DrawerCommentCard extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final List<String> contentImgList =
-        (comment.photo != null && comment.photo != "")
-            ? comment.photo.toString().split(',')
+        (comment.comment!.photo != null && comment.comment!.photo != "")
+            ? comment.comment!.photo.toString().split(',')
             : [];
 
     return GestureDetector(
@@ -57,14 +57,14 @@ class DrawerCommentCard extends HookConsumerWidget {
               children: [
                 Expanded(
                   child: Text(
-                    comment.reply.toString(),
+                    comment.comment!.reply.toString(),
                   ),
                 ),
                 SizedBox(width: 10.w),
                 Row(
                   children: [
                     Text(
-                      comment.remaining.toString(),
+                      comment.comment!.remaining.toString(),
                       style: AppTextStyle.hintStyle.copyWith(fontSize: 11.sp),
                     ),
                     SizedBox(width: 10.w),
@@ -72,7 +72,7 @@ class DrawerCommentCard extends HookConsumerWidget {
                       onTap: () {
                         final myData = 1;
 
-                        commentDrawer(
+                        commentWrittenDrawer(
                           context,
                           page: page,
                           comment: comment,

@@ -27,6 +27,9 @@ import 'package:flan/features/drawer/widget/setting_bell.dart';
 import 'package:flan/features/drawer/widget/setting_find_password.dart';
 import 'package:flan/features/drawer/widget/setting_language.dart';
 import 'package:flan/features/drawer/widget/setting_theme.dart';
+import 'package:flan/features/drawer/widget/written_ask.dart';
+import 'package:flan/features/drawer/widget/written_detail.dart';
+import 'package:flan/features/drawer/widget/written_edit.dart';
 import 'package:flan/features/main/screen/main_detail_screen.dart';
 import 'package:flan/features/main/widget/main_detail_home.dart';
 import 'package:flan/features/qa/screen/ask_screen.dart';
@@ -124,6 +127,17 @@ final GoRouter router = GoRouter(
               child: AskScreen(
                 type: object['type'],
                 question: object['question'],
+              ),
+            );
+          },
+        ),
+        GoRoute(
+          path: 'written_ask',
+          pageBuilder: (context, state) {
+            final object = state.extra as Map<String, dynamic>;
+            return NoTransitionPage(
+              child: WrittenAsk(
+                page: object['page'],
               ),
             );
           },
@@ -234,6 +248,17 @@ final GoRouter router = GoRouter(
           },
         ),
         GoRoute(
+          path: 'written_comment_edit',
+          pageBuilder: (context, state) {
+            final object = state.extra as Map<String, dynamic>;
+            return NoTransitionPage(
+                child: WrittenEdit(
+              comment: object['comment'],
+              page: object['page'],
+            ));
+          },
+        ),
+        GoRoute(
           path: 'drawer_community_edit',
           pageBuilder: (context, state) {
             final object = state.extra as Map<String, dynamic>;
@@ -272,6 +297,16 @@ final GoRouter router = GoRouter(
             final object = state.extra as Map<String, dynamic>;
             return NoTransitionPage(
                 child: CommunityDetailScreen(
+              page: object['page'],
+            ));
+          },
+        ),
+        GoRoute(
+          path: 'written_detail',
+          pageBuilder: (context, state) {
+            final object = state.extra as Map<String, dynamic>;
+            return NoTransitionPage(
+                child: WrittenDetail(
               page: object['page'],
             ));
           },

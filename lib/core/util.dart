@@ -1599,7 +1599,158 @@ Future commentMore(
 Future commentDrawer(
   BuildContext context, {
   int myData = 0,
-  required Pages page,
+  required int page,
+  required Comment comment,
+  required WidgetRef ref,
+}) {
+  return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return AlertDialog(
+          alignment: Alignment.bottomCenter,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(5),
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Column(
+                children: [
+                  if (myData == 0)
+                    Column(
+                      children: [
+                        // GestureDetector(
+                        //   onTap: () {},
+                        //   child: Container(
+                        //     width: 1.sw,
+                        //     height: 40.h,
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(5),
+                        //       color: Colors.white,
+                        //     ),
+                        //     child: Center(
+                        //       child: Text(
+                        //         '차단',
+                        //         style: AppTextStyle.defaultTextStyle.copyWith(
+                        //           color: AppColor.errorColor,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        // SizedBox(height: 5.h),
+                        GestureDetector(
+                          onTap: () {
+                            final userInfo = ref.watch(userInfoProvier);
+                            report(
+                              context,
+                              type: 'c',
+                              user: userInfo!.userInfo!.seq as int,
+                              seq: comment.seq as int,
+                              ref: ref,
+                            );
+                            if (context.mounted) {
+                              context.pop();
+                            }
+                          },
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '신고',
+                                style: AppTextStyle.defaultTextStyle.copyWith(
+                                  color: AppColor.errorColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 5.h),
+                      ],
+                    ),
+                  if (myData == 1)
+                    Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            context.pop();
+                            context.push('/drawer_community_edit',
+                                extra: {'page': page, 'comment': comment});
+                          },
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '답변 수정하기',
+                                style: AppTextStyle.defaultTextStyle.copyWith(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 5.h),
+                        GestureDetector(
+                          onTap: () {
+                            // 답변 삭제
+                            ref
+                                .read(communityControllerProvider.notifier)
+                                .deleteCommentDrawer(
+                                  seq: comment.seq as int,
+                                  page: page,
+                                  ref: ref,
+                                  context: context,
+                                );
+                          },
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '답변 삭제하기',
+                                style: AppTextStyle.defaultTextStyle.copyWith(
+                                  color: AppColor.errorColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                ],
+              ),
+            ],
+          ),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 20.w,
+            vertical: 30.h,
+          ),
+          insetPadding: EdgeInsets.symmetric(horizontal: 0.w),
+        );
+      });
+}
+
+Future commentWrittenDrawer(
+  BuildContext context, {
+  int myData = 0,
+  required int page,
   required CommentModel comment,
   required WidgetRef ref,
 }) {
@@ -1684,7 +1835,7 @@ Future commentDrawer(
                         GestureDetector(
                           onTap: () {
                             context.pop();
-                            context.push('/drawer_community_edit',
+                            context.push('/written_comment_edit',
                                 extra: {'page': page, 'comment': comment});
                           },
                           child: Container(

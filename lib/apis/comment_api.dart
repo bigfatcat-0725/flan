@@ -23,6 +23,17 @@ class CommentAPI {
     return response;
   }
 
+  Future<List> getMyComment(seq) async {
+    final url = Uri.parse('http://topping.io:8855/API/comment/my_comment/$seq');
+    final data = await http.get(url, headers: {
+      "accept": "application/json",
+    });
+    final decodeData = utf8.decode(data.bodyBytes);
+    final response = jsonDecode(decodeData);
+
+    return response;
+  }
+
   FutureEither<int> postComment(
     List<File> imgList, {
     required int user,

@@ -1,10 +1,9 @@
 import 'package:flan/constants/constants.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
-import 'package:flan/features/community/widget/community_card.dart';
-import 'package:flan/features/community/widget/detail_comment_card.dart';
+import 'package:flan/features/community/controller/community_controller.dart';
 import 'package:flan/features/drawer/controller/drawer_controller.dart';
+import 'package:flan/features/drawer/widget/drawer_comment_card.dart';
 import 'package:flan/features/drawer/widget/drawer_community_card.dart';
-import 'package:flan/models/page/page_model.dart';
 import 'package:flan/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +20,14 @@ class DrawerCommunityScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tabController = useTabController(initialLength: 2);
     final userInfo = ref.watch(userInfoProvier);
+
+    useEffect(() {
+      Future.microtask(() {
+        ref
+            .read(communityControllerProvider.notifier)
+            .getMyComment(userInfo!.userInfo!.seq as int);
+      });
+    });
 
     return Scaffold(
       appBar: UIConstants.qaAppBar(context, '커뮤니티 관리'),
@@ -71,12 +78,41 @@ class DrawerCommunityScreen extends HookConsumerWidget {
                               child: CupertinoActivityIndicator(),
                             ),
                           ),
-                      ListView.builder(
-                        itemCount: 0,
-                        itemBuilder: (context, index) {
-                          return Container();
-                        },
-                      ),
+                      ref
+                          .watch(
+                              commentMyProvider(userInfo.userInfo!.seq as int))
+                          .when(
+                            data: (data) {
+                              return data.isEmpty
+                                  ? Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16.w),
+                                      child: Text(
+                                        '답변이 없어요.',
+                                        style: AppTextStyle.hintStyle,
+                                      ),
+                                    )
+                                  : ListView.builder(
+                                      itemCount: data.length,
+                                      itemBuilder: (context, index) {
+                                        final comment = data[index];
+                                        return Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 16.w),
+                                          child: DrawerCommentCard(
+                                              page: comment.pageSeq as int,
+                                              comment: comment),
+                                        );
+                                      },
+                                    );
+                            },
+                            error: (error, stackTrace) => Center(
+                              child: Text(error.toString()),
+                            ),
+                            loading: () => const Center(
+                              child: CupertinoActivityIndicator(),
+                            ),
+                          ),
                     ],
                   ),
                 ),
