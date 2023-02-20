@@ -86,7 +86,8 @@ class ProfileCardReject extends HookConsumerWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      showProfileNewCardMore(context);
+                      showProfileNewCardMore(context,
+                          ref: ref, qSeq: data.questions!.seq as int);
                     },
                     child: Icon(
                       Icons.more_horiz,

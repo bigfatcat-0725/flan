@@ -298,7 +298,7 @@ class MainCard extends HookConsumerWidget {
                           onTap: () {
                             showMore(
                               context,
-                              type: 'not default',
+                              type: 'a',
                               myData: isMyData,
                               data: data,
                               ref: ref,

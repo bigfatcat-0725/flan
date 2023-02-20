@@ -112,6 +112,7 @@ class BookmarkCommentCard extends HookConsumerWidget {
                   page: page,
                   comment: comment,
                   myData: myData,
+                  ref: ref,
                 );
               },
               child: Icon(

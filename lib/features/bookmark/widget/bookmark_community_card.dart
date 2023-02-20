@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flan/constants/constants.dart';
+import 'package:flan/core/providers.dart';
 import 'package:flan/core/util.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
@@ -24,7 +25,6 @@ class BookmarkCommunityCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isMounted = useIsMounted();
     final saveStatus = useState(false);
     final isLike = useState(false);
 
@@ -33,10 +33,14 @@ class BookmarkCommunityCard extends HookConsumerWidget {
     // 좋아요 && 북마크 확인
 
     final List<String> contentImgList =
-        item.pages!.photo != "" ? item.pages!.photo.toString().split(',') : [];
+        (item.pages!.photo != "" && item.pages!.photo != null)
+            ? item.pages!.photo.toString().split(',')
+            : [];
+
+    final tagList = item.pages!.tag!.split(',');
 
     useEffect(() {
-      if (isMounted()) {
+      if (context.mounted) {
         Future.microtask(() async {
           final status =
               await ref.read(communityControllerProvider.notifier).isLikePage(
@@ -50,12 +54,12 @@ class BookmarkCommunityCard extends HookConsumerWidget {
                 seq: item.pages!.seq as int,
               );
 
-          if (isLike.hasListeners && status == 1) {
+          if (status == 1) {
             isLike.value = true;
           } else {
             isLike.value = false;
           }
-          if (saveStatus.hasListeners && bookmarkStatus == 1) {
+          if (bookmarkStatus == 1) {
             saveStatus.value = true;
           } else {
             saveStatus.value = false;
@@ -229,7 +233,34 @@ class BookmarkCommunityCard extends HookConsumerWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 15.h),
+                  SizedBox(height: 5.h),
+                  Padding(
+                    padding: EdgeInsets.only(left: 16.w),
+                    child: Wrap(
+                      children: List.generate(
+                        tagList.length,
+                        (index) {
+                          if (tagList[index] == '') {
+                            return Container();
+                          } else {
+                            return GestureDetector(
+                              onTap: () {
+                                ref
+                                    .read(currentCategoryProvier.notifier)
+                                    .onChange(tagList[index].toString());
+                                context.push('/category');
+                              },
+                              child: Text(
+                                '#${tagList[index]}',
+                                style: AppTextStyle.hintStyle,
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 5.h),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
                     decoration: BoxDecoration(

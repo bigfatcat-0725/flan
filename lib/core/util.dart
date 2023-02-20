@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flan/core/core.dart';
+import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
+import 'package:flan/features/default/controller/default_controller.dart';
 import 'package:flan/features/profile/controller/profile_controller.dart';
 import 'package:flan/models/bookmark/bookmark_page_model.dart';
 import 'package:flan/models/bookmark/bookmark_question_model.dart';
@@ -464,28 +466,40 @@ Future bookmakrPageMore(
                   if (myData == 0)
                     Column(
                       children: [
+                        // GestureDetector(
+                        //   onTap: () {},
+                        //   child: Container(
+                        //     width: 1.sw,
+                        //     height: 40.h,
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(5),
+                        //       color: Colors.white,
+                        //     ),
+                        //     child: Center(
+                        //       child: Text(
+                        //         '차단',
+                        //         style: AppTextStyle.defaultTextStyle.copyWith(
+                        //           color: AppColor.errorColor,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        // SizedBox(height: 5.h),
                         GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            width: 1.sw,
-                            height: 40.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.white,
-                            ),
-                            child: Center(
-                              child: Text(
-                                '차단',
-                                style: AppTextStyle.defaultTextStyle.copyWith(
-                                  color: AppColor.errorColor,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 5.h),
-                        GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            final userInfo = ref.watch(userInfoProvier);
+                            report(
+                              context,
+                              type: 'p',
+                              user: userInfo!.userInfo!.seq as int,
+                              seq: page.pages!.seq as int,
+                              ref: ref,
+                            );
+                            if (context.mounted) {
+                              context.pop();
+                            }
+                          },
                           child: Container(
                             width: 1.sw,
                             height: 40.h,
@@ -609,28 +623,40 @@ Future pageMore(
                   if (myData == 0)
                     Column(
                       children: [
+                        // GestureDetector(
+                        //   onTap: () {},
+                        //   child: Container(
+                        //     width: 1.sw,
+                        //     height: 40.h,
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(5),
+                        //       color: Colors.white,
+                        //     ),
+                        //     child: Center(
+                        //       child: Text(
+                        //         '차단',
+                        //         style: AppTextStyle.defaultTextStyle.copyWith(
+                        //           color: AppColor.errorColor,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        // SizedBox(height: 5.h),
                         GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            width: 1.sw,
-                            height: 40.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.white,
-                            ),
-                            child: Center(
-                              child: Text(
-                                '차단',
-                                style: AppTextStyle.defaultTextStyle.copyWith(
-                                  color: AppColor.errorColor,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 5.h),
-                        GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            final userInfo = ref.watch(userInfoProvier);
+                            report(
+                              context,
+                              type: 'p',
+                              user: userInfo!.userInfo!.seq as int,
+                              seq: page.pages!.seq as int,
+                              ref: ref,
+                            );
+                            if (context.mounted) {
+                              context.pop();
+                            }
+                          },
                           child: Container(
                             width: 1.sw,
                             height: 40.h,
@@ -727,6 +753,82 @@ Future pageMore(
       });
 }
 
+const reportText = [
+  '만남 / 전화/ 구인 / 타 SNS로 유도',
+  '괴롭힘 또는 온라인 왕따',
+  ' 자살 또는 자해 언급',
+  '음란 및 청소년에게 부적절한 내용',
+  '홍보, 상업적 광고 및 게시물 도배',
+  '폭력 및 범죄 활동 유도'
+];
+
+Future report(
+  BuildContext context, {
+  required String type,
+  required int user,
+  required int seq,
+  required WidgetRef ref,
+}) {
+  return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return AlertDialog(
+          alignment: Alignment.bottomCenter,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(5),
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              for (var a in reportText)
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        ref.read(defaultControllerProvider.notifier).report(
+                              type: type,
+                              user: user,
+                              seq: seq,
+                              report: a.toString(),
+                            );
+                        if (context.mounted) {
+                          context.pop();
+                        }
+                      },
+                      child: Container(
+                        width: 1.sw,
+                        height: 40.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.white,
+                        ),
+                        child: Center(
+                          child: Text(
+                            a.toString(),
+                            style: AppTextStyle.defaultTextStyle.copyWith(),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 5.h),
+                  ],
+                ),
+            ],
+          ),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 20.w,
+            vertical: 30.h,
+          ),
+          insetPadding: EdgeInsets.symmetric(horizontal: 0.w),
+        );
+      });
+}
+
 Future showMore(
   BuildContext context, {
   String type = 'default',
@@ -758,29 +860,40 @@ Future showMore(
                         if (myData == 0)
                           Column(
                             children: [
+                              // GestureDetector(
+                              //   onTap: () {},
+                              //   child: Container(
+                              //     width: 1.sw,
+                              //     height: 40.h,
+                              //     decoration: BoxDecoration(
+                              //       borderRadius: BorderRadius.circular(5),
+                              //       color: Colors.white,
+                              //     ),
+                              //     child: Center(
+                              //       child: Text(
+                              //         '차단',
+                              //         style: AppTextStyle.defaultTextStyle
+                              //             .copyWith(
+                              //           color: AppColor.errorColor,
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
+                              // SizedBox(height: 5.h),
                               GestureDetector(
-                                onTap: () {},
-                                child: Container(
-                                  width: 1.sw,
-                                  height: 40.h,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: Colors.white,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '차단',
-                                      style: AppTextStyle.defaultTextStyle
-                                          .copyWith(
-                                        color: AppColor.errorColor,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 5.h),
-                              GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  final userInfo = ref.watch(userInfoProvier);
+                                  context.pop();
+                                  report(
+                                    context,
+                                    type: type,
+                                    seq: data.questions!.answer![0].answers!.seq
+                                        as int,
+                                    user: userInfo!.userInfo!.seq as int,
+                                    ref: ref,
+                                  );
+                                },
                                 child: Container(
                                   width: 1.sw,
                                   height: 40.h,
@@ -896,29 +1009,42 @@ Future showMoreBookmark(
                         if (myData == 0)
                           Column(
                             children: [
+                              // GestureDetector(
+                              //   onTap: () {},
+                              //   child: Container(
+                              //     width: 1.sw,
+                              //     height: 40.h,
+                              //     decoration: BoxDecoration(
+                              //       borderRadius: BorderRadius.circular(5),
+                              //       color: Colors.white,
+                              //     ),
+                              //     child: Center(
+                              //       child: Text(
+                              //         '차단',
+                              //         style: AppTextStyle.defaultTextStyle
+                              //             .copyWith(
+                              //           color: AppColor.errorColor,
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
+                              // SizedBox(height: 5.h),
                               GestureDetector(
-                                onTap: () {},
-                                child: Container(
-                                  width: 1.sw,
-                                  height: 40.h,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: Colors.white,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '차단',
-                                      style: AppTextStyle.defaultTextStyle
-                                          .copyWith(
-                                        color: AppColor.errorColor,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 5.h),
-                              GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  final userInfo = ref.watch(userInfoProvier);
+                                  report(
+                                    context,
+                                    type: 'q',
+                                    user: userInfo!.userInfo!.seq as int,
+                                    seq: data.questions!.answer![0].answers!.seq
+                                        as int,
+                                    ref: ref,
+                                  );
+                                  if (context.mounted) {
+                                    context.pop();
+                                  }
+                                },
                                 child: Container(
                                   width: 1.sw,
                                   height: 40.h,
@@ -1034,29 +1160,42 @@ Future showMoreHomeCard(
                         if (myData == 0)
                           Column(
                             children: [
+                              // GestureDetector(
+                              //   onTap: () {},
+                              //   child: Container(
+                              //     width: 1.sw,
+                              //     height: 40.h,
+                              //     decoration: BoxDecoration(
+                              //       borderRadius: BorderRadius.circular(5),
+                              //       color: Colors.white,
+                              //     ),
+                              //     child: Center(
+                              //       child: Text(
+                              //         '차단',
+                              //         style: AppTextStyle.defaultTextStyle
+                              //             .copyWith(
+                              //           color: AppColor.errorColor,
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ),
+                              // ),
+                              // SizedBox(height: 5.h),
                               GestureDetector(
-                                onTap: () {},
-                                child: Container(
-                                  width: 1.sw,
-                                  height: 40.h,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: Colors.white,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '차단',
-                                      style: AppTextStyle.defaultTextStyle
-                                          .copyWith(
-                                        color: AppColor.errorColor,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 5.h),
-                              GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  final userInfo = ref.watch(userInfoProvier);
+                                  report(
+                                    context,
+                                    type: 'a',
+                                    user: userInfo!.userInfo!.seq as int,
+                                    seq: data.questions!.answer![0].answers!.seq
+                                        as int,
+                                    ref: ref,
+                                  );
+                                  if (context.mounted) {
+                                    context.pop();
+                                  }
+                                },
                                 child: Container(
                                   width: 1.sw,
                                   height: 40.h,
@@ -1080,54 +1219,59 @@ Future showMoreHomeCard(
                           ),
                       ],
                     ),
-                  GestureDetector(
-                    onTap: () {
-                      context.push('/ask_home',
-                          extra: {'question': data, 'type': 'edit'});
-                    },
-                    child: Container(
-                      width: 1.sw,
-                      height: 40.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.white,
-                      ),
-                      child: Center(
-                        child: Text(
-                          '답변 수정하기',
-                          style: AppTextStyle.defaultTextStyle.copyWith(),
+                  if (myData == 1)
+                    GestureDetector(
+                      onTap: () {
+                        context.push('/ask_home',
+                            extra: {'question': data, 'type': 'edit'});
+                      },
+                      child: Container(
+                        width: 1.sw,
+                        height: 40.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.white,
                         ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5.h),
-                  GestureDetector(
-                    onTap: () {
-                      // 답변 삭제
-                      ref.read(profileControllerProvider.notifier).deleteAnswer(
-                            seq: data.questions!.answer![0].answers!.seq as int,
-                            mySeq: data.users!.seq as int,
-                            ref: ref,
-                            context: context,
-                          );
-                    },
-                    child: Container(
-                      width: 1.sw,
-                      height: 40.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.white,
-                      ),
-                      child: Center(
-                        child: Text(
-                          '답변 삭제하기',
-                          style: AppTextStyle.defaultTextStyle.copyWith(
-                            color: AppColor.errorColor,
+                        child: Center(
+                          child: Text(
+                            '답변 수정하기',
+                            style: AppTextStyle.defaultTextStyle.copyWith(),
                           ),
                         ),
                       ),
                     ),
-                  ),
+                  if (myData == 1) SizedBox(height: 5.h),
+                  if (myData == 1)
+                    GestureDetector(
+                      onTap: () {
+                        // 답변 삭제
+                        ref
+                            .read(profileControllerProvider.notifier)
+                            .deleteAnswer(
+                              seq: data.questions!.answer![0].answers!.seq
+                                  as int,
+                              mySeq: data.users!.seq as int,
+                              ref: ref,
+                              context: context,
+                            );
+                      },
+                      child: Container(
+                        width: 1.sw,
+                        height: 40.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: Colors.white,
+                        ),
+                        child: Center(
+                          child: Text(
+                            '답변 삭제하기',
+                            style: AppTextStyle.defaultTextStyle.copyWith(
+                              color: AppColor.errorColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                 ],
               ),
             ],
@@ -1169,28 +1313,40 @@ Future commentMore(
                   if (myData == 0)
                     Column(
                       children: [
+                        // GestureDetector(
+                        //   onTap: () {},
+                        //   child: Container(
+                        //     width: 1.sw,
+                        //     height: 40.h,
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(5),
+                        //       color: Colors.white,
+                        //     ),
+                        //     child: Center(
+                        //       child: Text(
+                        //         '차단',
+                        //         style: AppTextStyle.defaultTextStyle.copyWith(
+                        //           color: AppColor.errorColor,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        // SizedBox(height: 5.h),
                         GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            width: 1.sw,
-                            height: 40.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.white,
-                            ),
-                            child: Center(
-                              child: Text(
-                                '차단',
-                                style: AppTextStyle.defaultTextStyle.copyWith(
-                                  color: AppColor.errorColor,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 5.h),
-                        GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            final userInfo = ref.watch(userInfoProvier);
+                            report(
+                              context,
+                              type: 'c',
+                              user: userInfo!.userInfo!.seq as int,
+                              seq: comment.comment!.seq as int,
+                              ref: ref,
+                            );
+                            if (context.mounted) {
+                              context.pop();
+                            }
+                          },
                           child: Container(
                             width: 1.sw,
                             height: 40.h,
@@ -1285,6 +1441,7 @@ Future commentMoreBookmark(
   int myData = 0,
   required BookmarkPageModel page,
   required CommentModel comment,
+  required WidgetRef ref,
 }) {
   return showDialog(
       context: context,
@@ -1307,28 +1464,41 @@ Future commentMoreBookmark(
                   if (myData == 0)
                     Column(
                       children: [
+                        // GestureDetector(
+                        //   onTap: () {},
+                        //   child: Container(
+                        //     width: 1.sw,
+                        //     height: 40.h,
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(5),
+                        //       color: Colors.white,
+                        //     ),
+                        //     child: Center(
+                        //       child: Text(
+                        //         '차단',
+                        //         style: AppTextStyle.defaultTextStyle.copyWith(
+                        //           color: AppColor.errorColor,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        // SizedBox(height: 5.h),
                         GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            width: 1.sw,
-                            height: 40.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.white,
-                            ),
-                            child: Center(
-                              child: Text(
-                                '차단',
-                                style: AppTextStyle.defaultTextStyle.copyWith(
-                                  color: AppColor.errorColor,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 5.h),
-                        GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            final userInfo = ref.watch(userInfoProvier);
+
+                            report(
+                              context,
+                              type: 'c',
+                              user: userInfo!.userInfo!.seq as int,
+                              seq: comment.comment!.seq as int,
+                              ref: ref,
+                            );
+                            if (context.mounted) {
+                              context.pop();
+                            }
+                          },
                           child: Container(
                             width: 1.sw,
                             height: 40.h,
@@ -1408,7 +1578,11 @@ Future commentMoreBookmark(
       });
 }
 
-Future showProfileNewCardMore(BuildContext context) {
+Future showProfileNewCardMore(
+  BuildContext context, {
+  required WidgetRef ref,
+  required int qSeq,
+}) {
   return showDialog(
       context: context,
       barrierDismissible: true,
@@ -1428,28 +1602,40 @@ Future showProfileNewCardMore(BuildContext context) {
               Column(
                 children: [
                   // 차단, 신고는 본인의 경우 나타나지 않는다.
+                  // GestureDetector(
+                  //   onTap: () {},
+                  //   child: Container(
+                  //     width: 1.sw,
+                  //     height: 40.h,
+                  //     decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(5),
+                  //       color: Colors.white,
+                  //     ),
+                  //     child: Center(
+                  //       child: Text(
+                  //         '차단',
+                  //         style: AppTextStyle.defaultTextStyle.copyWith(
+                  //           color: AppColor.errorColor,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  // SizedBox(height: 5.h),
                   GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      width: 1.sw,
-                      height: 40.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color: Colors.white,
-                      ),
-                      child: Center(
-                        child: Text(
-                          '차단',
-                          style: AppTextStyle.defaultTextStyle.copyWith(
-                            color: AppColor.errorColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 5.h),
-                  GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      final userInfo = ref.watch(userInfoProvier);
+                      report(
+                        context,
+                        type: 'q',
+                        user: userInfo!.userInfo!.seq as int,
+                        seq: qSeq,
+                        ref: ref,
+                      );
+                      if (context.mounted) {
+                        context.pop();
+                      }
+                    },
                     child: Container(
                       width: 1.sw,
                       height: 40.h,
@@ -1504,26 +1690,26 @@ Future showProfileMore(BuildContext context,
                   if (myData != 1)
                     Column(
                       children: [
-                        GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            width: 1.sw,
-                            height: 40.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.white,
-                            ),
-                            child: Center(
-                              child: Text(
-                                '차단',
-                                style: AppTextStyle.defaultTextStyle.copyWith(
-                                  color: AppColor.errorColor,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 5.h),
+                        // GestureDetector(
+                        //   onTap: () {},
+                        //   child: Container(
+                        //     width: 1.sw,
+                        //     height: 40.h,
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(5),
+                        //       color: Colors.white,
+                        //     ),
+                        //     child: Center(
+                        //       child: Text(
+                        //         '차단',
+                        //         style: AppTextStyle.defaultTextStyle.copyWith(
+                        //           color: AppColor.errorColor,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        // SizedBox(height: 5.h),
                         GestureDetector(
                           onTap: () {},
                           child: Container(

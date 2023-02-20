@@ -79,7 +79,7 @@ void main() async {
   //
 
   runApp(ProviderScope(
-    observers: [Logger()],
+    observers: [],
     child: const MyApp(),
   ));
 }

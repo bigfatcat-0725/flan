@@ -80,7 +80,6 @@ class AuthController extends StateNotifier<bool> {
     res.fold(
       (l) => null,
       (r) {
-        print(r);
         if (r == 200) {
           showDialog(
             context: context,

@@ -236,7 +236,7 @@ class CommunityCard extends HookConsumerWidget {
                   SizedBox(height: 5.h),
                   Padding(
                     padding: EdgeInsets.only(left: 16.w),
-                    child: Row(
+                    child: Wrap(
                       children: List.generate(
                         tagList.length,
                         (index) {
