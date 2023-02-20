@@ -13,6 +13,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:share_plus/share_plus.dart';
 
 class BookmarkFeedCard extends HookConsumerWidget {
   final String type;
@@ -510,8 +511,7 @@ class BookmarkFeedCard extends HookConsumerWidget {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
-                          showDefaultDialog(
-                              context, 'Dịch vụ đang được chuẩn bị.');
+                          Share.share(questionContent, subject: answerContent);
                         },
                         child: Container(
                           color: Colors.transparent,
@@ -527,7 +527,7 @@ class BookmarkFeedCard extends HookConsumerWidget {
                               ),
                               SizedBox(width: 7.5.w),
                               Text(
-                                'chia sẻ',
+                                '공유',
                                 style: AppTextStyle.greyStyle.copyWith(
                                   fontSize: 11.sp,
                                 ),
