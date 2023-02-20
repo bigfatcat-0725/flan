@@ -2,19 +2,19 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flan/core/core.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
+import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
 import 'package:flan/features/default/controller/default_controller.dart';
 import 'package:flan/features/profile/controller/profile_controller.dart';
-import 'package:flan/models/bookmark/bookmark_page_model.dart';
+import 'package:flan/models/bookmark/bookmark_page_model.dart'
+    as BookmarkPageModel;
 import 'package:flan/models/bookmark/bookmark_question_model.dart';
 import 'package:flan/models/comment/comment_model.dart';
 import 'package:flan/models/feed/feed_model.dart';
 import 'package:flan/models/home_feed/home_feed_model.dart';
 import 'package:flan/models/page/page_model.dart';
-import 'package:flan/models/user/user_model.dart';
 import 'package:flan/theme/app_color.dart';
 import 'package:flan/theme/app_text_theme.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -442,7 +442,7 @@ Future showDelete(
 Future bookmakrPageMore(
   BuildContext context, {
   int myData = 0,
-  required BookmarkPageModel page,
+  required BookmarkPageModel.BookmarkPageModel page,
   required WidgetRef ref,
 }) {
   return showDialog(
@@ -559,6 +559,166 @@ Future bookmakrPageMore(
                                 .read(communityControllerProvider.notifier)
                                 .deletePage(
                                   pageSeq: page.pages!.seq as int,
+                                  ref: ref,
+                                  context: context,
+                                );
+                            final userInfo = ref.watch(userInfoProvier);
+                            ref.invalidate(bookmarkPageProivder(
+                                userInfo!.userInfo!.seq as int));
+                            context.pop();
+                          },
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '게시물 삭제하기',
+                                style: AppTextStyle.defaultTextStyle.copyWith(
+                                  color: AppColor.errorColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                ],
+              ),
+            ],
+          ),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 20.w,
+            vertical: 30.h,
+          ),
+          insetPadding: EdgeInsets.symmetric(horizontal: 0.w),
+        );
+      });
+}
+
+Future drawerPageMore(
+  BuildContext context, {
+  int myData = 0,
+  required Pages page,
+  required WidgetRef ref,
+}) {
+  return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return AlertDialog(
+          alignment: Alignment.bottomCenter,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(5),
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Column(
+                children: [
+                  if (myData == 0)
+                    Column(
+                      children: [
+                        // GestureDetector(
+                        //   onTap: () {},
+                        //   child: Container(
+                        //     width: 1.sw,
+                        //     height: 40.h,
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(5),
+                        //       color: Colors.white,
+                        //     ),
+                        //     child: Center(
+                        //       child: Text(
+                        //         '차단',
+                        //         style: AppTextStyle.defaultTextStyle.copyWith(
+                        //           color: AppColor.errorColor,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        // SizedBox(height: 5.h),
+                        GestureDetector(
+                          onTap: () {
+                            final userInfo = ref.watch(userInfoProvier);
+                            report(
+                              context,
+                              type: 'p',
+                              user: userInfo!.userInfo!.seq as int,
+                              seq: page.seq as int,
+                              ref: ref,
+                            );
+                            if (context.mounted) {
+                              context.pop();
+                            }
+                          },
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '신고',
+                                style: AppTextStyle.defaultTextStyle.copyWith(
+                                  color: AppColor.errorColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 5.h),
+                      ],
+                    ),
+                  if (myData == 1)
+                    Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            final current =
+                                ref.watch(currentCategorySeqProvier);
+                            context.pop();
+                            context.push(
+                              '/drawer_page_edit',
+                              extra: {
+                                'page': page,
+                                'toSeq': current,
+                              },
+                            );
+                          },
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '게시물 수정하기',
+                                style: AppTextStyle.defaultTextStyle.copyWith(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 5.h),
+                        GestureDetector(
+                          onTap: () {
+                            // 답변 삭제
+                            ref
+                                .read(communityControllerProvider.notifier)
+                                .deletePage(
+                                  pageSeq: page.seq as int,
                                   ref: ref,
                                   context: context,
                                 );
@@ -1436,10 +1596,161 @@ Future commentMore(
       });
 }
 
+Future commentDrawer(
+  BuildContext context, {
+  int myData = 0,
+  required Pages page,
+  required CommentModel comment,
+  required WidgetRef ref,
+}) {
+  return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return AlertDialog(
+          alignment: Alignment.bottomCenter,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(5),
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Column(
+                children: [
+                  if (myData == 0)
+                    Column(
+                      children: [
+                        // GestureDetector(
+                        //   onTap: () {},
+                        //   child: Container(
+                        //     width: 1.sw,
+                        //     height: 40.h,
+                        //     decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(5),
+                        //       color: Colors.white,
+                        //     ),
+                        //     child: Center(
+                        //       child: Text(
+                        //         '차단',
+                        //         style: AppTextStyle.defaultTextStyle.copyWith(
+                        //           color: AppColor.errorColor,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+                        // SizedBox(height: 5.h),
+                        GestureDetector(
+                          onTap: () {
+                            final userInfo = ref.watch(userInfoProvier);
+                            report(
+                              context,
+                              type: 'c',
+                              user: userInfo!.userInfo!.seq as int,
+                              seq: comment.comment!.seq as int,
+                              ref: ref,
+                            );
+                            if (context.mounted) {
+                              context.pop();
+                            }
+                          },
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '신고',
+                                style: AppTextStyle.defaultTextStyle.copyWith(
+                                  color: AppColor.errorColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 5.h),
+                      ],
+                    ),
+                  if (myData == 1)
+                    Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            context.pop();
+                            context.push('/drawer_community_edit',
+                                extra: {'page': page, 'comment': comment});
+                          },
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '답변 수정하기',
+                                style: AppTextStyle.defaultTextStyle.copyWith(),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 5.h),
+                        GestureDetector(
+                          onTap: () {
+                            // 답변 삭제
+                            ref
+                                .read(communityControllerProvider.notifier)
+                                .deleteCommentDrawer(
+                                  seq: comment.comment!.seq as int,
+                                  page: page,
+                                  ref: ref,
+                                  context: context,
+                                );
+                          },
+                          child: Container(
+                            width: 1.sw,
+                            height: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.white,
+                            ),
+                            child: Center(
+                              child: Text(
+                                '답변 삭제하기',
+                                style: AppTextStyle.defaultTextStyle.copyWith(
+                                  color: AppColor.errorColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                ],
+              ),
+            ],
+          ),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 20.w,
+            vertical: 30.h,
+          ),
+          insetPadding: EdgeInsets.symmetric(horizontal: 0.w),
+        );
+      });
+}
+
 Future commentMoreBookmark(
   BuildContext context, {
   int myData = 0,
-  required BookmarkPageModel page,
+  required BookmarkPageModel.BookmarkPageModel page,
   required CommentModel comment,
   required WidgetRef ref,
 }) {

@@ -126,7 +126,7 @@ class CommunityCommentEdit extends HookConsumerWidget {
                     height: 35.w,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.red,
+                      color: AppColor.hintColor,
                     ),
                     child: !(userInfo.userInfo!.photo == '' ||
                             userInfo.userInfo!.photo == null)

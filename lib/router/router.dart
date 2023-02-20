@@ -17,9 +17,14 @@ import 'package:flan/features/drawer/screen/drawer_community_screen.dart';
 import 'package:flan/features/drawer/screen/drawer_info_screen.dart';
 import 'package:flan/features/drawer/screen/drawer_profile_screen.dart';
 import 'package:flan/features/drawer/screen/drawer_setting_screen.dart';
+import 'package:flan/features/drawer/widget/drawer_comment_edit.dart';
+import 'package:flan/features/drawer/widget/drawer_community_ask.dart';
+import 'package:flan/features/drawer/widget/drawer_community_detail.dart';
+import 'package:flan/features/drawer/widget/drawer_page_edit.dart';
 import 'package:flan/features/drawer/widget/drawer_profile_edit.dart';
 import 'package:flan/features/drawer/widget/info_notice.dart';
 import 'package:flan/features/drawer/widget/setting_bell.dart';
+import 'package:flan/features/drawer/widget/setting_find_password.dart';
 import 'package:flan/features/drawer/widget/setting_language.dart';
 import 'package:flan/features/drawer/widget/setting_theme.dart';
 import 'package:flan/features/main/screen/main_detail_screen.dart';
@@ -168,6 +173,16 @@ final GoRouter router = GoRouter(
             ));
           },
         ),
+        GoRoute(
+          path: 'drawer_community_ask',
+          pageBuilder: (context, state) {
+            final object = state.extra as Map<String, dynamic>;
+            return NoTransitionPage(
+                child: DrawerCommunityAsk(
+              page: object['page'],
+            ));
+          },
+        ),
 
         // page edit 입니다
         GoRoute(
@@ -194,6 +209,17 @@ final GoRouter router = GoRouter(
             );
           },
         ),
+        GoRoute(
+          path: 'drawer_page_edit',
+          pageBuilder: (context, state) {
+            final object = state.extra as Map<String, dynamic>;
+            return NoTransitionPage(
+                child: DrawerPageEdit(
+              toSeq: object['toSeq'],
+              page: object['page'],
+            ));
+          },
+        ),
 
         // comment edit 입니다.
         GoRoute(
@@ -208,12 +234,34 @@ final GoRouter router = GoRouter(
           },
         ),
         GoRoute(
+          path: 'drawer_community_edit',
+          pageBuilder: (context, state) {
+            final object = state.extra as Map<String, dynamic>;
+            return NoTransitionPage(
+                child: DrawerCommentEdit(
+              comment: object['comment'],
+              page: object['page'],
+            ));
+          },
+        ),
+
+        GoRoute(
           path: 'bookmark_community_edit',
           pageBuilder: (context, state) {
             final object = state.extra as Map<String, dynamic>;
             return NoTransitionPage(
                 child: BookmarkCommunityCommentEdit(
               comment: object['comment'],
+              page: object['page'],
+            ));
+          },
+        ),
+        GoRoute(
+          path: 'drawer_community_detail',
+          pageBuilder: (context, state) {
+            final object = state.extra as Map<String, dynamic>;
+            return NoTransitionPage(
+                child: DrawerCommunityDetail(
               page: object['page'],
             ));
           },
@@ -304,6 +352,11 @@ final GoRouter router = GoRouter(
               path: 'language',
               pageBuilder: (context, state) =>
                   const NoTransitionPage(child: SettingLanguage()),
+            ),
+            GoRoute(
+              path: 'password',
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: SettingFindPassword()),
             ),
           ],
         ),

@@ -97,6 +97,7 @@ class BookmarkCommunityDetail extends HookConsumerWidget {
                         ),
                         SizedBox(height: 10.h),
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               page.pages!.title.toString(),

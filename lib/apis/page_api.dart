@@ -95,24 +95,36 @@ class PageAPI {
       // status 1 공개 0 익명
       final url = Uri.parse('http://topping.io:8855/API/pages/$page');
 
-      final request = http.MultipartRequest("PUT", url)
-        ..fields['theme_seq'] = theme.toString()
-        ..fields['title'] = title.toString()
-        ..fields['content'] = content.toString()
-        ..fields['private'] = private.toString()
-        ..fields['photo'] = photo.toString()
-        ..fields['tag'] = tag.toString()
-        ..fields['status'] = '1'.toString();
+      if (imgList.isEmpty) {
+        final request = http.MultipartRequest("PUT", url)
+          ..fields['theme_seq'] = theme.toString()
+          ..fields['title'] = title.toString()
+          ..fields['content'] = content.toString()
+          ..fields['private'] = private.toString()
+          ..fields['tag'] = tag.toString()
+          ..fields['status'] = '1'.toString();
 
-      if (imgList.isNotEmpty) {
-        for (var file in imgList) {
-          request.files
-              .add(await http.MultipartFile.fromPath('imgs', file.path));
+        final response = await request.send();
+        return right(response.statusCode);
+      } else {
+        final request = http.MultipartRequest("PUT", url)
+          ..fields['theme_seq'] = theme.toString()
+          ..fields['title'] = title.toString()
+          ..fields['content'] = content.toString()
+          ..fields['private'] = private.toString()
+          ..fields['photo'] = photo.toString()
+          ..fields['tag'] = tag.toString()
+          ..fields['status'] = '1'.toString();
+        if (imgList.isNotEmpty) {
+          for (var file in imgList) {
+            request.files
+                .add(await http.MultipartFile.fromPath('imgs', file.path));
+          }
         }
-      }
 
-      final response = await request.send();
-      return right(response.statusCode);
+        final response = await request.send();
+        return right(response.statusCode);
+      }
     } catch (e, stackTrace) {
       return left(
         Failure(e.toString(), stackTrace),

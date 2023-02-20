@@ -18,7 +18,7 @@ class DrawerSettingScreen extends HookConsumerWidget {
       // '/drawer_setting/theme',
       '/drawer_setting/bell',
       // '/drawer_setting/language',
-      '/drawer_setting/theme',
+      '/drawer_setting/password',
       '/login',
     ];
 

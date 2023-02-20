@@ -5,22 +5,21 @@ import 'package:flan/constants/constants.dart';
 import 'package:flan/core/core.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
-import 'package:flan/models/bookmark/bookmark_page_model.dart';
 import 'package:flan/models/comment/comment_model.dart';
-import 'package:flan/models/page/page_model.dart';
 import 'package:flan/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class BookmarkCommunityCommentEdit extends HookConsumerWidget {
-  final BookmarkPageModel page;
+import '../../../models/page/page_model.dart';
+
+class DrawerCommentEdit extends HookConsumerWidget {
+  final Pages page;
   final CommentModel comment;
-  const BookmarkCommunityCommentEdit({
+  const DrawerCommentEdit({
     Key? key,
     required this.page,
     required this.comment,
@@ -70,9 +69,7 @@ class BookmarkCommunityCommentEdit extends HookConsumerWidget {
                           ),
                           SizedBox(width: 5.w),
                           Text(
-                            page.pages!.private == 1
-                                ? page.users!.nickname.toString()
-                                : '익명',
+                            userInfo.userInfo!.nickname.toString(),
                             style: AppTextStyle.defaultTextStyle.copyWith(
                               fontSize: 11.sp,
                               color: AppColor.primaryColor,
@@ -80,7 +77,7 @@ class BookmarkCommunityCommentEdit extends HookConsumerWidget {
                           ),
                           SizedBox(width: 5.w),
                           Text(
-                            page.pages!.remaining.toString(),
+                            page.remaining.toString(),
                             style: AppTextStyle.hintStyle.copyWith(
                               fontSize: 11.sp,
                             ),
@@ -89,14 +86,14 @@ class BookmarkCommunityCommentEdit extends HookConsumerWidget {
                       ),
                       SizedBox(height: 10.h),
                       Text(
-                        page.pages!.title.toString(),
+                        page.title.toString(),
                         style: AppTextStyle.boldTextStyle.copyWith(
                           fontSize: 13.sp,
                         ),
                       ),
                       SizedBox(height: 5.h),
                       Text(
-                        page.pages!.content.toString(),
+                        page.content.toString(),
                         style: AppTextStyle.defaultTextStyle,
                       ),
                     ],
@@ -114,7 +111,7 @@ class BookmarkCommunityCommentEdit extends HookConsumerWidget {
                     height: 35.w,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
-                      color: AppColor.hintColor,
+                      color: Colors.red,
                     ),
                     child: !(userInfo.userInfo!.photo == '' ||
                             userInfo.userInfo!.photo == null)
@@ -304,7 +301,7 @@ class BookmarkCommunityCommentEdit extends HookConsumerWidget {
                               pictures.value,
                               user: userInfo.userInfo!.seq as int,
                               commentSeq: comment.comment!.seq as int,
-                              pageSeq: page.pages!.seq as int,
+                              pageSeq: page.seq as int,
                               reply: askTextController.text,
                               ref: ref,
                               context: context,

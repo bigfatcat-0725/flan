@@ -4,8 +4,8 @@ import 'package:flan/core/providers.dart';
 import 'package:flan/core/util.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
-import 'package:flan/features/category/controller/category_controller.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
+import 'package:flan/features/drawer/controller/drawer_controller.dart';
 import 'package:flan/features/profile/controller/profile_controller.dart';
 import 'package:flan/models/page/page_model.dart';
 import 'package:flan/theme/theme.dart';
@@ -27,10 +27,7 @@ class DrawerCommunityCard extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final saveStatus = useState(false);
     final isLike = useState(false);
-
-    // 본인
     final userInfo = ref.watch(userInfoProvier.notifier).state!;
-    // 좋아요 && 북마크 확인
 
     useEffect(() {
       if (context.mounted) {
@@ -78,7 +75,7 @@ class DrawerCommunityCard extends HookConsumerWidget {
         children: [
           GestureDetector(
             onTap: () {
-              context.push('/community_detail', extra: {
+              context.push('/drawer_community_detail', extra: {
                 'page': item,
               });
             },
@@ -139,12 +136,12 @@ class DrawerCommunityCard extends HookConsumerWidget {
                                         ? 1
                                         : 0;
 
-                                // pageMore(
-                                //   context,
-                                //   myData: myData,
-                                //   page: item,
-                                //   ref: ref,
-                                // );
+                                drawerPageMore(
+                                  context,
+                                  myData: myData,
+                                  page: item,
+                                  ref: ref,
+                                );
                               },
                               child: Icon(
                                 Icons.more_horiz,
@@ -286,6 +283,8 @@ class DrawerCommunityCard extends HookConsumerWidget {
                                     if (res) {
                                       isLike.value = !isLike.value;
                                     }
+                                    ref.invalidate(writtenProvider(
+                                        userInfo.userInfo!.seq as int));
                                   },
                                   child: SvgPicture.asset(
                                     isLike.value
@@ -348,6 +347,8 @@ class DrawerCommunityCard extends HookConsumerWidget {
                                 if (res) {
                                   saveStatus.value = !saveStatus.value;
                                 }
+                                ref.invalidate(writtenProvider(
+                                    userInfo.userInfo!.seq as int));
                               },
                               child: SvgPicture.asset(
                                 saveStatus.value

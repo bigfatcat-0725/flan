@@ -5,8 +5,6 @@ import 'package:flan/constants/constants.dart';
 import 'package:flan/core/core.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
-import 'package:flan/models/bookmark/bookmark_page_model.dart';
-import 'package:flan/models/comment/comment_model.dart';
 import 'package:flan/models/page/page_model.dart';
 import 'package:flan/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,35 +12,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class BookmarkCommunityCommentEdit extends HookConsumerWidget {
-  final BookmarkPageModel page;
-  final CommentModel comment;
-  const BookmarkCommunityCommentEdit({
+class DrawerCommunityAsk extends HookConsumerWidget {
+  final Pages page;
+  const DrawerCommunityAsk({
     Key? key,
     required this.page,
-    required this.comment,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pictures = useState(<File>[]);
     final picturesCurIndex = useState(1);
-    final askTextController =
-        useTextEditingController(text: comment.comment!.reply.toString());
-    final askNode = useFocusNode();
+    final questionTextController = useTextEditingController();
     final userInfo = ref.watch(userInfoProvier.notifier).state!;
-
-    useEffect(() {
-      askNode.requestFocus();
-      return null;
-    });
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
-      appBar: UIConstants.qaAppBar(context, '댓글수정'),
+      appBar: UIConstants.qaAppBar(context, '댓글작성'),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: Column(
@@ -70,9 +58,7 @@ class BookmarkCommunityCommentEdit extends HookConsumerWidget {
                           ),
                           SizedBox(width: 5.w),
                           Text(
-                            page.pages!.private == 1
-                                ? page.users!.nickname.toString()
-                                : '익명',
+                            userInfo.userInfo!.nickname.toString(),
                             style: AppTextStyle.defaultTextStyle.copyWith(
                               fontSize: 11.sp,
                               color: AppColor.primaryColor,
@@ -80,7 +66,7 @@ class BookmarkCommunityCommentEdit extends HookConsumerWidget {
                           ),
                           SizedBox(width: 5.w),
                           Text(
-                            page.pages!.remaining.toString(),
+                            page.remaining.toString(),
                             style: AppTextStyle.hintStyle.copyWith(
                               fontSize: 11.sp,
                             ),
@@ -89,14 +75,14 @@ class BookmarkCommunityCommentEdit extends HookConsumerWidget {
                       ),
                       SizedBox(height: 10.h),
                       Text(
-                        page.pages!.title.toString(),
+                        page.title.toString(),
                         style: AppTextStyle.boldTextStyle.copyWith(
                           fontSize: 13.sp,
                         ),
                       ),
                       SizedBox(height: 5.h),
                       Text(
-                        page.pages!.content.toString(),
+                        page.content.toString(),
                         style: AppTextStyle.defaultTextStyle,
                       ),
                     ],
@@ -146,8 +132,7 @@ class BookmarkCommunityCommentEdit extends HookConsumerWidget {
                       children: [
                         Expanded(
                           child: TextField(
-                            controller: askTextController,
-                            focusNode: askNode,
+                            controller: questionTextController,
                             cursorColor: AppColor.primaryColor,
                             maxLines: null,
                             style: AppTextStyle.defaultTextStyle.copyWith(
@@ -297,17 +282,17 @@ class BookmarkCommunityCommentEdit extends HookConsumerWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        // 질문 수정
+                        // 질문 생성
                         ref
                             .read(communityControllerProvider.notifier)
-                            .editComment(
+                            .postDrawerComment(
                               pictures.value,
                               user: userInfo.userInfo!.seq as int,
-                              commentSeq: comment.comment!.seq as int,
-                              pageSeq: page.pages!.seq as int,
-                              reply: askTextController.text,
-                              ref: ref,
+                              page: page.seq as int,
+                              reply: questionTextController.text,
                               context: context,
+                              ref: ref,
+                              pageModel: page,
                             );
                       },
                       child: Container(
@@ -322,7 +307,7 @@ class BookmarkCommunityCommentEdit extends HookConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                '수정',
+                                '보내기',
                                 style: AppTextStyle.defaultTextStyle.copyWith(
                                   fontSize: 11.sp,
                                   color: Colors.white,

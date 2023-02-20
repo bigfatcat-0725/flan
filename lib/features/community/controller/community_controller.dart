@@ -5,8 +5,9 @@ import 'package:flan/apis/page_api.dart';
 import 'package:flan/core/core.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
+import 'package:flan/features/drawer/controller/drawer_controller.dart';
 import 'package:flan/features/main/controller/main_controller.dart';
-import 'package:flan/models/bookmark/bookmark_page_model.dart';
+import 'package:flan/models/bookmark/bookmark_page_model.dart' as BookModel;
 import 'package:flan/models/comment/comment_model.dart';
 import 'package:flan/models/page/page_model.dart';
 import 'package:flutter/material.dart';
@@ -123,7 +124,7 @@ class CommunityController extends StateNotifier<bool> {
     required String reply,
     required BuildContext context,
     required WidgetRef ref,
-    required BookmarkPageModel pageModel,
+    required BookModel.BookmarkPageModel pageModel,
   }) async {
     state = true;
     final res = await _commentAPI.postComment(
@@ -139,6 +140,36 @@ class CommunityController extends StateNotifier<bool> {
         if (r == 200) {
           ref.invalidate(bookmarkPageProivder(user));
           context.pushReplacement('/bookmark_community_detail', extra: {
+            'page': pageModel,
+          });
+        }
+      },
+    );
+  }
+
+  void postDrawerComment(
+    List<File> imgList, {
+    required int user,
+    required int page,
+    required String reply,
+    required BuildContext context,
+    required WidgetRef ref,
+    required Pages pageModel,
+  }) async {
+    state = true;
+    final res = await _commentAPI.postComment(
+      imgList,
+      user: user,
+      page: page,
+      reply: reply,
+    );
+    state = false;
+    res.fold(
+      (l) => null,
+      (r) {
+        if (r == 200) {
+          ref.invalidate(writtenProvider(user));
+          context.pushReplacement('/drawer_community_detail', extra: {
             'page': pageModel,
           });
         }
@@ -234,6 +265,7 @@ class CommunityController extends StateNotifier<bool> {
           }
           final userSeq = ref.watch(userInfoProvier)!.userInfo!.seq as int;
           ref.invalidate(bookmarkPageProivder(userSeq));
+          ref.invalidate(writtenProvider(userSeq));
 
           context.pop();
         }
@@ -249,14 +281,14 @@ class CommunityController extends StateNotifier<bool> {
     final res = await _pageAPI.likePage(pageSeq: pageSeq, userSeq: userSeq);
     if (res == 200) {
       final current = ref.watch(currentCategoryProvier);
+      final userInfo = ref.watch(userInfoProvier);
 
       if (current == '전체') {
         ref.invalidate(pageProvider);
       } else {
         ref.invalidate(themePageProvider(current));
       }
-      ref.invalidate(bookmarkPageProivder);
-
+      ref.invalidate(bookmarkPageProivder(userInfo!.userInfo!.seq as int));
       return true;
     } else {
       return false;
@@ -290,10 +322,7 @@ class CommunityController extends StateNotifier<bool> {
     } else {
       ref.invalidate(themePageProvider(current));
     }
-    ref.invalidate(bookmarkPageProivder);
-    if (context.mounted) {
-      context.pop();
-    }
+    // ref.invalidate(bookmarkPageProivder);
   }
 
   void deleteComment({
@@ -312,6 +341,31 @@ class CommunityController extends StateNotifier<bool> {
         ref.invalidate(themePageProvider(current));
       }
       ref.invalidate(commentProvider(page.pages!.seq as int));
+
+      if (context.mounted) {
+        context.pop();
+      }
+    }
+  }
+
+  void deleteCommentDrawer({
+    required int seq,
+    required Pages page,
+    required WidgetRef ref,
+    required BuildContext context,
+  }) async {
+    final res = await _commentAPI.deleteComment(seq: seq);
+    if (res == 1) {
+      final current = ref.watch(currentCategoryProvier);
+      final userInfo = ref.watch(userInfoProvier);
+
+      if (current == '전체') {
+        ref.invalidate(pageProvider);
+      } else {
+        ref.invalidate(themePageProvider(current));
+      }
+      ref.invalidate(commentProvider(page.seq as int));
+      ref.invalidate(writtenProvider(userInfo!.userInfo!.seq as int));
 
       if (context.mounted) {
         context.pop();

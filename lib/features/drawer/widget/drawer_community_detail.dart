@@ -39,8 +39,9 @@ class DrawerCommunityDetail extends HookConsumerWidget {
     // 전에서 가져오는게 아니라
     // 새로 api 하나만 들고오는 걸로 바꿔야 함.
 
-    final List<String> contentImgList =
-        page.photo != "" ? page.photo.toString().split(',') : [];
+    final List<String> contentImgList = (page.photo != null && page.photo != "")
+        ? page.photo.toString().split(',')
+        : [];
     final tagList = page.tag!.split(',');
 
     return Scaffold(
@@ -229,7 +230,7 @@ class DrawerCommunityDetail extends HookConsumerWidget {
         height: MediaQuery.of(context).padding.bottom + 50.h,
         child: GestureDetector(
           onTap: () {
-            context.push('/community_ask',
+            context.push('/drawer_community_ask',
                 extra: {'page': page, 'type': 'default', 'commentIndex': 0});
           },
           child: CupertinoTabBar(

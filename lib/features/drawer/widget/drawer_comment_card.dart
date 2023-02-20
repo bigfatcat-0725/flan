@@ -111,13 +111,13 @@ class DrawerCommentCard extends HookConsumerWidget {
                 final myData =
                     userInfo!.userInfo!.seq == comment.users!.seq ? 1 : 0;
 
-                // commentMore(
-                //   context,
-                //   page: page,
-                //   comment: comment,
-                //   myData: myData,
-                //   ref: ref,
-                // );
+                commentDrawer(
+                  context,
+                  page: page,
+                  comment: comment,
+                  myData: myData,
+                  ref: ref,
+                );
               },
               child: Icon(
                 Icons.more_horiz,
