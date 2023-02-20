@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flan/constants/constants.dart';
+import 'package:flan/core/providers.dart';
 import 'package:flan/core/util.dart';
 import 'package:flan/features/auth/controller/auth_controller.dart';
 import 'package:flan/features/bookmark/controller/bookmark_controller.dart';
+import 'package:flan/features/category/controller/category_controller.dart';
 import 'package:flan/features/community/controller/community_controller.dart';
 import 'package:flan/features/profile/controller/profile_controller.dart';
 import 'package:flan/models/page/page_model.dart';
@@ -23,7 +25,6 @@ class CommunityCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isMounted = useIsMounted();
     final saveStatus = useState(false);
     final isLike = useState(false);
 
@@ -32,7 +33,7 @@ class CommunityCard extends HookConsumerWidget {
     // 좋아요 && 북마크 확인
 
     useEffect(() {
-      if (isMounted()) {
+      if (context.mounted) {
         Future.microtask(() async {
           final status =
               await ref.read(communityControllerProvider.notifier).isLikePage(
@@ -46,12 +47,12 @@ class CommunityCard extends HookConsumerWidget {
                 seq: item.pages!.seq as int,
               );
 
-          if (isLike.hasListeners && status == 1) {
+          if (status == 1) {
             isLike.value = true;
           } else {
             isLike.value = false;
           }
-          if (saveStatus.hasListeners && bookmarkStatus == 1) {
+          if (bookmarkStatus == 1) {
             saveStatus.value = true;
           } else {
             saveStatus.value = false;
@@ -239,12 +240,22 @@ class CommunityCard extends HookConsumerWidget {
                       children: List.generate(
                         tagList.length,
                         (index) {
-                          return tagList[index] == ''
-                              ? Container()
-                              : Text(
-                                  '#${tagList[index]}',
-                                  style: AppTextStyle.hintStyle,
-                                );
+                          if (tagList[index] == '') {
+                            return Container();
+                          } else {
+                            return GestureDetector(
+                              onTap: () {
+                                ref
+                                    .read(currentCategoryProvier.notifier)
+                                    .onChange(tagList[index].toString());
+                                context.push('/category');
+                              },
+                              child: Text(
+                                '#${tagList[index]}',
+                                style: AppTextStyle.hintStyle,
+                              ),
+                            );
+                          }
                         },
                       ),
                     ),

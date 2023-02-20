@@ -59,7 +59,7 @@ class CommunityScreen extends HookConsumerWidget {
             labelColor: AppColor.textColor,
             indicatorColor: AppColor.primaryColor,
             indicatorSize: TabBarIndicatorSize.label,
-            tabs: [
+            tabs: const [
               Tab(
                 text: '전체',
               ),
