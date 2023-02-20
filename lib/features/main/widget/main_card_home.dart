@@ -28,7 +28,6 @@ class HomeFeedCard extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final likeStatus = useState(false);
     final saveStatus = useState(false);
-    final myCard = useState(true);
 
     // 본인
     final userInfo = ref.watch(userInfoProvier.notifier).state;

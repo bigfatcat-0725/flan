@@ -87,7 +87,9 @@ class BookmarkFeedCard extends HookConsumerWidget {
     // 게시물 이미지
     // 임시로 1
     final List<String> contentImgList =
-        data.questions!.photo != null ? data.questions!.photo.split(',') : [];
+        (data.questions!.photo != null && data.questions!.photo != '')
+            ? data.questions!.photo.split(',')
+            : [];
 
     return GestureDetector(
       onTap: () {

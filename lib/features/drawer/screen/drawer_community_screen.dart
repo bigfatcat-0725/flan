@@ -20,7 +20,6 @@ class DrawerCommunityScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tabController = useTabController(initialLength: 1);
     final writtenPage = useState([]);
-    final writtenComment = useState([]);
     final userInfo = ref.watch(userInfoProvier);
 
     useEffect(() {

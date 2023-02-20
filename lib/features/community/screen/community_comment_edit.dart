@@ -33,8 +33,6 @@ class CommunityCommentEdit extends HookConsumerWidget {
     final askTextController =
         useTextEditingController(text: comment.comment!.reply.toString());
     final askNode = useFocusNode();
-    final img = useState(
-        'https://img3.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202105/21/linkagelab/20210521225127146gnfp.jpg');
     final userInfo = ref.watch(userInfoProvier.notifier).state!;
 
     useEffect(() {

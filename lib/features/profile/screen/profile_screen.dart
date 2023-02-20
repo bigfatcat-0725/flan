@@ -41,8 +41,6 @@ class ProfileScreen extends HookConsumerWidget {
     final feedSeqLogic =
         feedSeq == 0 ? userInfo!.userInfo!.seq as int : feedSeq;
 
-    final feedVisible = useState(true);
-
     useEffect(() {
       if (context.mounted) {
         Future.microtask(() async {

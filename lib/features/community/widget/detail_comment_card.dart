@@ -30,9 +30,10 @@ class DetailCommentCard extends HookConsumerWidget {
     final userStatus = useState(1);
     final userInfo = ref.watch(userInfoProvier);
 
-    final List<String> contentImgList = comment.comment!.photo != ""
-        ? comment.comment!.photo.toString().split(',')
-        : [];
+    final List<String> contentImgList =
+        (comment.comment!.photo != null && comment.comment!.photo != "")
+            ? comment.comment!.photo.toString().split(',')
+            : [];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

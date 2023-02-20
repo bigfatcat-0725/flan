@@ -25,12 +25,10 @@ class CommunityScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentCategorySeq = ref.watch(currentCategorySeqProvier);
     final currentCategory = ref.watch(currentCategoryProvier);
-    final filter = useState(0);
     final tabController = useTabController(initialLength: 2);
     final searchStatus = useState(false);
     final searchTextController = useTextEditingController();
     final searchResult = useState([]);
-    final userInfo = ref.watch(userInfoProvier);
 
     final page = useState(<PageModel>[]);
 

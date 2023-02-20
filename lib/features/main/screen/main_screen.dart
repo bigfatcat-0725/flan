@@ -18,8 +18,6 @@ class MainScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isMounted = useIsMounted();
-    final currentTap = ref.watch(bottomNavProvier);
     final userInfo = ref.watch(userInfoProvier);
 
     return Scaffold(

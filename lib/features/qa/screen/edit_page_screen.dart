@@ -36,9 +36,6 @@ class EditPageScreen extends HookConsumerWidget {
     final titleTextController = useTextEditingController();
     final questionTextController = useTextEditingController();
 
-    // Theme
-    final currentCategory = ref.watch(currentCategoryProvier);
-
     final tagList = useState([]);
     final addOne = useState(false);
 

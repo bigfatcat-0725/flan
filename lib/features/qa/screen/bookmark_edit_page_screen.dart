@@ -37,9 +37,6 @@ class BookmarkEditPageScreen extends HookConsumerWidget {
     final questionTextController = useTextEditingController();
     final tagTextController = useTextEditingController();
 
-    // Theme
-    final currentCategory = ref.watch(currentCategoryProvier);
-
     final tagList = useState([]);
     final addOne = useState(false);
 

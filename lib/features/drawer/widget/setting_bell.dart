@@ -27,7 +27,6 @@ class SettingBell extends HookConsumerWidget {
       'trả lời báo thức',
       'bình luận báo động',
     ];
-    final userInfo = ref.watch(userInfoProvier);
 
     useEffect(() {
       if (context.mounted) {}

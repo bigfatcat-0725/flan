@@ -25,8 +25,9 @@ class DrawerProfileScreen extends HookConsumerWidget {
     final userInfo = ref.watch(userInfoProvier.notifier).state!.userInfo!;
     final userModel = ref.watch(userInfoProvier)!;
 
-    final profilePic = useState(
-        userInfo.photo != '' ? 'http://topping.io:8855${userInfo.photo}' : '');
+    final profilePic = useState((userInfo.photo != '' && userInfo.photo != null)
+        ? 'http://topping.io:8855${userInfo.photo}'
+        : '');
     final selectPic = useState(false);
 
     final search = useState(false);

@@ -32,7 +32,9 @@ class BookmarkCommunityDetail extends HookConsumerWidget {
     // 새로 api 하나만 들고오는 걸로 바꿔야 함.
 
     final List<String> contentImgList =
-        page.pages!.photo != "" ? page.pages!.photo.toString().split(',') : [];
+        (page.pages!.photo != "" && page.pages!.photo != null)
+            ? page.pages!.photo.toString().split(',')
+            : [];
 
     return Scaffold(
       backgroundColor: AppColor.scaffoldBackgroundColor,
